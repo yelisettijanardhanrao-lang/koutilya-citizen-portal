@@ -1,5 +1,5 @@
 (function(){
-  const API_BASE = 'http://localhost:5000';
+  const API_BASE = 'https://koutilya-citizen-api.onrender.com';
   window.KSPL_API_BASE = API_BASE;
   const nativeFetch = window.fetch.bind(window);
   window.fetch = function(input, init){
