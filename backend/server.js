@@ -313,10 +313,171 @@ app.get('/api/portal/dashboard',requireUser,requireChangedPassword,async(req,res
 app.get('/api/portal/transactions',requireUser,requireChangedPassword,async(req,res)=>{const from=String(req.query.from||''),to=String(req.query.to||''),db=await getDb();const rows=db.transactions.filter(x=>x.userId===req.user.id).filter(x=>!from||x.createdAt.slice(0,10)>=from).filter(x=>!to||x.createdAt.slice(0,10)<=to).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));res.json({success:true,transactions:rows});});
 app.get('/api/wallet',requireUser,requireChangedPassword,async(req,res)=>{const db=await getDb(),u=db.users.find(x=>x.id===req.user.id);res.json({success:true,balance:Number(u.walletBalance||0),transactions:db.transactions.filter(x=>x.userId===u.id&&x.type==='topup').sort((a,b)=>b.createdAt.localeCompare(a.createdAt))});});
 
-async function cashfreeCreateOrder(user,amount){const appId=String(process.env.CASHFREE_APP_ID||process.env.CASHFREE_CLIENT_ID||'').trim(),secret=String(process.env.CASHFREE_SECRET_KEY||process.env.CASHFREE_CLIENT_SECRET||'').trim();console.log('CASHFREE CONFIG:',{environment:String(process.env.CASHFREE_ENV||'').trim().toLowerCase(),appIdPresent:!!appId,appIdLength:appId.length,secretPresent:!!secret,secretLength:secret.length});if(!appId||!secret)throw new Error('Cashfree is not configured. Add CASHFREE_APP_ID and CASHFREE_SECRET_KEY.');
-  const env=String(process.env.CASHFREE_ENV||'sandbox').trim().toLowerCase()==='production'?'production':'sandbox',base=env==='production'?'https://api.cashfree.com/pg':'https://sandbox.cashfree.com/pg',origin=process.env.PUBLIC_BASE_URL||`http://localhost:${PORT}`,orderId=`kspl_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;const payload={order_id:orderId,order_amount:amount,order_currency:'INR',customer_details:{customer_id:user.userId,customer_name:user.name,customer_email:user.email,customer_phone:user.mobile},order_meta:{return_url:`${origin}/?cashfree_return=1&order_id=${encodeURIComponent(orderId)}`,notify_url:`${origin}/api/wallet/cashfree/webhook`},order_note:`Koutilya wallet top-up for ${user.userId}`};const r=await fetch(`${base}/orders`,{method:'POST',headers:{'Content-Type':'application/json','x-client-id':appId,'x-client-secret':secret,'x-api-version':'2025-01-01','x-idempotency-key':crypto.randomUUID()},body:JSON.stringify(payload)});
-const j=await r.json();if(!r.ok)throw new Error(`Cashfree HTTP ${r.status}: ${j.message||JSON.stringify(j)}`);return{orderId,paymentSessionId:j.payment_session_id,environment:env};}
-app.post('/api/wallet/topup',requireUser,requireChangedPassword,async(req,res)=>{const amount=Number(req.body.amount);if(!Number.isFinite(amount)||amount<10||amount>100000)return res.status(400).json({success:false,message:'Top-up amount must be between ₹10 and ₹1,00,000.'});try{const order=await cashfreeCreateOrder(req.user,amount);await mutate(db=>db.cashfreeOrders.push({...order,userId:req.user.id,amount,status:'PENDING',createdAt:now()}));res.json({success:true,...order});}catch(e){res.status(502).json({success:false,message:e.message});}});
+async function cashfreeCreateOrder(user,amount){
+  const appId=String(
+    process.env.CASHFREE_APP_ID||process.env.CASHFREE_CLIENT_ID||''
+  ).trim();
+
+  const secret=String(
+    process.env.CASHFREE_SECRET_KEY||process.env.CASHFREE_CLIENT_SECRET||''
+  ).trim();
+
+  console.log('CASHFREE CONFIG:',{
+    environment:String(process.env.CASHFREE_ENV||'').trim().toLowerCase(),
+    appIdPresent:!!appId,
+    appIdLength:appId.length,
+    secretPresent:!!secret,
+    secretLength:secret.length
+  });
+
+  if(!appId||!secret){
+    throw new Error(
+      'Cashfree is not configured. Add CASHFREE_APP_ID and CASHFREE_SECRET_KEY.'
+    );
+  }
+
+  const env=
+    String(process.env.CASHFREE_ENV||'sandbox')
+      .trim()
+      .toLowerCase()==='production'
+      ? 'production'
+      : 'sandbox';
+
+  const base=
+    env==='production'
+      ? 'https://api.cashfree.com/pg'
+      : 'https://sandbox.cashfree.com/pg';
+
+  /*
+    Production URLs are explicitly HTTPS.
+    Environment variables can override them.
+  */
+  const returnBase=String(
+    process.env.CASHFREE_RETURN_URL||
+    (env==='production'
+      ? 'https://csp.koutilyasolutions.in/wallet'
+      : 'http://localhost:5173/wallet')
+  ).trim();
+
+  const webhookUrl=String(
+    process.env.CASHFREE_WEBHOOK_URL||
+    (env==='production'
+      ? 'https://koutilya-citizen-api.onrender.com/api/wallet/cashfree/webhook'
+      : `${process.env.PUBLIC_BASE_URL||`http://localhost:${PORT}`}/api/wallet/cashfree/webhook`)
+  ).trim();
+
+  const orderId=
+    `kspl_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
+
+  const separator=returnBase.includes('?')?'&':'?';
+
+  const returnUrl=
+    `${returnBase}${separator}cashfree_return=1&order_id=${encodeURIComponent(orderId)}`;
+
+  const payload={
+    order_id:orderId,
+    order_amount:amount,
+    order_currency:'INR',
+
+    customer_details:{
+      customer_id:user.userId,
+      customer_name:user.name,
+      customer_email:user.email,
+      customer_phone:user.mobile
+    },
+
+    order_meta:{
+      return_url:returnUrl,
+      notify_url:webhookUrl
+    },
+
+    order_note:`Koutilya wallet top-up for ${user.userId}`
+  };
+
+  console.log('CASHFREE ORDER URLS:',{
+    returnUrl,
+    webhookUrl
+  });
+
+  const r=await fetch(`${base}/orders`,{
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json',
+      'accept':'application/json',
+      'x-client-id':appId,
+      'x-client-secret':secret,
+      'x-api-version':'2025-01-01',
+      'x-idempotency-key':crypto.randomUUID()
+    },
+
+    body:JSON.stringify(payload)
+  });
+
+  const j=await r.json();
+
+  if(!r.ok){
+    throw new Error(
+      `Cashfree HTTP ${r.status}: ${j.message||JSON.stringify(j)}`
+    );
+  }
+
+  return{
+    orderId,
+    paymentSessionId:j.payment_session_id,
+    environment:env
+  };
+}
+app.post('/api/wallet/cashfree/webhook',async(req,res)=>{
+  try{
+    const signature=req.headers['x-webhook-signature'];
+    const timestamp=req.headers['x-webhook-timestamp'];
+
+    const secret=String(
+      process.env.CASHFREE_SECRET_KEY||
+      process.env.CASHFREE_CLIENT_SECRET||
+      ''
+    ).trim();
+
+    if(!signature||!timestamp||!secret||!req.rawBody){
+      return res.status(401).json({
+        success:false,
+        message:'Invalid webhook signature.'
+      });
+    }
+
+    const expected=crypto
+      .createHmac('sha256',secret)
+      .update(
+        String(timestamp)+req.rawBody.toString('utf8')
+      )
+      .digest('base64');
+
+    if(!crypto.timingSafeEqual(
+      Buffer.from(String(signature)),
+      Buffer.from(expected)
+    )){
+      return res.status(401).json({
+        success:false,
+        message:'Invalid webhook signature.'
+      });
+    }
+
+    const orderId=
+      req.body?.data?.order?.order_id||
+      req.body?.data?.order_id;
+
+    if(orderId){
+      await creditTopup(orderId);
+    }
+
+    res.json({success:true});
+
+  }catch(e){
+    console.error('Cashfree webhook error',e);
+    res.status(400).json({success:false});
+  }
+});
 async function creditTopup(orderId){return mutate(db=>{const o=db.cashfreeOrders.find(x=>x.orderId===orderId);if(!o||o.status==='SUCCESS')return false;const u=db.users.find(x=>x.id===o.userId);if(!u)return false;o.status='SUCCESS';u.walletBalance=Number((Number(u.walletBalance||0)+Number(o.amount)).toFixed(2));db.transactions.push({id:id('txn'),userId:u.id,type:'topup',direction:'credit',amount:Number(o.amount),description:'Cashfree Wallet Top-up',reference:o.orderId,createdAt:now(),status:'SUCCESS'});return true;});}
 app.get('/api/wallet/verify/:orderId',requireUser,requireChangedPassword,async(req,res)=>{const db=await getDb(),o=db.cashfreeOrders.find(x=>x.orderId===req.params.orderId&&x.userId===req.user.id);if(!o)return res.status(404).json({success:false,message:'Top-up order not found.'});
 const appId=String(process.env.CASHFREE_APP_ID||process.env.CASHFREE_CLIENT_ID||'').trim(),
@@ -325,7 +486,11 @@ const base=String(process.env.CASHFREE_ENV||'sandbox').trim().toLowerCase()==='p
   ? 'https://api.cashfree.com/pg'
   : 'https://sandbox.cashfree.com/pg';try{const r=await fetch(`${base}/orders/${encodeURIComponent(o.orderId)}/payments`,{headers:{'x-client-id':appId,'x-client-secret':secret,'x-api-version':'2025-01-01'}});const j=await r.json();const paid=Array.isArray(j)&&j.some(p=>String(p.payment_status||'').toUpperCase()==='SUCCESS');if(paid)await creditTopup(o.orderId);res.json({success:true,paid});}catch(e){res.status(502).json({success:false,message:e.message});}});
 app.post('/api/wallet/cashfree/webhook',async(req,res)=>{try{
-  const signature=req.headers['x-webhook-signature'],timestamp=req.headers['x-webhook-timestamp'],secret=process.env.CASHFREE_SECRET_KEY||process.env.CASHFREE_CLIENT_SECRET;
+  const signature=req.headers['x-webhook-signature'],
+timestamp=req.headers['x-webhook-timestamp'],
+secret=String(
+  process.env.CASHFREE_SECRET_KEY||process.env.CASHFREE_CLIENT_SECRET||''
+).trim();
   if(!signature||!timestamp||!secret||!req.rawBody)return res.status(401).json({success:false,message:'Invalid webhook signature.'});
   const expected=crypto.createHmac('sha256',secret).update(String(timestamp)+req.rawBody.toString('utf8')).digest('base64');
   if(!crypto.timingSafeEqual(Buffer.from(String(signature)),Buffer.from(expected)))return res.status(401).json({success:false,message:'Invalid webhook signature.'});
