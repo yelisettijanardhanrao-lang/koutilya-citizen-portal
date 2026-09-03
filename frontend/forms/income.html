@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="te">
+
+<head><script src="/api-config.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Income Certificate</title>
+
+<style>
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  padding:18px;
+  background:#f3f4f6;
+  font-family:Arial,sans-serif;
+  color:#111827
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08)
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:14px;
+  text-decoration:none;
+  color:#164e63;
+  border:1px solid #164e63;
+  padding:7px 12px;
+  border-radius:5px;
+  font-size:13px
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:24px
+}
+
+.subtitle{
+  margin:0 0 18px;
+  color:#4b5563;
+  font-size:13px
+}
+
+.section{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid #ddd
+}
+
+.section h2{
+  font-size:16px;
+  margin:0 0 14px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px 14px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:5px
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid #9ca3af;
+  border-radius:5px;
+  background:#fff;
+  font:13px Arial
+}
+
+textarea{
+  min-height:75px;
+  resize:vertical
+}
+
+button{
+  padding:11px 20px;
+  background:#166534;
+  color:#fff;
+  border:0;
+  border-radius:5px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.6
+}
+
+.button-row{
+  margin-top:24px;
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+
+.success{
+  color:#166534
+}
+
+.error{
+  color:#b91c1c
+}
+
+select:disabled{
+  background:#f3f4f6;
+  color:#6b7280;
+  cursor:not-allowed
+}
+
+@media(max-width:700px){
+
+  body{
+    padding:8px
+  }
+
+  .container{
+    padding:15px
+  }
+
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+
+  h1{
+    font-size:20px
+  }
+
+}
+
+</style>
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+
+
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+
+<div class="container">
+
+<a class="back" href="index.html">
+← Back to MeeSeva Applications
+</a>
+
+
+<h1>
+Income Certificate
+</h1>
+
+<p class="subtitle">
+Fill the application form carefully. Telugu + English labels are provided for all user fields.
+</p>
+
+
+<form id="appForm">
+
+
+<!-- =====================================================
+     BASIC APPLICATION DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Application Details / దరఖాస్తు వివరాలు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Applicant Name / దరఖాస్తుదారుని పేరు
+</label>
+
+<input
+type="text"
+name="applicantName"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Father / Mother Name / తండ్రి / తల్లి పేరు
+</label>
+
+<input
+type="text"
+name="fatherName"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+District / జిల్లా
+</label>
+
+<select
+id="district"
+name="district"
+>
+
+<option value="">
+Select District / జిల్లా ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Mandal / మండలం
+</label>
+
+<select
+id="mandal"
+name="mandal"
+disabled
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Village / Ward / గ్రామం / వార్డు
+</label>
+
+<select
+id="village"
+name="village"
+disabled
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+House Number / ఇంటి నంబర్
+</label>
+
+<input
+type="text"
+name="houseNumber"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Ration Card Number / రేషన్ కార్డు నంబర్
+</label>
+
+<input
+type="text"
+name="rationCardNumber"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Ration Card Type / రేషన్ కార్డు రకం
+</label>
+
+<select
+name="rationCardType"
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option value="Pink">
+Pink / గులాబీ
+</option>
+
+<option value="White">
+White / తెలుపు
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Annual Income / వార్షిక ఆదాయం
+</label>
+
+<input
+type="text"
+name="annualIncome"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Annual Income in Words / వార్షిక ఆదాయం అక్షరాలలో
+</label>
+
+<input
+type="text"
+name="annualIncomeWords"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Certificate Required For / ధృవపత్రము కావలసిన నిమిత్తము
+</label>
+
+<input
+type="text"
+name="certificatePurpose"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     APPLICANT DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Applicant Details / దరఖాస్తుదారుని వివరములు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Gender / లింగము
+</label>
+
+<select name="gender">
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option value="Male">
+Male / పురుషుడు
+</option>
+
+<option value="Female">
+Female / స్త్రీ
+</option>
+
+<option value="Other">
+Other / ఇతర
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Date of Birth / పుట్టిన తేదీ
+</label>
+
+<input
+type="text"
+name="dateOfBirth"
+placeholder="DD/MM/YYYY"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Locality / Land Mark / లొకాలిటి / ల్యాండ్ మార్క్
+</label>
+
+<input
+type="text"
+name="locality"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Pincode / పిన్ కోడ్
+</label>
+
+<input
+type="text"
+name="pincode"
+maxlength="6"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     INCOME DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Income Details / ఆదాయ వివరములు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Land & Buildings Income / భూములు మరియు భవనముల నుండి
+</label>
+
+<input
+type="text"
+name="landBuildingsIncome"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Business Income / వ్యాపారము రీత్యా
+</label>
+
+<input
+type="text"
+name="businessIncome"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Husband & Wife Salary Income / భార్యాభర్తలకు కలిపి జీతము రీత్యా
+</label>
+
+<input
+type="text"
+name="husbandWifeSalaryIncome"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Daily Wage Income / రోజు కూలీ రీత్యా
+</label>
+
+<input
+type="text"
+name="dailyWageIncome"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Other Sources Income / ఇతర మార్గముల ద్వారా
+</label>
+
+<input
+type="text"
+name="otherIncome"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Other Sources Details / ఆయా మార్గముల వివరము
+</label>
+
+<textarea
+name="otherIncomeDetails"
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Total Income / మొత్తము
+</label>
+
+<input
+type="text"
+name="totalIncome"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CONTACT
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Contact Details / సంప్రదింపు వివరాలు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Mobile / మొబైల్
+</label>
+
+<input
+type="text"
+name="mobile"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+E-Mail / ఈ-మెయిల్
+</label>
+
+<input
+type="email"
+name="mailId"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SIGNATURES
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Signatures / సంతకములు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Applicant Signature / అభ్యర్థి సంతకము
+</label>
+
+<input
+type="text"
+name="applicantSignature"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Father / Mother / Guardian Signature / తండ్రి / తల్లి / సంరక్షకుని సంతకము
+</label>
+
+<input
+type="text"
+name="guardianSignature"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DOWNLOAD
+     ===================================================== -->
+
+<div class="button-row">
+
+<button type="submit">
+Download Application PDF
+</button>
+
+<span id="status"></span>
+
+</div>
+
+
+</form>
+
+</div>
+
+
+
+<!-- =====================================================
+     DISTRICT → MANDAL → VILLAGE
+     ===================================================== -->
+
+<script>
+
+let locationData = [];
+
+
+/* =====================================================
+   CLEAN TEXT
+   ===================================================== */
+
+function clean(value){
+
+  return String(value || "")
+    .replace(/^\uFEFF/, "")
+    .trim();
+
+}
+
+
+/* =====================================================
+   NORMALIZE TEXT
+   ===================================================== */
+
+function normalize(value){
+
+  return clean(value)
+    .toLowerCase()
+    .replace(/[._\-\s]+/g,"");
+
+}
+
+
+/* =====================================================
+   CSV PARSER
+   ===================================================== */
+
+function parseCSV(text){
+
+  const rows = [];
+
+  let row = [];
+  let value = "";
+  let quoted = false;
+
+
+  for(
+    let i = 0;
+    i < text.length;
+    i++
+  ){
+
+    const char = text[i];
+    const next = text[i + 1];
+
+
+    if(
+      char === '"' &&
+      quoted &&
+      next === '"'
+    ){
+
+      value += '"';
+      i++;
+      continue;
+
+    }
+
+
+    if(char === '"'){
+
+      quoted = !quoted;
+      continue;
+
+    }
+
+
+    if(
+      char === "," &&
+      !quoted
+    ){
+
+      row.push(value);
+      value = "";
+      continue;
+
+    }
+
+
+    if(
+      (char === "\n" || char === "\r") &&
+      !quoted
+    ){
+
+      if(
+        char === "\r" &&
+        next === "\n"
+      ){
+
+        i++;
+
+      }
+
+
+      row.push(value);
+      value = "";
+
+
+      if(
+        row.some(
+          x => clean(x) !== ""
+        )
+      ){
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+      continue;
+
+    }
+
+
+    value += char;
+
+  }
+
+
+  if(
+    value !== "" ||
+    row.length
+  ){
+
+    row.push(value);
+    rows.push(row);
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* =====================================================
+   FIND CSV COLUMN
+   ===================================================== */
+
+function findColumn(headers,names){
+
+  for(
+    const name of names
+  ){
+
+    const index =
+      headers.findIndex(
+        h =>
+          normalize(h) ===
+          normalize(name)
+      );
+
+
+    if(index !== -1){
+
+      return index;
+
+    }
+
+  }
+
+
+  return -1;
+
+}
+
+
+/* =====================================================
+   LOAD LOCATION DATA
+   ===================================================== */
+
+async function loadLocationData(){
+
+  try{
+
+    console.log(
+      "Loading AP District / Mandal / Village data..."
+    );
+
+
+    const response =
+      await fetch(
+        "/api/locations",
+        {
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Location data could not be loaded."
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    const rows =
+      parseCSV(text);
+
+
+    if(rows.length < 2){
+
+      throw new Error(
+        "Location data is empty."
+      );
+
+    }
+
+
+    const headers =
+      rows[0].map(clean);
+
+
+    const districtIndex =
+      findColumn(
+        headers,
+        [
+          "District",
+          "District Name",
+          "district_name"
+        ]
+      );
+
+
+    const mandalIndex =
+      findColumn(
+        headers,
+        [
+          "Mandal",
+          "Mandal Name",
+          "Sub District",
+          "Sub-District",
+          "Taluk",
+          "Tehsil"
+        ]
+      );
+
+
+    const villageIndex =
+      findColumn(
+        headers,
+        [
+          "Village",
+          "Village Name",
+          "Village_Name"
+        ]
+      );
+
+
+    if(
+      districtIndex === -1 ||
+      mandalIndex === -1 ||
+      villageIndex === -1
+    ){
+
+      throw new Error(
+        "District / Mandal / Village columns not found."
+      );
+
+    }
+
+
+    locationData =
+      rows
+        .slice(1)
+        .map(row => ({
+
+          district:
+            clean(row[districtIndex]),
+
+          mandal:
+            clean(row[mandalIndex]),
+
+          village:
+            clean(row[villageIndex])
+
+        }))
+        .filter(
+          item =>
+            item.district &&
+            item.mandal &&
+            item.village
+        );
+
+
+    populateDistricts();
+
+
+    console.log(
+      "Location records loaded:",
+      locationData.length
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "INCOME LOCATION DATA ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   POPULATE DISTRICT
+   ===================================================== */
+
+function populateDistricts(){
+
+  const districtSelect =
+    document.getElementById("district");
+
+
+  const districts = [
+    ...new Set(
+      locationData.map(
+        item => item.district
+      )
+    )
+  ].sort(
+    (a,b) =>
+      a.localeCompare(b)
+  );
+
+
+  districtSelect.innerHTML = `
+    <option value="">
+      Select District / జిల్లా ఎంచుకోండి
+    </option>
+  `;
+
+
+  districts.forEach(
+    district => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        district;
+
+      option.textContent =
+        district;
+
+      districtSelect.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  districtSelect.disabled = false;
+
+}
+
+
+/* =====================================================
+   DISTRICT → MANDAL
+   ===================================================== */
+
+document
+  .getElementById("district")
+  .addEventListener(
+    "change",
+    function(){
+
+      const mandal =
+        document.getElementById("mandal");
+
+      const village =
+        document.getElementById("village");
+
+
+      resetSelect(
+        mandal,
+        "Select Mandal / మండలం ఎంచుకోండి"
+      );
+
+
+      resetSelect(
+        village,
+        "Select Village / గ్రామం ఎంచుకోండి"
+      );
+
+
+      village.disabled = true;
+
+
+      if(!this.value){
+
+        mandal.disabled = true;
+        return;
+
+      }
+
+
+      const mandals = [
+        ...new Set(
+
+          locationData
+            .filter(
+              item =>
+                normalize(item.district) ===
+                normalize(this.value)
+            )
+            .map(
+              item => item.mandal
+            )
+
+        )
+      ].sort(
+        (a,b) =>
+          a.localeCompare(b)
+      );
+
+
+      mandals.forEach(
+        value => {
+
+          const option =
+            document.createElement("option");
+
+          option.value =
+            value;
+
+          option.textContent =
+            value;
+
+          mandal.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      mandal.disabled =
+        mandals.length === 0;
+
+    }
+  );
+
+
+/* =====================================================
+   MANDAL → VILLAGE
+   ===================================================== */
+
+document
+  .getElementById("mandal")
+  .addEventListener(
+    "change",
+    function(){
+
+      const district =
+        document.getElementById("district").value;
+
+      const village =
+        document.getElementById("village");
+
+
+      resetSelect(
+        village,
+        "Select Village / గ్రామం ఎంచుకోండి"
+      );
+
+
+      if(
+        !district ||
+        !this.value
+      ){
+
+        village.disabled = true;
+        return;
+
+      }
+
+
+      const villages = [
+        ...new Set(
+
+          locationData
+            .filter(
+              item =>
+                normalize(item.district) ===
+                normalize(district)
+
+                &&
+
+                normalize(item.mandal) ===
+                normalize(this.value)
+            )
+            .map(
+              item => item.village
+            )
+
+        )
+      ].sort(
+        (a,b) =>
+          a.localeCompare(b)
+      );
+
+
+      villages.forEach(
+        value => {
+
+          const option =
+            document.createElement("option");
+
+          option.value =
+            value;
+
+          option.textContent =
+            value;
+
+          village.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      village.disabled =
+        villages.length === 0;
+
+    }
+  );
+
+
+/* =====================================================
+   RESET SELECT
+   ===================================================== */
+
+function resetSelect(
+  select,
+  placeholder
+){
+
+  select.innerHTML = `
+    <option value="">
+      ${placeholder}
+    </option>
+  `;
+
+}
+
+
+/* =====================================================
+   START LOCATION LOADING
+   ===================================================== */
+
+loadLocationData();
+
+</script>
+
+
+<script
+  type="module"
+  src="income.js"
+></script>
+
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/api-config.js"></script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Family Member Certificate Affidavit</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;margin:0;color:#222}.wrap{max-width:1100px;margin:auto;padding:24px}.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.07)}h1{margin-top:0;color:#173a61}.section{border:1px solid #d9e0e7;border-radius:8px;padding:16px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}label{font-size:13px;font-weight:600;display:block}input,textarea,select{width:100%;padding:10px;margin-top:5px;border:1px solid #cbd5df;border-radius:6px;font:inherit}textarea{min-height:70px;resize:vertical}.person{border:1px solid #e2e7ec;border-radius:7px;padding:12px;margin:10px 0}.person h3{margin:0 0 10px;font-size:15px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button{border:0;border-radius:7px;padding:11px 16px;cursor:pointer;background:#173a61;color:white}button.secondary{background:#e8eef4;color:#173a61}.small{font-size:12px;color:#666;line-height:1.5}.msg{margin-top:14px;font-weight:600}.danger{color:#b42318}.success{color:#067647}@media(max-width:750px){.grid{grid-template-columns:1fr}}
+</style><link rel="stylesheet" href="/assets/portal.css">
+</head><body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header><div class="wrap"><div class="card">
+<h1>Family Member Certificate — Affidavit</h1>
+<p class="small"><strong>Before execution:</strong> This online form is based on the supplied reference affidavit and the current AP Family Member Certificate service checklist. The receiving authority may require a different or additional format. Verify the current local requirement before signing/notarising.</p>
+<form id="form">
+<div class="section"><h2>Deceased Person</h2><div class="grid">
+<label>Deceased Name<input name="deceasedName" required></label><label>Father / Husband Name<input name="deceasedRelationName" required></label>
+<label>Permanent Address<textarea name="deceasedAddress" required></textarea></label><label>Date of Death<input type="date" name="dateOfDeath" required></label>
+<label>Village<input name="village" required></label><label>Mandal<input name="mandal" required></label><label>District<input name="district" required></label>
+</div></div>
+<div class="section"><h2>First Applicant / Family Member</h2><div class="grid">
+<label>Name<input name="applicantName" required></label><label>Relationship with Deceased<input name="applicantRelationship" required></label>
+</div></div>
+<div class="section"><h2>Surviving Family Members</h2><p class="small">Enter the persons to be listed in the affidavit. Aadhaar is optional here; include it only when the receiving authority requires it.</p><div id="members"></div><button type="button" class="secondary" id="addMember">+ Add Family Member</button></div>
+<div class="section"><h2>Deponents / Witnesses</h2><p class="small">The supplied reference uses five deponents/witnesses. The form starts with five; remove any unused row before generating.</p><div id="witnesses"></div></div>
+<div class="section"><h2>Purpose</h2><label>Purpose for requesting the Family Member Certificate<textarea name="purpose">Family Member Certificate for official use.</textarea></label></div>
+<div class="actions"><button type="submit">Generate Affidavit PDF</button><button type="button" class="secondary" id="reset">Reset</button></div>
+<div id="msg" class="msg"></div></form></div></div>
+<script src="/forms/family-member-affidavit.js"></script><footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body></html>

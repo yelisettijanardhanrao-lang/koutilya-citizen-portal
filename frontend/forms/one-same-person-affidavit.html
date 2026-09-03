@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head><script src="/api-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>One & Same Person Affidavit</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#111}
+.container{max-width:900px;margin:24px auto;padding:0 16px}
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+h1{margin:0 0 8px;color:#173a61;text-align:center}
+.subtitle{text-align:center;color:#666;margin:0 0 20px}
+.notice{padding:12px;border:1px solid #ddd;border-radius:8px;background:#fafafa;font-size:13px;line-height:1.5;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ccd4dd;border-radius:7px;font-size:14px}
+textarea{min-height:90px;resize:vertical}
+button{margin-top:20px;width:100%;padding:12px;border:0;border-radius:7px;background:#173a61;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+.status{margin-top:15px;text-align:center;font-size:14px}
+.back{display:inline-block;margin-bottom:14px;color:#173a61;text-decoration:none}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+<div class="container">
+<a class="back" href="/forms/affidavits.html">← Back to Affidavits & Declarations</a>
+<div class="card">
+<h1>One &amp; Same Person Affidavit</h1>
+<p class="subtitle">Online preparation of a single affidavit</p>
+
+<div class="notice">
+<strong>Use:</strong> This affidavit is for situations where two or more
+document records contain name variations that refer to the same person.
+The receiving authority may require a different prescribed form, certificate,
+Gazette process or other evidence. Verify the current requirement before execution.
+<br><br>
+<strong>Supporting documents:</strong> Keep the documents showing each name
+variation ready for submission to the concerned authority.
+</div>
+
+<form id="form">
+<div class="grid">
+<div>
+<label>Applicant Name *</label>
+<input name="applicantName" required>
+</div>
+
+<div>
+<label>Relation *</label>
+<select name="applicantRelation" required>
+<option value="S/O">S/O</option>
+<option value="D/O">D/O</option>
+<option value="W/O">W/O</option>
+<option value="C/O">C/O</option>
+</select>
+</div>
+
+<div>
+<label>Father / Husband / Guardian Name</label>
+<input name="parentOrSpouseName">
+</div>
+
+<div>
+<label>Age</label>
+<input name="age" type="number" min="1" max="120">
+</div>
+
+<div class="full">
+<label>Address *</label>
+<textarea name="address" required></textarea>
+</div>
+
+<div>
+<label>Name as shown in Document 1 *</label>
+<input name="nameOne" required>
+</div>
+
+<div>
+<label>Document 1 *</label>
+<input name="documentOne" placeholder="e.g. Birth Certificate" required>
+</div>
+
+<div>
+<label>Name as shown in Document 2 *</label>
+<input name="nameTwo" required>
+</div>
+
+<div>
+<label>Document 2 *</label>
+<input name="documentTwo" placeholder="e.g. Aadhaar Card" required>
+</div>
+
+<div class="full">
+<label>Reason for name variation *</label>
+<textarea name="reason" placeholder="Explain the spelling / initials / name variation" required></textarea>
+</div>
+
+<div class="full">
+<label>Concerned Authority / Purpose</label>
+<input name="purposeAuthority" placeholder="e.g. concerned bank / department / passport authority">
+</div>
+
+<div>
+<label>Place of Execution *</label>
+<input name="place" required>
+</div>
+
+<div>
+<label>Date of Execution *</label>
+<input name="executionDate" type="date" required>
+</div>
+</div>
+
+<button id="submit" type="submit">Generate Affidavit PDF</button>
+<div id="status" class="status"></div>
+</form>
+</div>
+</div>
+
+<script src="/forms/one-same-person-affidavit.js"></script>
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

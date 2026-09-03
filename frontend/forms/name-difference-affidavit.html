@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head><script src="/api-config.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Name Difference Affidavit</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;color:#12345a}
+body{background:linear-gradient(135deg,#eaf5ff 0%,#fff 48%,#eef6ff 100%)}
+.header{background:rgba(255,255,255,.94);border-bottom:1px solid #d8e4f0;padding:14px 24px;position:sticky;top:0;z-index:5}
+.header-inner{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:22px;font-weight:800}.brand small{display:block;font-size:10px;font-weight:500;color:#6b7c8f}.nav{display:flex;gap:22px;font-size:13px}.nav a{color:#1b5d9b;text-decoration:none}
+.wrap{max-width:1180px;margin:28px auto;padding:0 18px}.back{color:#185d9e;text-decoration:none;font-size:14px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px;margin-top:14px}.card,.side{background:rgba(255,255,255,.96);border:1px solid #d9e5f0;border-radius:14px;box-shadow:0 10px 30px rgba(37,79,120,.08)}.card{padding:26px}.side{padding:18px}.title{text-align:center;margin:0;font-size:30px;color:#123f70}.subtitle{text-align:center;color:#6b7b8c;margin:7px 0 22px}.notice{border:1px solid #b9d8f5;background:#f4faff;border-radius:9px;padding:14px;font-size:13px;line-height:1.55;margin-bottom:22px}.notice strong{color:#123f70}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}input,textarea,select{display:block;width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #bfd0df;border-radius:7px;background:#fff;font:inherit;color:#182d43;outline:none}input:focus,textarea:focus,select:focus{border-color:#2775bd;box-shadow:0 0 0 3px rgba(39,117,189,.1)}textarea{min-height:92px;resize:vertical}.actions{display:flex;gap:10px;margin-top:20px}.btn{flex:1;border:0;border-radius:8px;padding:12px 15px;font-weight:700;cursor:pointer}.primary{background:#145b9f;color:#fff}.secondary{background:#e9f1f8;color:#174e7f}.status{text-align:center;margin-top:12px;font-size:13px}.ok{color:#067647}.err{color:#b42318}.side h3{margin:0 0 12px;color:#123f70}.side ul{padding:0;margin:0;list-style:none}.side li{padding:9px 0;border-bottom:1px solid #edf1f5;font-size:13px;color:#38536b}.side li:before{content:'✓';color:#159447;font-weight:700;margin-right:8px}.warn{margin-top:18px;background:#fff8e7;border:1px solid #f0d69a;border-radius:9px;padding:13px;font-size:12px;line-height:1.5;color:#6c531d}.footer{text-align:center;color:#7890a5;font-size:11px;padding:22px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.side{order:2}.nav{display:none}}@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:18px}.title{font-size:24px}}
+</style><link rel="stylesheet" href="/assets/portal.css">
+</head>
+<body class="portal-page">
+<header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+<div class="wrap"><a class="back" href="/forms/affidavits.html">← Back to Affidavits &amp; Declarations</a>
+<div class="layout"><main class="card"><h1 class="title">Name Difference Affidavit</h1><p class="subtitle">Online preparation of a single affidavit</p>
+<div class="notice"><strong>Use:</strong> This service is for a declaration explaining a difference between a person's correct/preferred name and the name appearing in a particular record. The receiving authority may prescribe its own correction form, declaration, Gazette process or other evidence.<br><br><strong>Before signing:</strong> Check the original documents carefully and use the exact names as they appear on those documents.</div>
+<form id="form"><div class="grid">
+<div><label>Applicant / Declarant Name *</label><input name="applicantName" required></div>
+<div><label>Relation *</label><select name="relation" required><option>S/O</option><option>D/O</option><option>W/O</option><option>C/O</option></select></div>
+<div><label>Father / Husband / Guardian Name *</label><input name="parentName" required></div>
+<div><label>Age *</label><input name="age" type="number" min="1" max="120" required></div>
+<div class="full"><label>Full Address *</label><textarea name="address" required></textarea></div>
+<div><label>Correct / Preferred Name *</label><input name="correctName" required></div>
+<div><label>Name as Appearing in Record *</label><input name="recordName" required></div>
+<div><label>Document / Record Containing Difference *</label><input name="documentName" placeholder="e.g. School Certificate" required></div>
+<div><label>Nature of Difference *</label><select name="differenceType" required><option>Spelling variation</option><option>Initial / full-name variation</option><option>Missing or added surname</option><option>Order of name variation</option><option>Other minor variation</option></select></div>
+<div class="full"><label>Reason / Explanation for Difference *</label><textarea name="reason" placeholder="Explain how the difference occurred and why both names relate to the same person." required></textarea></div>
+<div><label>Concerned Authority / Purpose *</label><input name="purposeAuthority" placeholder="e.g. employer / bank / educational authority" required></div>
+<div><label>Place of Execution *</label><input name="place" required></div>
+<div><label>Date of Execution *</label><input name="executionDate" type="date" required></div>
+</div><div class="actions"><button class="btn primary" id="submit" type="submit">Generate Affidavit PDF</button><button class="btn secondary" type="reset">Reset</button></div><div id="status" class="status"></div></form></main>
+<aside class="side"><h3>Keep ready</h3><ul><li>Identity document with correct name</li><li>Document showing the different name</li><li>Supporting proof of identity/address</li><li>Any authority-specific correction form</li></ul><div class="warn"><strong>Important</strong><br>There is no single India-wide stamp-paper value or acceptance rule for every name discrepancy. Verify the receiving authority's current requirement before execution/notarisation.</div></aside></div></div>
+<div class="footer">Citizen Services Portal · Affidavits &amp; Declarations</div>
+<script src="/forms/name-difference-affidavit.js"></script>
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body></html>

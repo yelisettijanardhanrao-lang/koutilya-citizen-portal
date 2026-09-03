@@ -1,0 +1,1137 @@
+<!doctype html>
+<html lang="en">
+
+<head><script src="/api-config.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Family Membership Certificate</title>
+
+<style>
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  padding:18px;
+  background:#f3f4f6;
+  font-family:Arial,sans-serif;
+  color:#111827
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08)
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:14px;
+  text-decoration:none;
+  color:#164e63;
+  border:1px solid #164e63;
+  padding:7px 12px;
+  border-radius:5px;
+  font-size:13px
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:24px
+}
+
+.subtitle{
+  margin:0 0 18px;
+  color:#4b5563;
+  font-size:13px
+}
+
+.section{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid #ddd
+}
+
+.section h2{
+  font-size:16px;
+  margin:0 0 14px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px 14px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:5px
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid #9ca3af;
+  border-radius:5px;
+  background:#fff;
+  font:13px Arial
+}
+
+textarea{
+  min-height:75px;
+  resize:vertical
+}
+
+.button-row{
+  margin-top:24px;
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+
+button{
+  padding:11px 20px;
+  background:#166534;
+  color:#fff;
+  border:0;
+  border-radius:5px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.6
+}
+
+.success{
+  color:#166534
+}
+
+.error{
+  color:#b91c1c
+}
+
+@media(max-width:700px){
+
+  body{
+    padding:8px
+  }
+
+  .container{
+    padding:15px
+  }
+
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+
+  h1{
+    font-size:20px
+  }
+
+}
+
+</style>
+
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+
+
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+
+<div class="container">
+
+<a class="back" href="index.html">
+← Back to MeeSeva Applications
+</a>
+
+<h1>Family Membership Certificate</h1>
+
+<p class="subtitle">
+Family membership certificate application based on the supplied 2-page reference.
+</p>
+
+
+<form id="appForm">
+
+
+<!-- =====================================================
+     APPLICANT DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Applicant Details / దరఖాస్తుదారు వివరాలు
+</h2>
+
+<div class="grid">
+
+
+<div class="field">
+<label>
+AADHAAR Card Number / ఆధార్ నంబర్ *
+</label>
+
+<input
+  type="text"
+  name="aadhaar"
+  required
+  placeholder=""
+>
+</div>
+
+
+<div class="field">
+<label>
+Applicant Name / దరఖాస్తుదారు పేరు *
+</label>
+
+<input
+  type="text"
+  name="applicantName"
+  required
+  placeholder=""
+>
+</div>
+
+
+<div class="field">
+<label>
+Relation Name / సంబంధం పేరు *
+</label>
+
+<input
+  type="text"
+  name="relationName"
+  required
+  placeholder=""
+>
+</div>
+
+
+<div class="field">
+<label>
+Gender / లింగం *
+</label>
+
+<select name="gender" required>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option>Male</option>
+<option>Female</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Date of Birth / పుట్టిన తేదీ *
+</label>
+
+<input
+  type="text"
+  name="dateOfBirth"
+  required
+  placeholder=""
+>
+</div>
+
+
+<div class="field">
+<label>
+Permanent Door No. / శాశ్వత డోర్ నంబర్
+</label>
+
+<input
+  type="text"
+  name="doorNo"
+  placeholder=""
+>
+</div>
+
+
+<div class="field">
+<label>
+Permanent Locality / ప్రాంతం
+</label>
+
+<input
+  type="text"
+  name="locality"
+  placeholder=""
+>
+</div>
+
+
+<!-- PERMANENT DISTRICT -->
+
+<div class="field">
+
+<label>
+Permanent District / జిల్లా *
+</label>
+
+<select
+  name="district"
+  id="district"
+  required
+>
+
+<option value="">
+Select District / జిల్లా ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PERMANENT MANDAL -->
+
+<div class="field">
+
+<label>
+Permanent Mandal / మండలం *
+</label>
+
+<select
+  name="mandal"
+  id="mandal"
+  required
+  disabled
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PERMANENT VILLAGE -->
+
+<div class="field">
+
+<label>
+Permanent Village/Ward / గ్రామం *
+</label>
+
+<select
+  name="village"
+  id="village"
+  required
+  disabled
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Permanent Pin Code / పిన్ కోడ్
+</label>
+
+<input
+  type="text"
+  name="pincode"
+  placeholder=""
+>
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     PRESENT ADDRESS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Present Address / ప్రస్తుత చిరునామా
+</h2>
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Door No. / డోర్ నంబర్
+</label>
+
+<input
+  type="text"
+  name="presentDoorNo"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Locality / Land Mark / ప్రాంతం
+</label>
+
+<input
+  type="text"
+  name="presentLocality"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+State / రాష్ట్రం *
+</label>
+
+<input
+  type="text"
+  name="state"
+  required
+  placeholder=""
+>
+
+</div>
+
+
+<!-- PRESENT DISTRICT -->
+
+<div class="field">
+
+<label>
+District / జిల్లా *
+</label>
+
+<select
+  name="presentDistrict"
+  id="presentDistrict"
+  required
+>
+
+<option value="">
+Select District / జిల్లా ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PRESENT MANDAL -->
+
+<div class="field">
+
+<label>
+Mandal / మండలం *
+</label>
+
+<select
+  name="presentMandal"
+  id="presentMandal"
+  required
+  disabled
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PRESENT VILLAGE -->
+
+<div class="field">
+
+<label>
+Village / Ward / గ్రామం *
+</label>
+
+<select
+  name="presentVillage"
+  id="presentVillage"
+  required
+  disabled
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Pin Code / పిన్ కోడ్
+</label>
+
+<input
+  type="text"
+  name="presentPincode"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Mobile / మొబైల్ *
+</label>
+
+<input
+  type="tel"
+  name="mobile"
+  required
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Phone / ఫోన్
+</label>
+
+<input
+  type="text"
+  name="phone"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+E-Mail / ఈమెయిల్
+</label>
+
+<input
+  type="text"
+  name="email"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Remarks / వ్యాఖ్యలు
+</label>
+
+<input
+  type="text"
+  name="remarks"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Ration card NO / రేషన్ కార్డు నంబర్
+</label>
+
+<input
+  type="text"
+  name="rationCard"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Delivery Type / పంపిణీ విధానం *
+</label>
+
+<select
+  name="deliveryType"
+  required
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option>Manual</option>
+<option>Local post</option>
+<option>Non Local post</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     DECEASED DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Deceased Details / మరణించిన వ్యక్తి వివరాలు
+</h2>
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Deceased Name / మరణించిన వ్యక్తి పేరు *
+</label>
+
+<input
+  type="text"
+  name="deceasedName"
+  required
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Father/Husband Name / తండ్రి/భర్త పేరు *
+</label>
+
+<input
+  type="text"
+  name="deceasedFather"
+  required
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Date of Death / మరణ తేదీ *
+</label>
+
+<input
+  type="text"
+  name="dateOfDeath"
+  required
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Reason for Death / మరణ కారణం *
+</label>
+
+<select
+  name="reasonDeath"
+  required
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option>Accident</option>
+<option>Floods / Cyclones / Thunder Bolt</option>
+<option>Fire Accident</option>
+<option>Drowning</option>
+<option>Collapse of buildings/Bridges</option>
+<option>Ill health</option>
+<option>General Death</option>
+<option>Suicide</option>
+<option>Missing</option>
+<option>Murder</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Occupation / వృత్తి *
+</label>
+
+<select
+  name="occupation"
+  required
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option>State Government Services</option>
+<option>Central Government Services</option>
+<option>Public sector under takings</option>
+<option>Cooli</option>
+<option>Agriculture Labor</option>
+<option>Rickshaw Puller / Auto / Taxi / Lorry drivers/cleaners</option>
+<option>Building construction workers</option>
+<option>Working in factories</option>
+<option>Fishing</option>
+<option>Other Occupations</option>
+<option>Handloom Worker</option>
+<option>Retired Employee</option>
+<option>Farmer</option>
+<option>Business Man</option>
+<option>Pensioner</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Aadhaar Card Number / ఆధార్ నంబర్
+</label>
+
+<input
+  type="text"
+  name="deceasedAadhaar"
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Death place / మరణ స్థలం *
+</label>
+
+<input
+  type="text"
+  name="deathPlace"
+  required
+  placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Aadhaar Enrolment Number / ఆధార్ నమోదు నంబర్
+</label>
+
+<input
+  type="text"
+  name="enrolment"
+  placeholder=""
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     FAMILY MEMBERS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Family Members / కుటుంబ సభ్యులు
+</h2>
+
+<div class="grid">
+
+
+<!-- MEMBER 1 -->
+
+<div class="field">
+<label>
+1. Family Member Name / కుటుంబ సభ్యుని పేరు
+</label>
+<input type="text" name="member1_name" placeholder="">
+</div>
+
+<div class="field">
+<label>
+1. Age / వయస్సు
+</label>
+<input type="number" name="member1_age" placeholder="">
+</div>
+
+<div class="field">
+<label>
+1. Gender / లింగం
+</label>
+<input type="text" name="member1_gender" placeholder="">
+</div>
+
+<div class="field">
+<label>
+1. Relationship with Deceased / మరణించిన వ్యక్తితో సంబంధం
+</label>
+<input type="text" name="member1_relation" placeholder="">
+</div>
+
+<div class="field">
+<label>
+1. Marital Status / వైవాహిక స్థితి
+</label>
+<input type="text" name="member1_marital" placeholder="">
+</div>
+
+<div class="field">
+<label>
+1. Aadhaar Number / ఆధార్ నంబర్
+</label>
+<input type="text" name="member1_aadhaar" placeholder="">
+</div>
+
+
+<!-- MEMBER 2 -->
+
+<div class="field">
+<label>
+2. Family Member Name / కుటుంబ సభ్యుని పేరు
+</label>
+<input type="text" name="member2_name" placeholder="">
+</div>
+
+<div class="field">
+<label>
+2. Age / వయస్సు
+</label>
+<input type="number" name="member2_age" placeholder="">
+</div>
+
+<div class="field">
+<label>
+2. Gender / లింగం
+</label>
+<input type="text" name="member2_gender" placeholder="">
+</div>
+
+<div class="field">
+<label>
+2. Relationship with Deceased / మరణించిన వ్యక్తితో సంబంధం
+</label>
+<input type="text" name="member2_relation" placeholder="">
+</div>
+
+<div class="field">
+<label>
+2. Marital Status / వైవాహిక స్థితి
+</label>
+<input type="text" name="member2_marital" placeholder="">
+</div>
+
+<div class="field">
+<label>
+2. Aadhaar Number / ఆధార్ నంబర్
+</label>
+<input type="text" name="member2_aadhaar" placeholder="">
+</div>
+
+
+<!-- MEMBER 3 -->
+
+<div class="field">
+<label>
+3. Family Member Name / కుటుంబ సభ్యుని పేరు
+</label>
+<input type="text" name="member3_name" placeholder="">
+</div>
+
+<div class="field">
+<label>
+3. Age / వయస్సు
+</label>
+<input type="number" name="member3_age" placeholder="">
+</div>
+
+<div class="field">
+<label>
+3. Gender / లింగం
+</label>
+<input type="text" name="member3_gender" placeholder="">
+</div>
+
+<div class="field">
+<label>
+3. Relationship with Deceased / మరణించిన వ్యక్తితో సంబంధం
+</label>
+<input type="text" name="member3_relation" placeholder="">
+</div>
+
+<div class="field">
+<label>
+3. Marital Status / వైవాహిక స్థితి
+</label>
+<input type="text" name="member3_marital" placeholder="">
+</div>
+
+<div class="field">
+<label>
+3. Aadhaar Number / ఆధార్ నంబర్
+</label>
+<input type="text" name="member3_aadhaar" placeholder="">
+</div>
+
+
+<!-- MEMBER 4 -->
+
+<div class="field">
+<label>
+4. Family Member Name / కుటుంబ సభ్యుని పేరు
+</label>
+<input type="text" name="member4_name" placeholder="">
+</div>
+
+<div class="field">
+<label>
+4. Age / వయస్సు
+</label>
+<input type="number" name="member4_age" placeholder="">
+</div>
+
+<div class="field">
+<label>
+4. Gender / లింగం
+</label>
+<input type="text" name="member4_gender" placeholder="">
+</div>
+
+<div class="field">
+<label>
+4. Relationship with Deceased / మరణించిన వ్యక్తితో సంబంధం
+</label>
+<input type="text" name="member4_relation" placeholder="">
+</div>
+
+<div class="field">
+<label>
+4. Marital Status / వైవాహిక స్థితి
+</label>
+<input type="text" name="member4_marital" placeholder="">
+</div>
+
+<div class="field">
+<label>
+4. Aadhaar Number / ఆధార్ నంబర్
+</label>
+<input type="text" name="member4_aadhaar" placeholder="">
+</div>
+
+
+<!-- MEMBER 5 -->
+
+<div class="field">
+<label>
+5. Family Member Name / కుటుంబ సభ్యుని పేరు
+</label>
+<input type="text" name="member5_name" placeholder="">
+</div>
+
+<div class="field">
+<label>
+5. Age / వయస్సు
+</label>
+<input type="number" name="member5_age" placeholder="">
+</div>
+
+<div class="field">
+<label>
+5. Gender / లింగం
+</label>
+<input type="text" name="member5_gender" placeholder="">
+</div>
+
+<div class="field">
+<label>
+5. Relationship with Deceased / మరణించిన వ్యక్తితో సంబంధం
+</label>
+<input type="text" name="member5_relation" placeholder="">
+</div>
+
+<div class="field">
+<label>
+5. Marital Status / వైవాహిక స్థితి
+</label>
+<input type="text" name="member5_marital" placeholder="">
+</div>
+
+<div class="field">
+<label>
+5. Aadhaar Number / ఆధార్ నంబర్
+</label>
+<input type="text" name="member5_aadhaar" placeholder="">
+</div>
+
+
+<!-- MEMBER 6 -->
+
+<div class="field">
+<label>
+6. Family Member Name / కుటుంబ సభ్యుని పేరు
+</label>
+<input type="text" name="member6_name" placeholder="">
+</div>
+
+<div class="field">
+<label>
+6. Age / వయస్సు
+</label>
+<input type="number" name="member6_age" placeholder="">
+</div>
+
+<div class="field">
+<label>
+6. Gender / లింగం
+</label>
+<input type="text" name="member6_gender" placeholder="">
+</div>
+
+<div class="field">
+<label>
+6. Relationship with Deceased / మరణించిన వ్యక్తితో సంబంధం
+</label>
+<input type="text" name="member6_relation" placeholder="">
+</div>
+
+<div class="field">
+<label>
+6. Marital Status / వైవాహిక స్థితి
+</label>
+<input type="text" name="member6_marital" placeholder="">
+</div>
+
+<div class="field">
+<label>
+6. Aadhaar Number / ఆధార్ నంబర్
+</label>
+<input type="text" name="member6_aadhaar" placeholder="">
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     BUTTON
+     ===================================================== -->
+
+<div class="button-row">
+
+<button type="submit">
+Download Application PDF
+</button>
+
+<span id="status"></span>
+
+</div>
+
+
+</form>
+
+</div>
+
+
+<script type="module" src="family-member.js"></script>
+
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<style>
+
+/* =====================================================
+   A4 PAGE
+   ===================================================== */
+
+@page{
+  size:A4;
+  margin:0;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:"Times New Roman",serif;
+  color:#000;
+  font-size:11pt;
+  line-height:1.22;
+}
+
+.page{
+  width:210mm;
+  height:297mm;
+  padding:15mm 18mm;
+  position:relative;
+  overflow:hidden;
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo{
+  display:block;
+  width:28mm;
+  height:auto;
+  margin:0 auto 5mm;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.head{
+  text-align:center;
+  font-weight:bold;
+  font-size:13pt;
+  line-height:1.25;
+}
+
+
+/* =====================================================
+   PHOTO BOX
+   ===================================================== */
+
+.photo{
+  position:absolute;
+  right:18mm;
+  top:18mm;
+  border:1px solid #000;
+  width:30mm;
+  height:38mm;
+  text-align:center;
+  font-size:9pt;
+  padding-top:12mm;
+}
+
+
+/* =====================================================
+   SECTION
+   ===================================================== */
+
+.section{
+  margin-top:6mm;
+}
+
+
+/* =====================================================
+   DYNAMIC UNDERLINE
+   IMPORTANT:
+   Empty field = NO LINE
+   Entered value = VALUE IS UNDERLINED
+   ===================================================== */
+
+.line{
+  display:inline-block;
+
+  min-width:38mm;
+
+  line-height:1;
+
+  border-bottom:none;
+
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:2px;
+
+  white-space:nowrap;
+}
+
+.long{
+  min-width:65mm;
+}
+
+.xlong{
+  min-width:95mm;
+}
+
+
+/* =====================================================
+   ROW SPACING
+   ===================================================== */
+
+.row{
+  margin:4mm 0;
+}
+
+
+/* =====================================================
+   TWO COLUMN ROW
+   ===================================================== */
+
+.two{
+  display:flex;
+  gap:12mm;
+  margin:4mm 0;
+}
+
+.two > div{
+  flex:1;
+}
+
+
+/* =====================================================
+   CHECK / YES-NO
+   ===================================================== */
+
+.check{
+  display:inline-block;
+  min-width:12mm;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:2px;
+}
+
+
+/* =====================================================
+   SECOND PAGE
+   ===================================================== */
+
+.page2{
+  page-break-before:always;
+}
+
+
+/* =====================================================
+   NOTE
+   ===================================================== */
+
+.note{
+  font-size:10pt;
+  line-height:1.3;
+}
+
+
+/* =====================================================
+   SIGNATURE
+   ===================================================== */
+
+.sign{
+  display:flex;
+  justify-content:space-between;
+  margin-top:45mm;
+}
+
+
+/* =====================================================
+   RED TEXT
+   ===================================================== */
+
+.red{
+  color:#c00;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PAGE 1
+     ===================================================== -->
+
+<div class="page">
+
+
+  <!-- LOGO -->
+
+  <img
+    class="logo"
+    src="{{LOGO_DATA}}"
+  >
+
+
+  <!-- HEADER -->
+
+  <div class="head">
+    Application Form
+  </div>
+
+  <div class="head">
+    For
+  </div>
+
+  <div class="head">
+    Economically Weaker Section Income Certificate
+  </div>
+
+  <div class="head">
+    For the Financial year :
+    <span class="line">
+      {{financial_year}}
+    </span>
+  </div>
+
+
+  <!-- PHOTO -->
+
+  <div class="photo">
+    *Affix Your<br>
+    Passport<br>
+    Size Photo<br>
+    Here
+  </div>
+
+
+  <!-- ===================================================
+       APPLICANT DETAILS
+       =================================================== -->
+
+  <div class="section">
+    <b><u>Applicant Details:</u></b>
+  </div>
+
+
+  <div class="two">
+
+    <div>
+      Applicant Name*:
+      <span class="line long">
+        {{applicant_name}}
+      </span>
+    </div>
+
+    <div>
+      Father Name*:
+      <span class="line long">
+        {{father_name}}
+      </span>
+    </div>
+
+  </div>
+
+
+  <div class="two">
+
+    <div>
+      Gender*:
+      <span class="line">
+        {{gender}}
+      </span>
+    </div>
+
+    <div>
+      Date of Birth:
+      <span class="line">
+        {{date_of_birth}}
+      </span>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    Aadhaar Number (optional):
+
+    <span class="line long">
+      {{aadhaar}}
+    </span>
+
+  </div>
+
+
+  <div class="two">
+
+    <div>
+      Caste Category*:
+      <span class="line">
+        {{caste_category}}
+      </span>
+    </div>
+
+    <div>
+      Sub Caste Category*:
+      <span class="line">
+        {{sub_caste_category}}
+      </span>
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       PRESENT ADDRESS
+       =================================================== -->
+
+  <div class="section">
+    <b><u>Present Address:</u></b>
+  </div>
+
+
+  <div class="two">
+
+    <div>
+      Door No*:
+      <span class="line">
+        {{door_no}}
+      </span>
+    </div>
+
+    <div>
+      Locality/Landmark:
+      <span class="line long">
+        {{locality}}
+      </span>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    State*:
+
+    <span class="line long">
+      {{state}}
+    </span>
+
+  </div>
+
+
+  <div class="row">
+
+    District*:
+
+    <span class="line">
+      {{district}}
+    </span>
+
+    Mandal*:
+
+    <span class="line">
+      {{mandal}}
+    </span>
+
+    Village*:
+
+    <span class="line">
+      {{village}}
+    </span>
+
+    Pincode*:
+
+    <span class="line">
+      {{pincode}}
+    </span>
+
+  </div>
+
+
+  <!-- ===================================================
+       POSTAL ADDRESS
+       =================================================== -->
+
+  <div class="row">
+
+    <b><u>Postal Address is same as Permanent Address:</u></b>
+
+    <span class="line">
+      {{postal_same}}
+    </span>
+
+  </div>
+
+
+  <div class="two">
+
+    <div>
+      Door No*:
+      <span class="line">
+        {{postal_door_no}}
+      </span>
+    </div>
+
+    <div>
+      Locality/Landmark:
+      <span class="line long">
+        {{postal_locality}}
+      </span>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    State*:
+
+    <span class="line long">
+      {{postal_state}}
+    </span>
+
+  </div>
+
+
+  <div class="row">
+
+    District*:
+
+    <span class="line">
+      {{postal_district}}
+    </span>
+
+    Mandal*:
+
+    <span class="line">
+      {{postal_mandal}}
+    </span>
+
+    Village*:
+
+    <span class="line">
+      {{postal_village}}
+    </span>
+
+    Pincode*:
+
+    <span class="line">
+      {{postal_pincode}}
+    </span>
+
+  </div>
+
+
+  <!-- ===================================================
+       CONTACT
+       =================================================== -->
+
+  <div class="two">
+
+    <div>
+      Mobile Number*:
+      <span class="line">
+        {{mobile}}
+      </span>
+    </div>
+
+    <div>
+      Mail Id:
+      <span class="line">
+        {{mail_id}}
+      </span>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    Ration Card Number:
+
+    <span class="line long">
+      {{ration_card}}
+    </span>
+
+  </div>
+
+
+  <!-- ===================================================
+       INCOME DETAILS
+       =================================================== -->
+
+  <div class="section">
+    <b><u>Income Details*:</u></b>
+  </div>
+
+
+  <p>
+
+    <b>Gross Annual Income</b> includes Salary, Agriculture,
+    Business, Profession etc., for the financial year prior
+    to the year of application
+    (Applicant/His/Her/Family*):
+
+    <span class="line long">
+      {{gross_income}}
+    </span>
+
+    (In Rupees)
+
+  </p>
+
+
+  <!-- ===================================================
+       ASSETS INFORMATION
+       =================================================== -->
+
+  <div class="section">
+    <b>
+      <u>Assets Information</u>
+      (Applicant/ His/Her/Family*):
+    </b>
+  </div>
+
+
+  <div class="row">
+
+    i) 5 Acres of agricultural Land and above:
+
+    <span class="line">
+      {{land_5}}
+    </span>
+
+    
+  </div>
+
+
+  <div class="row">
+
+    ii) Residential flat of 1000 sq. ft. and above:
+
+    <span class="line">
+      {{flat_1000}}
+    </span>
+
+ 
+  </div>
+
+
+  <div class="row">
+
+    iii) Residential plot of 100 sq. yards and above
+    in notified municipalities:
+
+    <span class="line">
+      {{plot_100}}
+    </span>
+
+   
+  </div>
+
+
+  <div class="row">
+
+    iv) Residential plot of 200 sq. yards and above
+    in areas other than the notified municipalities:
+
+    <span class="line">
+      {{plot_200}}
+    </span>
+
+    
+  </div>
+
+
+</div>
+
+
+<!-- =====================================================
+     PAGE 2
+     ===================================================== -->
+
+<div class="page page2">
+
+
+  <!-- NOTE -->
+
+  <p class="note">
+
+    <b>Note:</b> The term <b>“Family”</b> for this purpose will include
+    the person who seeks benefit of Reservation, His/Her
+    parents and siblings below the age of 18 years as also
+    His/Her spouse and children below the age of 18 years.
+
+  </p>
+
+
+  <!-- ===================================================
+       DOCUMENTS
+       =================================================== -->
+
+  <div class="section">
+    <b><u>Documents to be uploaded:</u></b>
+  </div>
+
+
+  <p>
+    i) Application Form*
+  </p>
+
+
+  <p>
+    ii) Ration Card/Epic Card/Aadhaar Card*
+  </p>
+
+
+  <p>
+    iii) Copy of IT Returns/Pay Slips
+    (Any of other Documents)
+  </p>
+
+
+  <p>
+    iv) Affidavit
+  </p>
+
+
+  <!-- ===================================================
+       NOTE
+       =================================================== -->
+
+  <div class="section">
+  <b>Note:</b>
+</div>
+
+<div class="note-check">
+  ☑ *I hereby declare that the above mentioned information is furnished on best of my knowledge.
+  If information &amp; declaration is found false, I am liable for prosecution.
+</div>
+
+<div class="note-check">
+  ☑ I don’t belong to SC, ST and OBC Caste.
+</div>
+
+  <p class="red">
+    * Represents all the fields are mandatory.
+  </p>
+
+
+  <!-- ===================================================
+       SIGNATURE
+       =================================================== -->
+
+  <div class="sign">
+
+    <span>
+
+      Date:
+
+      <span class="line">
+        {{ews_date}}
+      </span>
+
+    </span>
+
+
+    <span>
+      Signature of the Applicant
+    </span>
+
+  </div>
+
+
+</div>
+
+
+</body>
+</html>

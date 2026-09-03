@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Caste & Integrated Certificate</title>
+
+  <style>
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      color: #111;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    body {
+      font-size: 12px;
+      line-height: 1.28;
+    }
+
+    /* =====================================================
+   PAGE 1 - A4
+   ===================================================== */
+
+.page1 {
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  padding: 8mm 13mm 7mm 13mm;
+  overflow: hidden;
+  background: white;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.page1 .logo-area {
+  width: 100%;
+  height: 27mm;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+.page1 .logo-area img {
+  width: 75px !important;
+  height: 55px !important;
+
+  max-width: 75px !important;
+  max-height: 55px !important;
+
+  object-fit: contain !important;
+
+  display: block !important;
+
+  margin: 0 auto !important;
+}
+
+
+
+/* Government heading */
+
+.page1 .gov-title {
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  line-height: 1.3;
+
+  margin: 2mm 0 0 0;
+  padding: 0;
+}
+
+
+/* Form number */
+
+.page1 .form-number {
+  text-align: center;
+
+  font-size: 13px;
+  font-weight: bold;
+
+  line-height: 1.3;
+
+  margin: 2.5mm 0 5mm 0;
+  padding: 0;
+}
+
+
+/* =====================================================
+   COMMON LINE
+   ===================================================== */
+
+.line {
+  display: inline-block;
+
+  border-bottom: 1px dotted #111;
+
+  min-width: 35mm;
+  height: 5mm;
+
+  vertical-align: bottom;
+
+  padding: 0 1mm;
+
+  white-space: nowrap;
+}
+
+.line-sm {
+  min-width: 22mm;
+}
+
+.line-md {
+  min-width: 42mm;
+}
+
+.line-lg {
+  min-width: 65mm;
+}
+
+.line-xl {
+  min-width: 95mm;
+}
+
+
+/* =====================================================
+   ADDRESS / INTRO
+   ===================================================== */
+
+.page1 .address-block {
+  margin-top: 3mm;
+  margin-bottom: 4mm;
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+
+.page1 .intro {
+  margin-top: 3mm;
+  margin-bottom: 4mm;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+.intro-center {
+  text-align: center;
+
+  margin: 3mm 0;
+
+  font-weight: bold;
+
+  font-size: 12px;
+}
+
+
+/* =====================================================
+   QUESTION ROWS
+   ===================================================== */
+
+.page1 .question {
+  display: grid;
+
+  grid-template-columns: 78mm 1fr;
+
+  column-gap: 5mm;
+
+  margin-top: 4mm;
+
+  min-height: 9mm;
+
+  align-items: end;
+}
+
+
+.page1 .question-text {
+  font-size: 13px !important;
+
+  font-weight: normal;
+
+  line-height: 1.5 !important;
+}
+
+
+.page1 .question-answer {
+  border-bottom: 1px dotted #111;
+
+  min-height: 7mm;
+
+  padding-left: 1mm;
+  padding-right: 1mm;
+
+  font-size: 13px;
+
+  line-height: 1.3;
+}
+
+
+/* =====================================================
+   WIDE QUESTION
+   ===================================================== */
+
+.question-wide {
+  grid-template-columns: 1fr;
+}
+
+
+.question-wide .question-answer {
+  margin-top: 1mm;
+}
+
+
+/* =====================================================
+   MULTI-LINE QUESTIONS 5, 6, 7
+   ===================================================== */
+
+.page1 .multi {
+  display: grid;
+
+  grid-template-columns: 78mm 1fr;
+
+  column-gap: 5mm;
+
+  align-items: end;
+
+  min-height: 0;
+}
+
+
+.page1 .multi .question-text {
+  font-size: 13px !important;
+
+  line-height: 1.55 !important;
+
+  align-self: end;
+}
+
+
+.page1 .multi .question-answer {
+  min-height: 6mm;
+
+  align-self: end;
+
+  border-bottom: 1px dotted #111;
+
+  padding: 0 1mm;
+
+  line-height: 1.2;
+}
+
+
+/* =====================================================
+   EXTRA SPACE BETWEEN 5 / 6 / 7
+   ===================================================== */
+
+.page1 .question.q5 {
+  margin-top: 5mm;
+}
+
+.page1 .question.q6 {
+  margin-top: 6mm;
+}
+
+.page1 .question.q7 {
+  margin-top: 6mm;
+}
+
+/* =====================================================
+   ANSWER LINES
+   ===================================================== */
+
+.answer-lines {
+  border-bottom: 1px dotted #111;
+
+  min-height: 6mm;
+
+  margin-bottom: 2mm;
+}
+
+
+/* =====================================================
+   BOTTOM IDENTIFICATION
+   ===================================================== */
+
+.identity-block {
+  margin-top: 5mm;
+}
+
+
+.identity-row {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 20mm;
+
+  min-height: 9mm;
+
+  align-items: end;
+
+  font-size: 12px;
+}
+
+
+.identity-row.single {
+  grid-template-columns: 1fr;
+}
+
+   /* =====================================================
+   PAGE 2 - MATCH REFERENCE A4 SIZE
+   ===================================================== */
+
+.page2 {
+  padding: 7mm 13mm 6mm 13mm;
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   #2#
+   ===================================================== */
+
+.page2-top {
+  text-align: center;
+  font-size: 12px;
+  height: 6mm;
+  margin-bottom: 3mm;
+}
+
+
+/* =====================================================
+   QUESTIONS 8 - 13
+   ===================================================== */
+
+.page2 .question {
+  display: grid;
+  grid-template-columns: 80mm 1fr;
+  column-gap: 6mm;
+
+  margin-top: 3mm;
+  min-height: 9mm;
+
+  align-items: end;
+}
+
+.page2 .question-text {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.page2 .question-answer {
+  border-bottom: 1px dotted #111;
+
+  min-height: 6.5mm;
+
+  padding: 0 1mm;
+
+  font-size: 12.5px;
+  line-height: 1.25;
+}
+
+
+/* =====================================================
+   MULTI-LINE QUESTIONS
+   ===================================================== */
+
+.page2 .multi {
+  align-items: start;
+  min-height: 17mm;
+}
+
+.page2 .multi .question-answer {
+  min-height: 7mm;
+}
+
+
+/* =====================================================
+   CONTINUATION ROW
+   ===================================================== */
+
+.page2 .continuation {
+  display: grid;
+  grid-template-columns: 80mm 1fr;
+  column-gap: 6mm;
+
+  min-height: 8mm;
+}
+
+.page2 .continuation .question-answer {
+  border-bottom: 1px dotted #111;
+  min-height: 6.5mm;
+}
+
+
+/* =====================================================
+   DECLARATION
+   ===================================================== */
+
+.declaration {
+  margin-top: 6mm;
+
+  font-size: 12.5px;
+  line-height: 1.55;
+
+  text-align: justify;
+}
+
+.declaration-title {
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  margin-bottom: 3mm;
+}
+
+
+/* =====================================================
+   PLACE / DATE / SIGNATURE
+   ===================================================== */
+
+.signature-area {
+  margin-top: 6mm;
+}
+
+.signature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  column-gap: 12mm;
+
+  align-items: start;
+}
+
+.signature-box {
+  font-size: 12px;
+  min-height: 8mm;
+}
+
+
+/* =====================================================
+   ATTACHED DOCUMENTS
+   ===================================================== */
+
+.documents {
+  margin-top: 6mm;
+}
+
+.documents-title {
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: underline;
+
+  margin-bottom: 3mm;
+}
+
+.document-row {
+  display: grid;
+  grid-template-columns: 1fr 55mm;
+
+  column-gap: 8mm;
+
+  min-height: 9mm;
+
+  align-items: start;
+}
+
+.document-number {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.document-answer {
+  border-bottom: 1px dotted #111;
+
+  min-height: 6mm;
+
+  font-size: 11.5px;
+}
+
+
+/* =====================================================
+   BOTTOM OFFICER / CONTACT
+   ===================================================== */
+
+.officer-area {
+  margin-top: 6mm;
+}
+
+.officer-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 18mm;
+
+  min-height: 8mm;
+
+  align-items: end;
+
+  font-size: 11.5px;
+}
+
+.officer-row .line {
+  display: inline-block;
+
+  min-width: 27mm;
+
+  border-bottom: 1px dotted #111;
+
+  height: 5mm;
+
+  vertical-align: bottom;
+}
+
+
+/* =====================================================
+   FOOTNOTE
+   ===================================================== */
+
+.footnote {
+  margin-top: 3mm;
+
+  font-size: 9px;
+  line-height: 1.25;
+}
+
+/* =====================================================
+   FORCE EVERY NEW .page TO START ON NEW A4 PAGE
+   ===================================================== */
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  padding: 12mm 13mm 10mm 13mm;
+  overflow: hidden;
+  background: white;
+
+  break-after: page;
+  page-break-after: always;
+}
+
+.page:first-child {
+  break-before: auto;
+  page-break-before: auto;
+}
+
+.page + .page {
+  break-before: page !important;
+  page-break-before: always !important;
+}
+
+/* =====================================================
+   EXTRA SPACE FOR QUESTIONS 5, 6 AND 7
+   ===================================================== */
+
+.page1 .question.q5 {
+  margin-top: 7mm;
+  min-height: 18mm;
+}
+
+.page1 .question.q6 {
+  margin-top: 7mm;
+  min-height: 18mm;
+}
+
+.page1 .question.q7 .question-text {
+  line-height: 5;
+}
+    /* =====================================================
+       PRINT
+       ===================================================== */
+
+    @media print {
+      html,
+      body {
+        width: 210mm;
+        height: auto;
+      }
+
+      .page {
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PAGE 1
+     ===================================================== -->
+
+<div class="page page1">
+
+  <!-- =================================================
+       HEADER
+       ================================================= -->
+
+  <div class="logo-area">
+
+    <img
+      src="file:///E:/late_birth_html/backend/templates/meeseva-logo.png"
+    >
+
+  </div>
+
+
+  <div class="gov-title">
+    ఆంధ్రప్రదేశ్ ప్రభుత్వం
+  </div>
+
+
+  <div class="form-number">
+    ఫారం - 2
+    <span style="font-size:13px;">
+      (నియమం - 5)
+    </span>
+  </div>
+
+
+  <!-- =================================================
+       ADDRESS
+       ================================================= -->
+
+  <div class="address-block">
+
+    నాకు<br>
+
+    ది తహసీల్దారు /
+    రెవెన్యూ డివిజనల్ అధికారి /
+    ఉప-కలెక్టర్
+
+    <span class="line line-lg">
+      {{mandal_division}}
+    </span>
+
+    మండలం / డివిజన్
+
+    <br>
+
+    <span class="line line-lg">
+      {{district}}
+    </span>
+
+    జిల్లా.
+
+  </div>
+
+
+  <!-- =================================================
+       INTRO
+       ================================================= -->
+
+  <div class="intro">
+
+    అయ్యా,
+
+  </div>
+
+
+  <div class="intro">
+
+    నాకు మరియు నా కుటుంబము / కుటుంబ సభ్యుల కులము మరియు వెనుకబడిన
+    తరగతుల కుల ధృవీకరణ పత్రము కొరకు క్రింది వివరములు సమర్పించుచున్నాను.
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 1
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      1. దరఖాస్తుదారుని పేరు
+    </div>
+
+    <div class="question-answer">
+      {{applicant_name}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 2
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      2. దరఖాస్తుదారుడు శ్రీ / పురుషుడా?
+    </div>
+
+    <div class="question-answer">
+      {{gender}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 3 - FATHER
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      3. అ) తండ్రి పేరు
+    </div>
+
+    <div class="question-answer">
+      {{father_name}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 3 - MOTHER
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      &nbsp;&nbsp;&nbsp;&nbsp;ఆ) తల్లి పేరు
+    </div>
+
+    <div class="question-answer">
+      {{mother_name}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 4
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      4. ప్రస్తుత చిరునామా
+    </div>
+
+    <div class="question-answer">
+      {{present_address}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 5
+       ================================================= -->
+
+  <div class="question multi q5">
+
+    <div class="question-text">
+
+      5. ధృవపత్రము కోరుతున్న దరఖాస్తుదారుడు మొదటి
+      నోటిఫికేషన్ ప్రకటించే తేదీ నాటికి ఎక్కడైతే షెడ్యూల్డు
+      కులములు మరియు వెనుకబడిన తరగతులు గా ప్రకటించబడినాదో
+      ఆ ప్రాంతములో దరఖాస్తుదారుడు అతని తల్లి,
+      తండ్రి/తాతలు యొక్క శాశ్వత చిరునామా
+
+    </div>
+
+    <div class="question-answer">
+      {{previous_caste_certificate}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 6
+       ================================================= -->
+
+  <div class="question multi q6">
+
+    <div class="question-text">
+
+      6. పుట్టిన తేదీ, వయస్సు మరియు పుట్టిన ప్రదేశము
+      (సరి అయిన పుట్టిన తేదీ తెలియనిచో వయస్సును బట్టి
+      పుట్టిన సంవత్సరము వ్రాయవలెను)
+
+    </div>
+
+    <div class="question-answer">
+      {{date_of_birth_age_birth_place}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       QUESTION 7
+       ================================================= -->
+
+  <div class="question multi q7">
+
+    <div class="question-text">
+
+      7. సాధారణ నివాసన స్థలము (ఇంటి పన్ను మరియు భూమి
+      ఇతర స్థిరాస్తులు /పుట్టిన తేదీ ధృవపత్రము/ రేషను
+      కార్డు/ ఆధార్ కార్డు నెం / పాఠశాల రికార్డులు మొదలైనవి
+      జతచేయవలెను)
+
+    </div>
+
+    <div class="question-answer">
+      {{ordinary_residence}}
+    </div>
+
+  </div>
+
+
+</div>
+
+<!-- =====================================================
+     PAGE 2
+     ===================================================== -->
+
+<div class="page page2">
+
+  <div class="page2-top">
+    #2#
+  </div>
+
+
+  <!-- =================================================
+       8
+       ================================================= -->
+
+  <div class="question multi">
+
+    <div class="question-text">
+      8. దరఖాస్తుదారునికి గతంలో జారీ చేయబడిన కుల
+      ధృవీకరణ పత్రము ఏ అధికారిచే జారీ చేయబడినదో
+      మరియు వివరములు
+    </div>
+
+    <div class="question-answer">
+      {{previous_caste_details}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       9
+       ================================================= -->
+
+  <div class="question multi">
+
+    <div class="question-text">
+      9. కులధృవీకరణ పత్రము ఏ కులమునకు చెందినదో
+      కావలెను. ఉపకులము మరియు ఉప సమూహముతో
+      సహా పూర్తి వివరములు తెలియచేయవలెను.
+    </div>
+
+    <div class="question-answer">
+      {{caste_details_line1}}
+    </div>
+
+  </div>
+
+
+  <div class="continuation">
+
+    <div></div>
+
+    <div class="question-answer">
+      {{caste_details_line2}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       10
+       ================================================= -->
+
+  <div class="question multi">
+
+    <div class="question-text">
+      10. అ) తండ్రియొక్క కులము
+      (ఉప కులము మరియు ఉప సమూహముతో సహా)
+    </div>
+
+    <div class="question-answer">
+      {{father_caste}}
+    </div>
+
+  </div>
+
+
+  <div class="question">
+
+    <div class="question-text">
+      &nbsp;&nbsp;&nbsp;&nbsp;ఆ) తల్లియొక్క కులము
+      (ఉప కులము మరియు ఉప సమూహముతో సహా)
+    </div>
+
+    <div class="question-answer">
+      {{mother_caste}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       11
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      11. దరఖాస్తుదారుడు ఏ మతమునకు చెందినవాడు
+    </div>
+
+    <div class="question-answer">
+      {{applicant_religion}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       12
+       ================================================= -->
+
+  <div class="question">
+
+    <div class="question-text">
+      12. అ) తండ్రి ఏ మతమునకు చెందినవాడు
+    </div>
+
+    <div class="question-answer">
+      {{father_religion}}
+    </div>
+
+  </div>
+
+
+  <div class="question">
+
+    <div class="question-text">
+      &nbsp;&nbsp;&nbsp;&nbsp;ఆ) తల్లి ఏ మతమునకు చెందినది
+    </div>
+
+    <div class="question-answer">
+      {{mother_religion}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       13
+       ================================================= -->
+
+  <div class="question multi">
+
+    <div class="question-text">
+      13. అతడు / ఆమె తల్లితండ్రులకు సహజంగా
+      జన్మించారా? లేక దత్తత కుమారుడు / దత్తత కుమార్తె
+      అయ్యి ఉన్నారా?
+    </div>
+
+    <div class="question-answer">
+      {{birth_or_adoption}}
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       DECLARATION
+       ================================================= -->
+
+  <div class="declaration">
+
+    <div class="declaration-title">
+      డిక్లరేషన్
+    </div>
+
+    <div>
+      దరఖాస్తులో నేను మరియు మా ద్వారా నిక్షిప్తం చేయబడిన సమాచారము అంతయు నిజము మరియు నిర్ధారితము. కుల 
+      ధృవీకరణ పత్రము కొరకు దరఖాస్తునకు జత చేయబడిన ఋజువు పత్రములు అన్నియు యదార్థమైనవి. అందలి విషయములు 
+      అన్నియూ కూడా యదార్థములు మరియు వాస్తవములు, పైన చెప్పబడిన వాటిలో ఏవైనా తప్పని తేలినచో 1993 సంవత్సరము చట్టం 
+      16లోని నియమము 10 ప్రకారం చట్ట పరమైన శిక్షకు బాధ్యుడు అగుదునని తెలియచేసుకొనుచున్నాను..
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+     PLACE / DATE / SIGNATURE
+     NO LINES
+     ================================================= -->
+
+<div class="signature-area">
+
+  <div class="signature-row">
+
+    <div class="signature-box">
+      స్థలం:
+    </div>
+
+    <div class="signature-box">
+      తల్లి / తండ్రి / సంరక్షుడు సంతకం
+    </div>
+
+    <div class="signature-box">
+      దరఖాస్తుదారుని సంతకం
+    </div>
+
+  </div>
+
+  <div class="signature-row">
+
+    <div class="signature-box">
+      తేదీ:
+    </div>
+
+    <div class="signature-box"></div>
+
+    <div class="signature-box"></div>
+
+  </div>
+
+</div>
+
+
+  <!-- =================================================
+       ATTACHED DOCUMENTS
+       ================================================= -->
+
+  <div class="documents">
+
+    <div class="documents-title">
+      దరఖాస్తుతో జతపరచవలసినవి
+    </div>
+
+
+    <div class="document-row">
+
+      <div class="document-number">
+        1. అప్లికేషన్ ఫారం
+      </div>
+
+      <div class="document-answer">
+        1. ల్యాండ్ ఫోన్ నెం. {{landline}}
+      </div>
+
+    </div>
+
+
+    <div class="document-row">
+
+      <div class="document-number">
+        2. దరఖాస్తుదారుని కుటుంబ సభ్యులు /
+        బంధువులు ఇంతకు పూర్వం పొందిన కుల
+        ధృవీకరణ నకలు#
+      </div>
+
+      <div class="document-answer">
+        2. మొబైల్ ఫోన్ నెం. {{mobile}}
+      </div>
+
+    </div>
+
+
+    <div class="document-row">
+
+      <div class="document-number">
+        3. స్కూలు బదిలి సర్టిఫికేట్ నకలు /
+        10 వ తరగతి మార్కులు జాబితా నకలు#
+      </div>
+
+      <div class="document-answer">
+        3. ఈ మెయిల్ ఐ.డి. {{email}}
+      </div>
+
+    </div>
+
+
+    <div class="document-row">
+
+      <div class="document-number">
+        4. 1 నుండి 10 తరగతి స్టడీ సర్టిఫికేట్
+        నకలు / పుట్టిన తేది నకలు#
+      </div>
+
+      <div></div>
+
+    </div>
+
+
+    <div class="document-row">
+
+      <div class="document-number">
+        5. షెడ్యూల్ 1 నుండి 4 వరకు (వంశ వృక్షము)#
+      </div>
+
+      <div></div>
+
+    </div>
+    <div class="document-row">
+
+      <div class="document-number">
+        6. రేషన్ కార్డు నకలు / ఆధార్ కార్డు నకలు / ఓటరు గుర్తింపు కార్డు నకలు#
+      </div>
+
+      <div></div>
+
+    </div>
+    
+    
+    <div class="document-row">
+
+      <div class="document-number">
+       (*ఖచ్చితముగా జతపరచవలెను. #- ఏదో ఒకటి ఖచ్చితముగా జత చేయవలెను) 
+      </div>
+
+      <div></div>
+
+    </div>
+  </div>
+  </div>
+
+  
+</div>
+
+
+</div>
+
+
+</body>
+</html>

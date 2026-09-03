@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/api-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Death Registration Affidavit</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:20px;
+  background:#fff;
+  color:#111;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:14px;
+}
+
+.container{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+}
+
+h1{
+  text-align:center;
+  margin:0 0 24px;
+  color:#173a61;
+  font-size:27px;
+  font-weight:700;
+}
+
+.section-title{
+  font-size:16px;
+  font-weight:700;
+  margin:0 0 14px;
+  padding-bottom:6px;
+  border-bottom:1px solid #d9d9d9;
+}
+
+.section{
+  margin-bottom:22px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:14px;
+  row-gap:16px;
+}
+
+.field{
+  width:100%;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #c7d3e1;
+  border-radius:5px;
+  background:#fff;
+  color:#111;
+  padding:9px 10px;
+  font-size:13px;
+  font-family:Arial,Helvetica,sans-serif;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#8eb1d7;
+}
+
+textarea{
+  min-height:78px;
+  resize:vertical;
+}
+
+.full{
+  grid-column:1 / -1;
+}
+
+.required{
+  color:#111;
+}
+
+.joint-person{
+  border:1px solid #e0e5eb;
+  border-radius:6px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.joint-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:12px;
+  color:#173a61;
+}
+
+.actions{
+  margin-top:25px;
+  padding-top:18px;
+  border-top:1px solid #ddd;
+  text-align:center;
+}
+
+button{
+  border:0;
+  border-radius:5px;
+  background:#173a61;
+  color:#fff;
+  padding:11px 24px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+#status{
+  margin-top:12px;
+  font-size:13px;
+}
+
+#result{
+  display:none;
+  margin-top:18px;
+  padding:16px;
+  border:1px solid #d8dfe7;
+  border-radius:6px;
+  text-align:center;
+}
+
+.download{
+  display:none;
+  margin:5px;
+  padding:9px 14px;
+  border-radius:5px;
+  background:#173a61;
+  color:#fff;
+  text-decoration:none;
+  font-size:13px;
+}
+
+@media(max-width:700px){
+  body{
+    padding:12px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  h1{
+    font-size:23px;
+  }
+}
+</style>
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+
+<div class="container">
+
+  <h1>Death Registration Affidavit</h1>
+
+  <form id="appForm">
+
+    <!-- ==============================================
+         DECEASED PERSON DETAILS
+         ============================================== -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Deceased Person Details
+      </div>
+
+      <div class="grid">
+
+        <div class="field">
+          <label for="deceasedName">
+            Deceased Name *
+          </label>
+          <input
+            type="text"
+            id="deceasedName"
+            name="deceasedName"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="deceasedSpouse">
+            Deceased Husband / Wife Name *
+          </label>
+          <input
+            type="text"
+            id="deceasedSpouse"
+            name="deceasedSpouse"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="dateOfDeath">
+            Date of Death *
+          </label>
+          <input
+            type="text"
+            id="dateOfDeath"
+            name="dateOfDeath"
+            placeholder="DD/MM/YYYY"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="causeOfDeath">
+            Cause of Death
+          </label>
+          <input
+            type="text"
+            id="causeOfDeath"
+            name="causeOfDeath"
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="deathHouse">
+            Death House Number *
+          </label>
+          <input
+            type="text"
+            id="deathHouse"
+            name="deathHouse"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="village">
+            Village *
+          </label>
+          <input
+            type="text"
+            id="village"
+            name="village"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="mandal">
+            Mandal *
+          </label>
+          <input
+            type="text"
+            id="mandal"
+            name="mandal"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="district">
+            District *
+          </label>
+          <input
+            type="text"
+            id="district"
+            name="district"
+            required
+            autocomplete="off">
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ==============================================
+         INDIVIDUAL AFFIDAVIT DEPONENT
+         ============================================== -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Individual Affidavit Deponent
+      </div>
+
+      <div class="grid">
+
+        <div class="field">
+          <label for="deponentName">
+            Deponent Name *
+          </label>
+          <input
+            type="text"
+            id="deponentName"
+            name="deponentName"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="deponentRelation">
+            Relation *
+          </label>
+          <select
+            id="deponentRelation"
+            name="deponentRelation"
+            required>
+            <option value="">Select</option>
+            <option value="S/O">S/O</option>
+            <option value="C/O">C/O</option>
+            <option value="D/O">D/O</option>
+            <option value="W/O">W/O</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="deponentAge">
+            Age *
+          </label>
+          <input
+            type="number"
+            id="deponentAge"
+            name="deponentAge"
+            min="1"
+            max="120"
+            required>
+        </div>
+
+        <div class="field">
+          <label for="deponentOccupation">
+            Occupation *
+          </label>
+          <input
+            type="text"
+            id="deponentOccupation"
+            name="deponentOccupation"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field full">
+          <label for="deponentAddress">
+            Deponent Address *
+          </label>
+          <textarea
+            id="deponentAddress"
+            name="deponentAddress"
+            required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="gramPanchayat">
+            Gram Panchayat *
+          </label>
+          <input
+            type="text"
+            id="gramPanchayat"
+            name="gramPanchayat"
+            required
+            autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="deathRegisterYear">
+            Death Register Year *
+          </label>
+          <input
+            type="text"
+            id="deathRegisterYear"
+            name="deathRegisterYear"
+            placeholder="YYYY"
+            required
+            autocomplete="off">
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ==============================================
+         JOINT AFFIDAVIT PERSONS
+         ============================================== -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Joint Affidavit Deponents
+      </div>
+
+
+      <div class="joint-person">
+        <div class="joint-title">1. Joint Deponent</div>
+        <div class="grid">
+
+          <div class="field">
+            <label for="joint1Name">Name *</label>
+            <input type="text" id="joint1Name" name="joint1Name" required>
+          </div>
+
+          <div class="field">
+            <label for="joint1Relation">Relation *</label>
+            <select id="joint1Relation" name="joint1Relation" required>
+              <option value="">Select</option>
+              <option value="S/O">S/O</option>
+              <option value="C/O">C/O</option>
+              <option value="D/O">D/O</option>
+              <option value="W/O">W/O</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="joint1Father">Father / Husband Name *</label>
+            <input type="text" id="joint1Father" name="joint1Father" required>
+          </div>
+
+          <div class="field">
+            <label for="joint1Age">Age *</label>
+            <input type="number" id="joint1Age" name="joint1Age" min="1" max="120" required>
+          </div>
+
+          <div class="field">
+            <label for="joint1Door">Door No. *</label>
+            <input type="text" id="joint1Door" name="joint1Door" required>
+          </div>
+
+          <div class="field">
+            <label for="joint1Village">Village *</label>
+            <input type="text" id="joint1Village" name="joint1Village" required>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="joint-person">
+        <div class="joint-title">2. Joint Deponent</div>
+        <div class="grid">
+          <div class="field"><label for="joint2Name">Name *</label><input type="text" id="joint2Name" name="joint2Name" required></div>
+          <div class="field"><label for="joint2Relation">Relation *</label><select id="joint2Relation" name="joint2Relation" required><option value="">Select</option><option value="S/O">S/O</option><option value="C/O">C/O</option><option value="D/O">D/O</option><option value="W/O">W/O</option></select></div>
+          <div class="field"><label for="joint2Father">Father / Husband Name *</label><input type="text" id="joint2Father" name="joint2Father" required></div>
+          <div class="field"><label for="joint2Age">Age *</label><input type="number" id="joint2Age" name="joint2Age" min="1" max="120" required></div>
+          <div class="field"><label for="joint2Door">Door No. *</label><input type="text" id="joint2Door" name="joint2Door" required></div>
+          <div class="field"><label for="joint2Village">Village *</label><input type="text" id="joint2Village" name="joint2Village" required></div>
+        </div>
+      </div>
+
+
+      <div class="joint-person">
+        <div class="joint-title">3. Joint Deponent</div>
+        <div class="grid">
+          <div class="field"><label for="joint3Name">Name *</label><input type="text" id="joint3Name" name="joint3Name" required></div>
+          <div class="field"><label for="joint3Relation">Relation *</label><select id="joint3Relation" name="joint3Relation" required><option value="">Select</option><option value="S/O">S/O</option><option value="C/O">C/O</option><option value="D/O">D/O</option><option value="W/O">W/O</option></select></div>
+          <div class="field"><label for="joint3Father">Father / Husband Name *</label><input type="text" id="joint3Father" name="joint3Father" required></div>
+          <div class="field"><label for="joint3Age">Age *</label><input type="number" id="joint3Age" name="joint3Age" min="1" max="120" required></div>
+          <div class="field"><label for="joint3Door">Door No. *</label><input type="text" id="joint3Door" name="joint3Door" required></div>
+          <div class="field"><label for="joint3Village">Village *</label><input type="text" id="joint3Village" name="joint3Village" required></div>
+        </div>
+      </div>
+
+
+      <div class="joint-person">
+        <div class="joint-title">4. Joint Deponent</div>
+        <div class="grid">
+          <div class="field"><label for="joint4Name">Name *</label><input type="text" id="joint4Name" name="joint4Name" required></div>
+          <div class="field"><label for="joint4Relation">Relation *</label><select id="joint4Relation" name="joint4Relation" required><option value="">Select</option><option value="S/O">S/O</option><option value="C/O">C/O</option><option value="D/O">D/O</option><option value="W/O">W/O</option></select></div>
+          <div class="field"><label for="joint4Father">Father / Husband Name *</label><input type="text" id="joint4Father" name="joint4Father" required></div>
+          <div class="field"><label for="joint4Age">Age *</label><input type="number" id="joint4Age" name="joint4Age" min="1" max="120" required></div>
+          <div class="field"><label for="joint4Door">Door No. *</label><input type="text" id="joint4Door" name="joint4Door" required></div>
+          <div class="field"><label for="joint4Village">Village *</label><input type="text" id="joint4Village" name="joint4Village" required></div>
+        </div>
+      </div>
+
+
+      <div class="joint-person">
+        <div class="joint-title">5. Joint Deponent</div>
+        <div class="grid">
+          <div class="field"><label for="joint5Name">Name *</label><input type="text" id="joint5Name" name="joint5Name" required></div>
+          <div class="field"><label for="joint5Relation">Relation *</label><select id="joint5Relation" name="joint5Relation" required><option value="">Select</option><option value="S/O">S/O</option><option value="C/O">C/O</option><option value="D/O">D/O</option><option value="W/O">W/O</option></select></div>
+          <div class="field"><label for="joint5Father">Father / Husband Name *</label><input type="text" id="joint5Father" name="joint5Father" required></div>
+          <div class="field"><label for="joint5Age">Age *</label><input type="number" id="joint5Age" name="joint5Age" min="1" max="120" required></div>
+          <div class="field"><label for="joint5Door">Door No. *</label><input type="text" id="joint5Door" name="joint5Door" required></div>
+          <div class="field"><label for="joint5Village">Village *</label><input type="text" id="joint5Village" name="joint5Village" required></div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+      <button type="submit">
+        Generate Affidavit PDFs
+      </button>
+
+      <div id="status"></div>
+
+      <div id="result">
+        <div style="font-weight:700;margin-bottom:8px;">
+          Affidavit PDFs Generated
+        </div>
+
+        <a
+          id="individualDownload"
+          class="download"
+          target="_blank">
+          Download Individual Affidavit
+        </a>
+
+        <a
+          id="jointDownload"
+          class="download"
+          target="_blank">
+          Download Joint Affidavit
+        </a>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script src="/forms/death-affidavit.js"></script>
+
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

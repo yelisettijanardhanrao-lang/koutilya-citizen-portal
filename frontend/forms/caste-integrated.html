@@ -1,0 +1,2227 @@
+<!doctype html>
+<html lang="en">
+
+<head><script src="/api-config.js"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Caste / Integrated Certificate</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:18px;
+  background:#f3f4f6;
+  font-family:Arial,sans-serif;
+  color:#111827;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:14px;
+  text-decoration:none;
+  color:#164e63;
+  border:1px solid #164e63;
+  padding:7px 12px;
+  border-radius:5px;
+  font-size:13px;
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:24px;
+}
+
+.subtitle{
+  margin:0 0 18px;
+  color:#4b5563;
+  font-size:13px;
+}
+
+.section{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid #ddd;
+}
+
+.section h2{
+  font-size:16px;
+  margin:0 0 14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px 14px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.field{
+  width:100%;
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:5px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid #9ca3af;
+  border-radius:5px;
+  background:#fff;
+  font:13px Arial;
+  color:#111827;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  outline:none;
+  border-color:#2563eb;
+}
+
+textarea{
+  min-height:75px;
+  resize:vertical;
+}
+
+.help{
+  margin-top:5px;
+  font-size:11px;
+  color:#6b7280;
+  line-height:1.35;
+}
+
+.button-row{
+  margin-top:24px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+button{
+  padding:11px 20px;
+  background:#166534;
+  color:#fff;
+  border:0;
+  border-radius:5px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#14532d;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.success{
+  color:#166534;
+}
+
+.error{
+  color:#b91c1c;
+}
+
+.loading{
+  color:#92400e;
+}
+
+@media(max-width:700px){
+
+  body{
+    padding:8px;
+  }
+
+  .container{
+    padding:15px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  h1{
+    font-size:20px;
+  }
+
+}
+
+</style>
+
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+
+
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+
+<div class="container">
+
+
+<a
+  class="back"
+  href="index.html"
+>
+  ← Back to MeeSeva Applications
+</a>
+
+
+<h1>
+  Caste / Integrated Certificate
+</h1>
+
+
+<p class="subtitle">
+  Caste / Integrated certificate application based on the supplied
+  two-page reference application.
+</p>
+
+
+
+<form id="appForm">
+
+
+<!-- =====================================================
+     BASIC APPLICATION DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Caste & Integrated Certificate /
+  కుల మరియు సమగ్ర ధృవీకరణ పత్రం
+</h2>
+
+
+<div class="grid">
+
+
+<!-- Mandal / Division -->
+
+<div class="field">
+
+<label>
+  Mandal / Division / మండలం / డివిజన్
+</label>
+
+<select
+  name="mandalDivision"
+  id="mandalDivision"
+>
+
+<option value="">
+  Select Mandal / Division / మండలం / డివిజన్ ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- District -->
+
+<div class="field">
+
+<label>
+  District / జిల్లా
+</label>
+
+<select
+  name="district"
+  id="district"
+>
+
+<option value="">
+  Select District / జిల్లా ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- Applicant Name -->
+
+<div class="field">
+
+<label>
+  Applicant Name / దరఖాస్తుదారుని పేరు
+</label>
+
+<input
+  type="text"
+  name="applicantName"
+>
+
+</div>
+
+
+<!-- Gender -->
+
+<div class="field">
+
+<label>
+  Gender / లింగం
+</label>
+
+<select
+  name="gender"
+>
+
+<option value="">
+  Select Gender / లింగం ఎంచుకోండి
+</option>
+
+<option value="Male">
+  Male / పురుషుడు
+</option>
+
+<option value="Female">
+  Female / స్త్రీ
+</option>
+
+<option value="Other">
+  Other / ఇతరులు
+</option>
+
+</select>
+
+</div>
+
+
+<!-- Father -->
+
+<div class="field">
+
+<label>
+  Father Name / తండ్రి పేరు
+</label>
+
+<input
+  type="text"
+  name="fatherName"
+>
+
+</div>
+
+
+<!-- Mother -->
+
+<div class="field">
+
+<label>
+  Mother Name / తల్లి పేరు
+</label>
+
+<input
+  type="text"
+  name="motherName"
+>
+
+</div>
+
+
+<!-- Village -->
+
+<div class="field">
+
+<label>
+  Village / గ్రామం
+</label>
+
+<select
+  name="village"
+  id="village"
+  disabled
+>
+
+<option value="">
+  Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- Present Address -->
+
+<div class="field full">
+
+<label>
+  Present Address / ప్రస్తుత చిరునామా
+</label>
+
+<textarea
+  name="presentAddress"
+></textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PERMANENT ADDRESS - QUESTION 5
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Permanent Address / శాశ్వత చిరునామా
+</h2>
+
+
+<p class="help">
+
+The applicant seeking the certificate must have the permanent
+address of himself, his mother, father/grandfathers in the area
+where they were declared as Scheduled Castes and Backward Classes
+by the date of publication of the first notification.
+
+<br><br>
+
+ధృవపత్రము కోరుతున్న దరఖాస్తుదారుడు మొదటి నోటిఫికేషన్ ప్రకటించే
+తేదీ నాటికి ఎక్కడైతే షెడ్యూల్డు కులములు మరియు వెనుకబడిన తరగతులు
+గా ప్రకటించబడినారో ఆ ప్రాంతములో దరఖాస్తుదారుడు, అతని తల్లి,
+తండ్రి/తాతలు యొక్క శాశ్వత చిరునామా.
+
+</p>
+
+
+<div class="grid">
+
+
+<div class="field full">
+
+<label>
+  Permanent Address - Line 1 /
+  శాశ్వత చిరునామా - 1
+</label>
+
+<input
+  type="text"
+  name="permanentAddress1"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Permanent Address - Line 2 /
+  శాశ్వత చిరునామా - 2
+</label>
+
+<input
+  type="text"
+  name="permanentAddress2"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Permanent Address - Line 3 /
+  శాశ్వత చిరునామా - 3
+</label>
+
+<input
+  type="text"
+  name="permanentAddress3"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Permanent Address - Line 4 /
+  శాశ్వత చిరునామా - 4
+</label>
+
+<input
+  type="text"
+  name="permanentAddress4"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 6
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Date of Birth, Age and Place of Birth /
+  పుట్టిన తేదీ, వయస్సు మరియు పుట్టిన ప్రదేశము
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+  Date of Birth / పుట్టిన తేదీ
+</label>
+
+<input
+  type="text"
+  name="dateOfBirth"
+  placeholder="DD/MM/YYYY"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Age / వయస్సు
+</label>
+
+<input
+  type="number"
+  name="age"
+  min="0"
+  max="150"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Place of Birth / పుట్టిన ప్రదేశము
+</label>
+
+<input
+  type="text"
+  name="placeOfBirth"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 7
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Ordinary Place of Residence /
+  సాధారణ నివాసన స్థలము
+</h2>
+
+
+<p class="help">
+
+House tax and land, other immovable assets / Date of birth
+certificate / Ration card / Aadhaar card number / School records
+etc. must be attached.
+
+<br><br>
+
+ఇంటి పన్ను మరియు భూమి ఇతర స్థిరాస్తులు / పుట్టిన తేదీ ధృవపత్రము /
+రేషను కార్డు / ఆధార్ కార్డు నెం / పాఠశాల రికార్డులు మొదలైనవి
+జతచేయవలెను.
+
+</p>
+
+
+<div class="grid">
+
+
+<div class="field full">
+
+<label>
+  Ordinary Residence - Line 1 /
+  సాధారణ నివాసన స్థలము - 1
+</label>
+
+<input
+  type="text"
+  name="ordinaryResidence1"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Ordinary Residence - Line 2 /
+  సాధారణ నివాసన స్థలము - 2
+</label>
+
+<input
+  type="text"
+  name="ordinaryResidence2"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Ordinary Residence - Line 3 /
+  సాధారణ నివాసన స్థలము - 3
+</label>
+
+<input
+  type="text"
+  name="ordinaryResidence3"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 8
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Previous Caste Certificate /
+  గతంలో జారీ చేయబడిన కుల ధృవీకరణ పత్రము
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field full">
+
+<label>
+  Previous Caste Certificate Details /
+  గతంలో జారీ చేయబడిన కుల ధృవీకరణ పత్రము వివరములు
+</label>
+
+<textarea
+  name="previousCasteCertificate"
+></textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 9
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Caste / Sub-caste / Sub-group /
+  కులము / ఉపకులము / ఉప సమూహము
+</h2>
+
+
+<p class="help">
+
+It must be stated which caste the caste certificate is required
+for. Complete details must be provided, including the sub-caste
+and sub-group.
+
+<br><br>
+
+కులధృవీకరణ పత్రము ఏ కులమునకు చెందినదో కావలెను. ఉపకులము మరియు
+ఉప సమూహముతో సహా పూర్తి వివరములు తెలియచేయవలెను.
+
+</p>
+
+
+<div class="grid">
+
+
+<div class="field full">
+
+<label>
+  Caste Details - Line 1 /
+  కుల వివరాలు - 1
+</label>
+
+<input
+  type="text"
+  name="casteDetails1"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+  Caste Details - Line 2 /
+  కుల వివరాలు - 2
+</label>
+
+<input
+  type="text"
+  name="casteDetails2"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 10
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Father's / Mother's Caste /
+  తండ్రి / తల్లి యొక్క కులము
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+  Father's Caste /
+  తండ్రి యొక్క కులము
+</label>
+
+<input
+  type="text"
+  name="fatherCaste"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Mother's Caste /
+  తల్లి యొక్క కులము
+</label>
+
+<input
+  type="text"
+  name="motherCaste"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 11
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Applicant's Religion /
+  దరఖాస్తుదారుడు ఏ మతమునకు చెందినవాడు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+  Applicant's Religion /
+  దరఖాస్తుదారుడు ఏ మతమునకు చెందినవాడు
+</label>
+
+<input
+  type="text"
+  name="applicantReligion"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 12
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Father's / Mother's Religion /
+  తండ్రి / తల్లి మతము
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+  Father's Religion /
+  తండ్రి ఏ మతమునకు చెందినవాడు
+</label>
+
+<input
+  type="text"
+  name="fatherReligion"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Mother's Religion /
+  తల్లి ఏ మతమునకు చెందినది
+</label>
+
+<input
+  type="text"
+  name="motherReligion"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION 13
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Natural Birth / Adoption /
+  సహజ జననం / దత్తత
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field full">
+
+<label>
+  Was he/she born naturally to the parents?
+  Or are they an adopted son / adopted daughter? /
+  అతడు / ఆమె తల్లితండ్రులకు సహజంగా జన్మించారా?
+  లేక దత్తత కుమారుడు / దత్తత కుమార్తె అయ్యి ఉన్నారా?
+</label>
+
+<select
+  name="birthOrAdoption"
+>
+
+<option value="">
+  Select / ఎంచుకోండి
+</option>
+
+<option value="Naturally born">
+  Naturally Born / సహజంగా జన్మించారు
+</option>
+
+<option value="Adopted Son">
+  Adopted Son / దత్తత కుమారుడు
+</option>
+
+<option value="Adopted Daughter">
+  Adopted Daughter / దత్తత కుమార్తె
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DECLARATION / CONTACT / SIGNATURE
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Declaration / డిక్లరేషన్
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+  Place / స్థలం
+</label>
+
+<input
+  type="text"
+  name="place"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Date / తేదీ
+</label>
+
+<input
+  type="text"
+  name="date"
+  placeholder="DD/MM/YYYY"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Mother / Father / Guardian Signature /
+  తల్లి / తండ్రి / సంరక్షకుని సంతకం
+</label>
+
+<input
+  type="text"
+  name="parentGuardianSignature"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Applicant Signature /
+  దరఖాస్తుదారుని సంతకం
+</label>
+
+<input
+  type="text"
+  name="applicantSignature"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CONTACT DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+  Contact Details / సంప్రదింపు వివరాలు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+  Landline Phone No. / ల్యాండ్ ఫోన్ నెం.
+</label>
+
+<input
+  type="tel"
+  name="landline"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  Mobile Phone No. / మొబైల్ ఫోన్ నెం.
+</label>
+
+<input
+  type="tel"
+  name="mobile"
+  maxlength="10"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+  E-Mail ID / ఈ మెయిల్ ఐ.డి.
+</label>
+
+<input
+  type="email"
+  name="email"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DOWNLOAD
+     ===================================================== -->
+
+<div class="button-row">
+
+<button
+  type="submit"
+  id="downloadButton"
+>
+  Download Application PDF
+</button>
+
+<span id="status"></span>
+
+</div>
+
+
+</form>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   CASTE / INTEGRATED CERTIFICATE
+   DISTRICT → MANDAL → VILLAGE
+   FINAL DROPDOWN SCRIPT
+   ===================================================== */
+
+
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
+
+const districtSelect =
+  document.getElementById("district");
+
+const mandalSelect =
+  document.getElementById("mandalDivision");
+
+const villageSelect =
+  document.getElementById("village");
+
+
+/* =====================================================
+   28 ANDHRA PRADESH DISTRICTS
+   ===================================================== */
+
+const districts = [
+  "Alluri Sitharama Raju",
+  "Anakapalli",
+  "Ananthapuramu",
+  "Annamayya",
+  "Bapatla",
+  "Chittoor",
+  "Dr. B.R. Ambedkar Konaseema",
+  "East Godavari",
+  "Eluru",
+  "Guntur",
+  "Kakinada",
+  "Krishna",
+  "Kurnool",
+  "Markapuram",
+  "Nandyal",
+  "NTR",
+  "Palnadu",
+  "Parvathipuram Manyam",
+  "Polavaram",
+  "Prakasam",
+  "Sri Potti Sriramulu Nellore",
+  "Sri Sathya Sai",
+  "Srikakulam",
+  "Tirupati",
+  "Visakhapatnam",
+  "Vizianagaram",
+  "West Godavari",
+  "YSR Kadapa"
+];
+
+
+/* =====================================================
+   LOCATION DATA
+   ===================================================== */
+
+let locationData = [];
+
+let locationLoaded = false;
+
+
+/* =====================================================
+   BASIC CLEANING
+   ===================================================== */
+
+function clean(value) {
+
+  return String(value || "")
+    .replace(/^\uFEFF/, "")
+    .trim();
+
+}
+
+
+/* =====================================================
+   NORMALIZE TEXT
+   ===================================================== */
+
+function normalize(value) {
+
+  return clean(value)
+    .toLowerCase()
+    .replace(/[._\-\s]+/g, "");
+
+}
+
+
+/* =====================================================
+   CSV PARSER
+   ===================================================== */
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+
+  let value = "";
+
+  let quoted = false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char = text[i];
+
+    const next = text[i + 1];
+
+
+    /* Quoted comma */
+
+    if (
+      char === "," &&
+      quoted
+    ) {
+
+      value += char;
+
+      continue;
+
+    }
+
+
+    /* Quote */
+
+    if (char === '"') {
+
+      if (
+        quoted &&
+        next === '"'
+      ) {
+
+        value += '"';
+
+        i++;
+
+      }
+      else {
+
+        quoted = !quoted;
+
+      }
+
+      continue;
+
+    }
+
+
+    /* Comma */
+
+    if (
+      char === "," &&
+      !quoted
+    ) {
+
+      row.push(value);
+
+      value = "";
+
+      continue;
+
+    }
+
+
+    /* New line */
+
+    if (
+      (char === "\n" || char === "\r") &&
+      !quoted
+    ) {
+
+      if (
+        char === "\r" &&
+        next === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(value);
+
+      value = "";
+
+
+      if (
+        row.some(
+          cell => clean(cell) !== ""
+        )
+      ) {
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+
+      continue;
+
+    }
+
+
+    value += char;
+
+  }
+
+
+  /* Last row */
+
+  if (
+    value !== "" ||
+    row.length > 0
+  ) {
+
+    row.push(value);
+
+    rows.push(row);
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* =====================================================
+   FIND COLUMN
+   ===================================================== */
+
+function findColumn(headers, possibleNames) {
+
+  for (
+    const name of possibleNames
+  ) {
+
+    const wanted =
+      normalize(name);
+
+
+    const index =
+      headers.findIndex(
+        header =>
+          normalize(header) === wanted
+      );
+
+
+    if (index !== -1) {
+
+      return index;
+
+    }
+
+  }
+
+
+  return -1;
+
+}
+
+
+/* =====================================================
+   LOAD DISTRICTS IMMEDIATELY
+   ===================================================== */
+
+function loadDistricts() {
+
+  districtSelect.innerHTML = `
+    <option value="">
+      Select District / జిల్లా ఎంచుకోండి
+    </option>
+  `;
+
+
+  districts.forEach(
+    function(district) {
+
+      const option =
+        document.createElement("option");
+
+
+      option.value =
+        district;
+
+
+      option.textContent =
+        district;
+
+
+      districtSelect.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  districtSelect.disabled = false;
+
+}
+
+
+/* =====================================================
+   INITIAL MANDAL / VILLAGE
+   ===================================================== */
+
+function resetMandal() {
+
+  mandalSelect.innerHTML = `
+    <option value="">
+      Select Mandal / మండలం ఎంచుకోండి
+    </option>
+  `;
+
+
+  mandalSelect.disabled = true;
+
+}
+
+
+function resetVillage() {
+
+  villageSelect.innerHTML = `
+    <option value="">
+      Select Village / గ్రామం ఎంచుకోండి
+    </option>
+  `;
+
+
+  villageSelect.disabled = true;
+
+}
+
+
+/* =====================================================
+   LOAD LOCAL CSV
+   ===================================================== */
+
+async function loadLocationData() {
+
+  console.log(
+    "Loading AP District / Mandal / Village data..."
+  );
+
+
+  try {
+
+    const response =
+      await fetch(
+  "/api/locations",
+  {
+    cache: "no-store"
+  }
+)
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "CSV file not found. HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    if (!text.trim()) {
+
+      throw new Error(
+        "CSV file is empty."
+      );
+
+    }
+
+
+    const rows =
+      parseCSV(text);
+
+
+    if (rows.length < 2) {
+
+      throw new Error(
+        "CSV contains no data."
+      );
+
+    }
+
+
+    /* =================================================
+       HEADERS
+       ================================================= */
+
+    const headers =
+      rows[0].map(
+        clean
+      );
+
+
+    console.log(
+      "CSV Headers:",
+      headers
+    );
+
+
+    /* =================================================
+       FIND DISTRICT COLUMN
+       ================================================= */
+
+    const districtIndex =
+      findColumn(
+        headers,
+        [
+          "District",
+          "District Name",
+          "district_name",
+          "districtname"
+        ]
+      );
+
+
+    /* =================================================
+       FIND MANDAL COLUMN
+       ================================================= */
+
+    const mandalIndex =
+      findColumn(
+        headers,
+        [
+          "Mandal",
+          "Mandal Name",
+          "Sub District",
+          "Sub-District",
+          "Sub District Name",
+          "Taluk",
+          "Tehsil",
+          "mandal_name",
+          "mandalname"
+        ]
+      );
+
+
+    /* =================================================
+       FIND VILLAGE COLUMN
+       ================================================= */
+
+    const villageIndex =
+      findColumn(
+        headers,
+        [
+          "Village",
+          "Village Name",
+          "Village_Name",
+          "villagename"
+        ]
+      );
+
+
+    console.log(
+      "District column:",
+      districtIndex
+    );
+
+
+    console.log(
+      "Mandal column:",
+      mandalIndex
+    );
+
+
+    console.log(
+      "Village column:",
+      villageIndex
+    );
+
+
+    if (
+      districtIndex === -1 ||
+      mandalIndex === -1 ||
+      villageIndex === -1
+    ) {
+
+      throw new Error(
+        "Could not find District / Mandal / Village columns in CSV."
+      );
+
+    }
+
+
+    /* =================================================
+       BUILD LOCATION DATA
+       ================================================= */
+
+    locationData = [];
+
+
+    rows
+      .slice(1)
+      .forEach(
+        function(row) {
+
+          const district =
+            clean(
+              row[districtIndex]
+            );
+
+
+          const mandal =
+            clean(
+              row[mandalIndex]
+            );
+
+
+          const village =
+            clean(
+              row[villageIndex]
+            );
+
+
+          if (
+            district &&
+            mandal &&
+            village
+          ) {
+
+            locationData.push({
+
+              district:
+                district,
+
+              mandal:
+                mandal,
+
+              village:
+                village
+
+            });
+
+          }
+
+        }
+      );
+
+
+    /* =================================================
+       REMOVE DUPLICATES
+       ================================================= */
+
+    const unique =
+      new Map();
+
+
+    locationData.forEach(
+      function(item) {
+
+        const key =
+          item.district +
+          "||" +
+          item.mandal +
+          "||" +
+          item.village;
+
+
+        if (
+          !unique.has(key)
+        ) {
+
+          unique.set(
+            key,
+            item
+          );
+
+        }
+
+      }
+    );
+
+
+    locationData =
+      Array.from(
+        unique.values()
+      );
+
+
+    locationLoaded = true;
+
+
+    console.log(
+      "Location records loaded:",
+      locationData.length
+    );
+
+
+    console.log(
+      "AP location data ready."
+    );
+
+
+  }
+  catch(error) {
+
+    locationLoaded = false;
+
+
+    console.error(
+      "AP LOCATION DATA ERROR:",
+      error
+    );
+
+
+    console.error(
+      "Make sure this file exists:",
+      "andhra_pradesh_villages.csv"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   DISTRICT CHANGE
+   ===================================================== */
+
+districtSelect.addEventListener(
+  "change",
+  function() {
+
+    const district =
+      districtSelect.value;
+
+
+    resetMandal();
+
+    resetVillage();
+
+
+    if (!district) {
+
+      return;
+
+    }
+
+
+    if (!locationLoaded) {
+
+      mandalSelect.innerHTML = `
+        <option value="">
+          Location data not loaded
+        </option>
+      `;
+
+      return;
+
+    }
+
+
+    /* =================================================
+       GET MANDALS
+       ================================================= */
+
+    const mandalSet =
+      new Set();
+
+
+    locationData.forEach(
+      function(item) {
+
+        if (
+          normalize(item.district) ===
+          normalize(district)
+        ) {
+
+          mandalSet.add(
+            item.mandal
+          );
+
+        }
+
+      }
+    );
+
+
+    const mandals =
+      Array.from(
+        mandalSet
+      ).sort(
+        function(a, b) {
+
+          return a.localeCompare(
+            b
+          );
+
+        }
+      );
+
+
+    console.log(
+      "District selected:",
+      district
+    );
+
+
+    console.log(
+      "Mandals found:",
+      mandals.length
+    );
+
+
+    mandals.forEach(
+      function(mandal) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          mandal;
+
+
+        option.textContent =
+          mandal;
+
+
+        mandalSelect.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    if (
+      mandals.length > 0
+    ) {
+
+      mandalSelect.disabled =
+        false;
+
+    }
+    else {
+
+      mandalSelect.innerHTML = `
+        <option value="">
+          No Mandals Found
+        </option>
+      `;
+
+      mandalSelect.disabled =
+        true;
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   MANDAL CHANGE
+   ===================================================== */
+
+mandalSelect.addEventListener(
+  "change",
+  function() {
+
+    const district =
+      districtSelect.value;
+
+
+    const mandal =
+      mandalSelect.value;
+
+
+    resetVillage();
+
+
+    if (
+      !district ||
+      !mandal
+    ) {
+
+      return;
+
+    }
+
+
+    if (!locationLoaded) {
+
+      return;
+
+    }
+
+
+    /* =================================================
+       GET VILLAGES
+       ================================================= */
+
+    const villageSet =
+      new Set();
+
+
+    locationData.forEach(
+      function(item) {
+
+        if (
+
+          normalize(item.district) ===
+          normalize(district)
+
+          &&
+
+          normalize(item.mandal) ===
+          normalize(mandal)
+
+        ) {
+
+          villageSet.add(
+            item.village
+          );
+
+        }
+
+      }
+    );
+
+
+    const villages =
+      Array.from(
+        villageSet
+      ).sort(
+        function(a, b) {
+
+          return a.localeCompare(
+            b
+          );
+
+        }
+      );
+
+
+    console.log(
+      "Mandal selected:",
+      mandal
+    );
+
+
+    console.log(
+      "Villages found:",
+      villages.length
+    );
+
+
+    villages.forEach(
+      function(village) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          village;
+
+
+        option.textContent =
+          village;
+
+
+        villageSelect.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    if (
+      villages.length > 0
+    ) {
+
+      villageSelect.disabled =
+        false;
+
+    }
+    else {
+
+      villageSelect.innerHTML = `
+        <option value="">
+          No Villages Found
+        </option>
+      `;
+
+      villageSelect.disabled =
+        true;
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   TITLE CASE
+   ===================================================== */
+
+function toTitleCase(value) {
+
+  return value
+    .toLowerCase()
+    .replace(
+      /\b[a-z]/g,
+      function(letter) {
+
+        return letter.toUpperCase();
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   TEXT FIELD TITLE CASE
+   ===================================================== */
+
+document
+  .querySelectorAll(
+    'input[type="text"], textarea'
+  )
+  .forEach(
+    function(field) {
+
+      field.addEventListener(
+        "blur",
+        function() {
+
+          this.value =
+            toTitleCase(
+              this.value
+            );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   DOWNLOAD PDF
+   ===================================================== */
+
+document
+  .getElementById("appForm")
+  .addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const button =
+        document.getElementById(
+          "downloadButton"
+        );
+
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+
+      const form =
+        Object.fromEntries(
+          new FormData(
+            event.target
+          )
+        );
+
+
+      button.disabled = true;
+
+
+      status.className = "";
+
+
+      status.textContent =
+        "Generating PDF...";
+
+
+      try {
+
+        /*
+         * Import PDF function only when
+         * Download is clicked.
+         */
+
+        const module =
+          await import(
+            "./caste-integrated.js"
+          );
+
+
+        if (
+          typeof module
+            .downloadCasteIntegratedApplication
+          !== "function"
+        ) {
+
+          throw new Error(
+            "downloadCasteIntegratedApplication() was not exported from caste-integrated.js"
+          );
+
+        }
+
+
+        await module
+          .downloadCasteIntegratedApplication(
+            form
+          );
+
+
+        status.className =
+          "success";
+
+
+        status.textContent =
+          "PDF downloaded successfully.";
+
+      }
+      catch(error) {
+
+        console.error(
+          "PDF ERROR:",
+          error
+        );
+
+
+        status.className =
+          "error";
+
+
+        status.textContent =
+          error.message ||
+          "PDF generation failed.";
+
+      }
+      finally {
+
+        button.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+
+/*
+ * Districts are loaded FIRST.
+ * Therefore District dropdown will always
+ * show the 28 districts even if CSV has a problem.
+ */
+
+loadDistricts();
+
+
+resetMandal();
+
+resetVillage();
+
+
+/*
+ * Load Mandal/Village data.
+ */
+
+loadLocationData();
+
+</script>
+
+
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

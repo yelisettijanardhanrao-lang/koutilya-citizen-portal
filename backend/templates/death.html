@@ -1,0 +1,463 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<style>
+@page{size:A4;margin:0}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  font-family:"Times New Roman",serif;
+  color:#000;
+  font-size:12pt;
+  line-height:1.22
+}
+
+.page{
+  width:210mm;
+  height:297mm;
+  padding:15mm 22mm 10mm;
+  position:relative
+}
+
+.price{
+  position:absolute;
+  right:20mm;
+  top:10mm
+}
+
+.logo{
+  position:absolute;
+  top:7mm;
+  left:50%;
+  transform:translateX(-50%);
+  width:30mm
+}
+
+.logo img{
+  width:100%
+}
+
+.title{
+  text-align:center;
+  font-weight:bold;
+  text-decoration:underline;
+  font-size:14pt;
+  margin-top:16mm;
+  margin-bottom:8mm
+}
+
+.line{
+  display:inline-block;
+  border-bottom:1px solid #000;
+  min-width:28mm;
+  line-height:1
+}
+
+.short{
+  min-width:14mm
+}
+
+.long{
+  min-width:45mm
+}
+
+.xlong{
+  min-width:58mm
+}
+
+p{
+  margin:0 0 5mm;
+  text-align:justify
+}
+
+.to{
+  margin-bottom:7mm
+}
+
+.subject{
+  text-align:center;
+  margin:8mm 0 5mm
+}
+
+.contact{
+  margin-top:5mm
+}
+
+.sig{
+  float:right;
+  text-align:center;
+  margin-top:-18mm;
+  margin-right:10mm
+}
+
+.procedure{
+  margin-top:8mm
+}
+
+.procedure p{
+  text-align:left;
+  margin:1mm 0
+}
+
+.star{
+  color:red
+}
+
+.hash{
+  color:blue
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<img class="logo" src="{{LOGO_DATA}}">
+
+<div class="price">
+  Price: ` 1
+</div>
+
+<div class="title">
+  Late Registration of Death Application Form
+</div>
+
+
+<div class="to">
+
+  To<br>
+
+  The Revenue Divisional Officer,<br>
+
+  <span class="line">
+    {{division}}
+  </span>
+  Division,<br>
+
+  <span class="line">
+    {{district}}
+  </span>
+  District.
+
+</div>
+
+
+<div>
+  Respected Sir,
+</div>
+
+
+<div class="subject">
+
+  Sub: - Request for Issue of the Death Registration of my
+
+  <span class="line xlong">
+    {{deceased_relation}}
+  </span>
+
+  -regarding.
+
+</div>
+
+
+<!-- =====================================================
+     APPLICANT DETAILS
+     ===================================================== -->
+
+<p>
+
+I,
+
+<span class="line xlong">
+  {{applicant_name}}
+</span>
+
+S/O / D/O / F/O / M/O / W/O
+
+<span class="line xlong">
+  {{relation_name}}
+</span>,
+
+Age
+
+<span class="line short">
+  {{age}}
+</span>
+
+years, occupation:
+
+<span class="line">
+  {{occupation}}
+</span>,
+
+R/o H.No.
+
+<span class="line">
+  {{house_number}}
+</span>,
+
+Near
+
+<span class="line long">
+  {{near}}
+</span>,
+
+<span class="line">
+  {{mandal}}
+</span>
+
+Mandal,
+
+<span class="line">
+  {{village}}
+</span>
+
+Village,
+
+<span class="line">
+  {{district2}}
+</span>
+
+Dist. Andhra Pradesh submit the following few lines for your kind perusal and sympathetic favorable consideration please.
+
+</p>
+
+
+<!-- =====================================================
+     DECEASED DETAILS
+     ===================================================== -->
+
+<p>
+
+That my
+
+<span class="line">
+  {{deceased_relation}}
+</span>
+
+name is
+
+<span class="line xlong">
+  {{deceased_name}}
+</span>
+
+Age
+
+<span class="line short">
+  {{deceased_age}}
+</span>
+
+Years, was died on
+
+<span class="line">
+  {{date_of_death}}
+</span>
+
+(dd/mm/yyyy) at H.No.
+
+<span class="line">
+  {{death_house}}
+</span>,
+
+Near
+
+<span class="line long">
+  {{death_near}}
+</span>,
+
+<span class="line">
+  {{death_mandal}}
+</span>
+
+Mandal/Municipality,
+
+<span class="line">
+  {{death_village}}
+</span>
+
+Village,
+
+<span class="line">
+  {{death_district}}
+</span>
+
+Dist. Andhra Pradesh.
+
+The information regarding death of my
+
+<span class="line">
+  {{deceased_relation}}
+</span>
+
+was not informed to the local Births and Deaths Registration Authority of
+
+<span class="line long">
+  {{authority_mandal}}
+</span>
+
+Mandal/Municipality.
+
+Hence the name of my
+
+<span class="line">
+  {{deceased_relation}}
+</span>
+
+is not recorded in the Birth &amp; Death Register of
+
+<span class="line long">
+  {{register_mandal}}
+</span>
+
+Mandal/Municipality.
+
+</p>
+
+
+<p>
+
+That my Family requires death certificate for
+
+<span class="line long">
+  {{purpose}}
+</span>
+
+purpose urgently.
+
+</p>
+
+
+<p>
+
+I enclosed here with Non availability certificate issued by the GP or Municipal Commissioner, Ration card copy and Self Affidavit.
+
+</p>
+
+
+<p>
+
+Therefore I request you kindly to issue necessary orders to Commissioner, Municipal Council
+
+<span class="line">
+  {{municipal_council}}
+</span>
+
+to record date of death of my
+
+<span class="line">
+  {{deceased_relation}}
+</span>
+
+and issue Death Certificate as above at the earliest.
+
+</p>
+
+
+<!-- =====================================================
+     CONTACT
+     ===================================================== -->
+
+<div class="contact">
+
+<b>
+  Contact Details:
+</b>
+
+<br>
+
+Landline Number:
+
+<span class="line long">
+  {{landline}}
+</span>
+
+<br>
+
+Mobile No:
+
+<span class="line long">
+  {{mobile}}
+</span>
+
+<br>
+
+Email ID:
+
+<span class="line xlong">
+  {{email}}
+</span>
+
+</div>
+
+
+<!-- =====================================================
+     SIGNATURE
+     ===================================================== -->
+
+<div class="sig">
+
+  Yours faithfully,
+
+  <br><br><br>
+
+  Signature of the Applicant
+
+</div>
+
+
+<!-- =====================================================
+     PROCEDURE
+     ===================================================== -->
+
+<div class="procedure">
+
+<b>
+  <u>
+    Procedure: (following to be enclosed)
+  </u>
+</b>
+
+<p>
+  1) Physical Document
+  <span class="star">*</span>
+</p>
+
+<p>
+  2) Non availability certificate issued by the GP or Municipal Commissioner
+  <span class="hash">#</span>
+</p>
+
+<p>
+  3) Ration card copy
+  <span class="hash">#</span>
+</p>
+
+<p>
+  4) Self Affidavit
+  <span class="hash">#</span>
+</p>
+
+<p>
+  <span class="star">
+    *-mandatory
+  </span>
+
+  <span class="hash">
+    # -any one of them
+  </span>
+</p>
+
+</div>
+
+</div>
+
+</body>
+</html>

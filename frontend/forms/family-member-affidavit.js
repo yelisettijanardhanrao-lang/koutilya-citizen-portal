@@ -1,0 +1,16 @@
+document.addEventListener('DOMContentLoaded',()=>{
+ const form=document.getElementById('form'), members=document.getElementById('members'), witnesses=document.getElementById('witnesses'), msg=document.getElementById('msg');
+ function member(i){return `<div class="person" data-member="${i}"><h3>Family Member ${i}</h3><div class="grid"><label>Name<input name="member${i}Name" required></label><label>Age<input type="number" min="0" name="member${i}Age" required></label><label>Father / Husband Name<input name="member${i}Parent"></label><label>Relationship with Deceased<input name="member${i}Relationship" required></label><label>Aadhaar Number (optional)<input name="member${i}Aadhaar" inputmode="numeric"></label></div><button type="button" class="secondary remove-member">Remove</button></div>`}
+ function witness(i){return `<div class="person"><h3>Deponent / Witness ${i}</h3><div class="grid"><label>Name<input name="witness${i}Name" required></label><label>Relation (S/O, D/O, W/O, C/O)<input name="witness${i}Relation"></label><label>Age<input type="number" min="0" name="witness${i}Age" required></label><label>Address<textarea name="witness${i}Address" required></textarea></label></div></div>`}
+ let mc=0; function addMember(){mc++;members.insertAdjacentHTML('beforeend',member(mc));}
+ addMember();
+ for(let i=1;i<=5;i++) witnesses.insertAdjacentHTML('beforeend',witness(i));
+ document.getElementById('addMember').onclick=addMember;
+ members.addEventListener('click',e=>{if(e.target.classList.contains('remove-member')){e.target.closest('.person').remove()}});
+ document.getElementById('reset').onclick=()=>location.reload();
+ form.addEventListener('submit',async e=>{e.preventDefault();msg.className='msg';msg.textContent='Generating PDF...';const fd=new FormData(form);const data=Object.fromEntries(fd.entries());
+  const memberEls=[...members.querySelectorAll('[data-member]')]; data.familyMembers=memberEls.map((el)=>{const i=el.dataset.member;return {name:data[`member${i}Name`]||'',age:data[`member${i}Age`]||'',parent:data[`member${i}Parent`]||'',relationship:data[`member${i}Relationship`]||'',aadhaar:data[`member${i}Aadhaar`]||''}}); 
+  const witnesses=[]; for(let i=1;i<=5;i++){if(data[`witness${i}Name`]) witnesses.push({name:data[`witness${i}Name`],relation:data[`witness${i}Relation`]||'',age:data[`witness${i}Age`]||'',address:data[`witness${i}Address`]||''})} data.witnesses=witnesses;
+  try{const r=await fetch('/api/pdf/family-member-affidavit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); if(!r.ok){let x={};try{x=await r.json()}catch{};throw new Error(x.message||'PDF generation failed')} const blob=await r.blob();const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Family_Member_Certificate_Affidavit.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);msg.className='msg success';msg.textContent='PDF generated successfully.'}catch(err){msg.className='msg danger';msg.textContent=err.message;}
+ });
+});

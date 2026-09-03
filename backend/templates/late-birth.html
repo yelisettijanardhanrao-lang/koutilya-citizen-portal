@@ -1,0 +1,383 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Late Registration of Birth Application Form</title>
+
+<style>
+
+.top-logo {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75px;
+    height: 55px;
+    z-index: 100;
+}
+
+.top-logo img {
+    width: 75px;
+    height: auto;
+    display: block;
+}
+
+.top-price {
+    position: absolute;
+    top: 34px;
+    right: 48px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 11pt;
+    color: #000;
+    z-index: 100;
+    white-space: nowrap;
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: white;
+    color: #111;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12.5px;
+    line-height: 1.20;
+}
+
+.page {
+    width: 210mm;
+    height: 297mm;
+    padding: 16mm 24mm 8mm 24mm;
+    margin: auto;
+    position: relative;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 14px;
+    margin-top: 9mm;
+    margin-bottom: 9mm;
+}
+
+.to {
+    margin-left: 0;
+    margin-bottom: 5mm;
+}
+
+.to div {
+    line-height: 1.18;
+}
+
+.subject {
+    text-align: center;
+    margin: 5mm 0 4mm;
+    font-weight: normal;
+}
+
+p {
+    margin: 0 0 3.5mm;
+    text-align: justify;
+}
+
+
+/* ============================= */
+/* ALL APPLICATION FIELD LINES   */
+/* ============================= */
+
+.inline {
+    display: inline-block;
+    border-bottom: 1px solid #111;
+    line-height: 1.05;
+    vertical-align: baseline;
+    padding: 0 1mm;
+    white-space: nowrap;
+    color: #111;
+}
+
+
+/* Same style as AGE field,
+   only the line length changes */
+
+.inline.small {
+    min-width: 10mm;
+}
+
+.inline.small {
+    min-width: 22mm;
+}
+
+.inline.small {
+    min-width: 35mm;
+}
+
+.inline.small {
+    min-width: 48mm;
+}
+
+
+/* ============================= */
+/* PROCEDURE SYMBOLS             */
+/* ============================= */
+
+.mandatory {
+    color: red;
+    font-weight: bold;
+}
+
+.optional {
+    color: blue;
+    font-weight: bold;
+}
+
+
+/* ============================= */
+/* OTHER EXISTING STYLES         */
+/* ============================= */
+
+.center {
+    text-align: center;
+}
+
+.contact {
+    margin-top: 1.5mm;
+}
+
+.contact-row {
+    height: 5.5mm;
+}
+
+.sig {
+    margin-top: 1.5mm;
+    text-align: right;
+    margin-right: 7mm;
+}
+
+.procedure {
+    margin-top: 2mm;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.procedure p {
+    margin-bottom: 2mm;
+    text-align: left;
+}
+
+.dash {
+    letter-spacing: 1px;
+}
+
+@media print {
+
+    .page {
+        margin: 0;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+<div class="top-logo">
+    <img src="file:///E:/late_birth_html/backend/templates/meeseva-logo.png">
+</div>
+
+<div class="top-price">
+    Price: ` 1
+</div>
+
+<div class="page">
+
+    <div class="title">
+        Late Registration of Birth Application Form
+    </div>
+
+
+    <div class="to">
+
+        To<br>
+
+        The Revenue Divisional Officer,<br>
+
+        <span class="inline med">{{division}}</span> Division,<br>
+
+        <span class="inline med">{{district}}</span> District.
+
+    </div>
+
+
+    <div>
+        Respected Sir,
+    </div>
+
+
+    <div class="subject">
+        Sub: - Request for Issue of the Birth Certificate of my son/daughter-regarding.
+    </div>
+
+
+    <p>
+        I,
+        <span class="inline small">{{applicant_name}}</span>
+        S/O / D/O / F/O / M/O / W/O
+        <span class="inline small">{{relation_name}}</span>,
+        Age
+        <span class="inline small">{{age}}</span>
+        years,
+        occupation:
+        <span class="inline small">{{occupation}}</span>,
+        R/o H.No.
+        <span class="inline small">{{house_number}}</span>,
+        Near
+        <span class="inline small">{{near}}</span>,
+        <span class="inline small">{{mandal}}</span>
+        Mandal,
+        <span class="inline small">{{district2}}</span>
+        Dist. Andhra Pradesh submit the following few lines for your kind perusal
+        and sympathetic favorable consideration please.
+    </p>
+
+
+    <p>
+        That my wife’s name is
+        <span class="inline small">{{wife_name}}</span>
+        Age
+        <span class="inline small">{{wife_age}}</span>
+        years and my son/daughter
+        <span class="inline small">{{child_name}}</span>
+        was born on
+        <span class="inline small">{{date_of_birth}}</span>
+        (dd/mm/yyyy) in
+        <span class="inline small">{{birth_place}}</span>
+        Delivery at H.No.
+        <span class="inline small">{{delivery_house}}</span>,
+        Near
+        <span class="inline small">{{delivery_near}}</span>,
+        <span class="inline small">{{delivery_mandal}}</span>
+        Mandal/Municipality,
+        <span class="inline small">{{delivery_district}}</span>
+        Dist. Andhra Pradesh.
+
+        The information regarding birth of my son/daughter was not informed to
+        the local Births and Deaths Registration Authority of
+        <span class="inline small">{{authority_mandal}}</span>
+        Mandal/Municipality.
+
+        Hence the name of my son/daughter is not recorded in the Birth &amp;
+        Death Register of
+        <span class="inline small">{{register_mandal}}</span>
+        Mandal/Municipality.
+    </p>
+
+
+    <p>
+        That my son/daughter requires birth certificate for further education urgently.
+    </p>
+
+
+    <p>
+        I enclosed here with Non availability certificate issued by the GP or
+        Municipal Commissioner, Ration card copy, SSC marks memo and Self Affidavit.
+    </p>
+
+
+    <p>
+        Therefore I request you kindly to issue necessary orders to Commissioner,
+        Municipal Council
+        <span class="inline med">{{municipal_council}}</span>
+        to record date of birth of my son/daughter and issue Birth Certificate
+        as above at the earliest.
+    </p>
+
+
+    <div class="contact">
+        <b>Contact Details:</b>
+    </div>
+
+
+    <div class="contact-row">
+        Landline Number:
+        <span class="inline small">{{landline}}</span>
+    </div>
+
+
+    <div class="contact-row">
+        Mobile No:
+        <span class="inline small">{{mobile}}</span>
+    </div>
+
+
+    <div class="contact-row">
+        E-Mail ID:
+        <span class="inline small">{{email}}</span>
+    </div>
+
+
+    <div class="sig">
+        Yours faithfully,
+        <br>
+        <br>
+        <br>
+        Signature of the Applicant
+    </div>
+
+
+    <div class="procedure">
+
+        <b>
+            Procedure: (following to be enclosed)
+        </b>
+
+
+        <p>
+            1) Physical Document
+            <span class="mandatory">*</span>
+        </p>
+
+
+        <p>
+            2) Non availability certificate issued by the GP or Municipal Commissioner
+            <span class="optional">#</span>
+        </p>
+
+
+        <p>
+            3) Ration card copy
+            <span class="optional">#</span>
+        </p>
+
+
+        <p>
+            4) SSC marks memo
+            <span class="optional">#</span>
+        </p>
+
+
+        <p>
+            5) Self Affidavit
+            <span class="optional">#</span>
+        </p>
+
+
+        <p>
+            <span class="mandatory">*</span>-mandatory
+            &nbsp;
+            <span class="optional">#</span>-any one of them
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

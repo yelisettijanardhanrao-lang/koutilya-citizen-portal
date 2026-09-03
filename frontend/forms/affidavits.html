@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/api-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affidavits & Declarations</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#111}
+.container{max-width:1100px;margin:0 auto;padding:28px 18px}
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+h1{margin:0 0 8px;text-align:center;color:#173a61}
+.intro{text-align:center;color:#555;margin:0 0 24px}
+.controls{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;margin-bottom:20px}
+input,select{width:100%;padding:11px;border:1px solid #ccd5df;border-radius:7px;font-size:14px}
+.categories{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.category{border:1px solid #ccd5df;background:#fff;padding:8px 12px;border-radius:20px;cursor:pointer}
+.category.active{background:#173a61;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.item{border:1px solid #dfe5eb;border-radius:9px;padding:16px;background:#fff}
+.item h3{margin:0 0 8px;font-size:17px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.tags span{font-size:10px;background:#eef5fb;color:#24567d;border-radius:12px;padding:4px 7px}
+.meta{font-size:12px;color:#666;margin-bottom:10px}
+.purpose{font-size:13px;line-height:1.5;color:#333;min-height:40px}
+.actions{margin-top:14px}
+a.button{display:inline-block;text-decoration:none;background:#173a61;color:#fff;padding:9px 13px;border-radius:6px;font-size:13px}
+a.button.secondary{background:#eef3f8;color:#173a61}
+.notice{margin:18px 0;padding:12px;border:1px solid #e2e6eb;border-radius:7px;background:#fafafa;font-size:13px;line-height:1.5}
+.empty{text-align:center;padding:30px;color:#666}
+@media(max-width:760px){
+  .controls,.grid{grid-template-columns:1fr}
+}
+</style>
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+<main class="portal-main"><div class="container portal-card">
+  <div class="card">
+    <h1>Affidavits &amp; Declarations</h1>
+    <p class="intro">Citizen-use affidavit and declaration services</p>
+
+    <div class="notice">
+      <strong>Important:</strong> The catalogue is a research library.
+      A service is not presented as an official government format unless the
+      applicable authority's current prescribed format has been verified.
+      Execution requirements can vary by receiving authority.
+    </div>
+
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search affidavit or declaration...">
+      <select id="department"><option value="">Select Department / Authority</option></select>
+      <select id="state"><option value="">Select State / Jurisdiction</option><option>Andhra Pradesh</option><option>Telangana</option><option>Other States / Authorities</option></select>
+    </div>
+
+    <div id="categories" class="categories"></div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" style="display:none">No matching services.</div>
+  </div>
+</div></main>
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script src="/forms/affidavits.js"></script>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

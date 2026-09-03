@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<style>
+@page{
+  size:A4;
+  margin:0;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:"Times New Roman",serif;
+  color:#000;
+  font-size:10.5pt;
+  line-height:1.12;
+  background:#fff;
+}
+
+.page{
+  width:210mm;
+  height:297mm;
+  padding:10mm 20mm 7mm;
+  position:relative;
+  overflow:hidden;
+}
+
+.logo{
+  display:block;
+  width:28mm;
+  height:auto;
+  margin:0 auto 2mm;
+}
+
+.annexure{
+  text-align:center;
+  font-weight:bold;
+  font-size:12pt;
+  margin-bottom:3mm;
+}
+
+.title{
+  text-align:center;
+  font-weight:bold;
+  font-size:11.5pt;
+  line-height:1.12;
+  margin-bottom:4mm;
+}
+
+.center{
+  text-align:center;
+}
+
+.intro{
+  margin:0 0 1.5mm;
+  text-align:justify;
+}
+
+.particulars{
+  margin-top:1mm;
+}
+
+.row{
+  display:flex;
+  align-items:flex-start;
+  margin:0.75mm 0;
+  line-height:1.12;
+}
+
+.num{
+  width:11mm;
+  flex:none;
+}
+
+.label{
+  width:72mm;
+  flex:none;
+}
+
+.value{
+  flex:1;
+}
+
+.line{
+  display:inline-block;
+  min-width:32mm;
+  border-bottom:none;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:1px;
+  white-space:nowrap;
+}
+
+.long{
+  min-width:55mm;
+}
+
+.xlong{
+  min-width:78mm;
+}
+
+.short{
+  min-width:18mm;
+}
+
+.address{
+  margin-left:23mm;
+  margin-top:0;
+}
+
+.address-row{
+  display:flex;
+  margin:0.6mm 0;
+  line-height:1.1;
+}
+
+.address-label{
+  width:28mm;
+}
+
+.address-value{
+  flex:1;
+}
+
+.sub{
+  margin-left:11mm;
+  margin-top:1mm;
+}
+
+.section{
+  font-weight:bold;
+  margin-top:2mm;
+  margin-bottom:1mm;
+}
+
+.section2{
+  font-weight:bold;
+  margin-top:2.5mm;
+  margin-bottom:1mm;
+}
+
+.two-col{
+  display:flex;
+  gap:8mm;
+}
+
+.two-col>div{
+  flex:1;
+}
+
+.indent{
+  margin-left:23mm;
+}
+
+.small{
+  font-size:9.5pt;
+}
+
+.declaration{
+  margin-top:2mm;
+  text-align:justify;
+  line-height:1.12;
+}
+
+.signature{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10mm;
+}
+
+.signature-left{
+  width:45%;
+}
+
+.signature-right{
+  width:45%;
+  text-align:center;
+}
+
+.footer-area{
+  display:flex;
+  justify-content:space-between;
+  margin-top:6mm;
+}
+
+.footer-box{
+  width:48%;
+}
+
+.footer-box b{
+  text-decoration:underline;
+}
+
+.red{
+  color:red;
+}
+
+.blue{
+  color:blue;
+}
+
+.page-break{
+  page-break-before:always;
+}
+
+.pageno{
+  text-align:center;
+  margin-top:1.5mm;
+  font-weight:bold;
+}
+
+.tight{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.price{
+  position:absolute;
+  right:18mm;
+  top:8mm;
+}
+
+@media print{
+  body{
+    background:#fff;
+  }
+}
+select{
+  width:100%;
+  padding:4px 6px;
+  border:1px solid #777;
+  background:#fff;
+  font-family:"Times New Roman",serif;
+  font-size:10.5pt;
+  color:#000;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     PAGE 1
+     ===================================================== -->
+<div class="page">
+
+  <img class="logo" src="{{LOGO_DATA}}">
+
+  <div class="annexure">ANNEXURE - B</div>
+
+  <div class="title">
+    APPLICATION FORM FOR CERTIFICATE OF ELIGIBILITY FOR RESERVATION<br>
+    OF JOBS FOR THE OTHER BACKWARD CLASSES IN CIVIL POSTS AND SERVICES UNDER<br>
+    CENTRAL GOVT. OF INDIA
+  </div>
+
+  <p>Sir,</p>
+
+  <p class="intro">
+    I request you a CERTIFICATE in respect of Reservation for BACKWARD
+    CLASSES in civil POSTS &amp; SERVICES under Government of India be granted to me.
+  </p>
+
+  <div>I. &nbsp;&nbsp;&nbsp;Given below of the necessary particulars</div>
+
+  <div class="particulars">
+
+    <div class="row">
+      <div class="num">1.</div>
+      <div class="label">Full name of the Applicant<br>(In BLOCK LETTERS)</div>
+      <div class="value">: <span class="line xlong">{{applicant_name}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">2.</div>
+      <div class="label">Gender</div>
+      <div class="value">: <span class="line">{{gender}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">3.</div>
+      <div class="label">Date of Birth</div>
+      <div class="value">: <span class="line">{{date_of_birth}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">4.</div>
+      <div class="label">Complete Resident Address</div>
+      <div class="value">:</div>
+    </div>
+
+    <div class="sub"><b>a) PERMANENT</b></div>
+
+    <div class="sub"><b>a) PERMANENT</b></div>
+
+<div class="address">
+
+  <div class="address-row">
+    <div class="address-label">Village:</div>
+    <div class="address-value">
+      <span class="line">{{permanent_village}}</span>
+    </div>
+  </div>
+
+  <div class="address-row">
+    <div class="address-label">Mandal:</div>
+    <div class="address-value">
+      <span class="line">{{permanent_mandal}}</span>
+    </div>
+  </div>
+
+  <div class="address-row">
+    <div class="address-label">District:</div>
+    <div class="address-value">
+      <span class="line">{{permanent_district}}</span>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="sub" style="margin-top:4mm">
+  <b>b) PRESENT &nbsp;&nbsp;(Postal Address)</b>
+</div>
+
+<div class="address">
+
+  <div class="address-row">
+    <div class="address-label">Village:</div>
+    <div class="address-value">
+      <span class="line">{{present_village}}</span>
+    </div>
+  </div>
+
+  <div class="address-row">
+    <div class="address-label">Mandal:</div>
+    <div class="address-value">
+      <span class="line">{{present_mandal}}</span>
+    </div>
+  </div>
+
+  <div class="address-row">
+    <div class="address-label">District:</div>
+    <div class="address-value">
+      <span class="line">{{present_district}}</span>
+    </div>
+  </div>
+
+</div>
+
+
+    <div class="row">
+      <div class="num">5.</div>
+      <div class="label">Religion</div>
+      <div class="value">: <span class="line">{{religion}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">6.</div>
+      <div class="label">Caste</div>
+      <div class="value">: <span class="line">{{caste}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">7.</div>
+      <div class="label">Sub-Caste</div>
+      <div class="value">: <span class="line">{{sub_caste}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">8.</div>
+      <div class="label">Issued Caste Certificate In Past</div>
+      <div class="value">: <span class="line short">{{caste_certificate_past}}</span> </div>
+    </div>
+
+    <div class="row">
+      <div class="num">9.</div>
+      <div class="label">Education Certificate Contains Caste</div>
+      <div class="value">: <span class="line short">{{education_certificate_caste}}</span> </div>
+    </div>
+
+    <div class="row">
+      <div class="num">10.</div>
+      <div class="label">Occupation Group</div>
+      <div class="value">: <span class="line">{{occupation_group}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">11.</div>
+      <div class="label">SERIAL NUMBER of the Caste in the<br>CENTRAL LIST OF OBCs</div>
+      <div class="value">: <span class="line">{{obc_serial_number}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">12.</div>
+      <div class="label">Name of the Father</div>
+      <div class="value">: <span class="line">{{father_name}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">13.</div>
+      <div class="label">Name of the Mother</div>
+      <div class="value">: <span class="line">{{mother_name}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">14.</div>
+      <div class="label">Name of the Husband</div>
+      <div class="value">: <span class="line">{{husband_name}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num">15.</div>
+      <div class="label">Status of the Parents(S) / Husband</div>
+      <div class="value">:
+        <span class="line">{{parent_husband_status}}</span>
+        
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">a) Constitutional Posts</div>
+      <div class="value">: <span class="line">{{constitutional_posts}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">b) Designation</div>
+      <div class="value">: <span class="line">{{parent_designation}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">c) i) Services: CENTRAL / STATE</div>
+      <div class="value">: <span class="line">{{service_type}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">ii) Designation</div>
+      <div class="value">: <span class="line">{{service_designation}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">iii) Scale of Pay, including<br>&nbsp;&nbsp;&nbsp;&nbsp;Clarification if any</div>
+      <div class="value">: <span class="line">{{scale_of_pay}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">iv) Date of Appointment of Post</div>
+      <div class="value">: <span class="line">{{appointment_date}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="num"></div>
+      <div class="label">v) Age of the time of Promotion<br>&nbsp;&nbsp;&nbsp;&nbsp;to Class I post (if applicable)</div>
+      <div class="value">: <span class="line">{{promotion_age}}</span></div>
+    </div>
+
+  </div>
+
+  <div class="section2">
+    II. EMPLOYMENT IN INTERNATIONAL ORGANIDATION E.G., U.N., UNICEF, WHO
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i) Name of the Organization</div>
+    <div class="value">: <span class="line">{{international_organization}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii) Designation</div>
+    <div class="value">: <span class="line">{{international_designation}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">iii) Period of Service<br>&nbsp;&nbsp;&nbsp;&nbsp;(Indicate Date)</div>
+    <div class="value">: FROM <span class="line short">{{international_from}}</span>
+      &nbsp;&nbsp; TO <span class="line short">{{international_to}}</span>
+    </div>
+  </div>
+
+  <div style="text-align:right;margin-top:6mm">P.T.O</div>
+  <div class="pageno">//2//</div>
+
+</div>
+
+
+<!-- =====================================================
+     PAGE 2
+     ===================================================== -->
+
+<div class="page page-break">
+
+  <div class="section" style="margin-top:0">
+    III. A. &nbsp; DEATH / PERMENT INCAPACITION (OMIT IF NOT APPLICABLE)
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Date of death / Permanent<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Incapacitation putting an Officer<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Out of Service
+    </div>
+    <div class="value">: <span class="line">{{death_incapacitation_date}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Details of permanent incapacitation</div>
+    <div class="value">: <span class="line long">{{incapacitation_details}}</span></div>
+  </div>
+
+
+  <div class="section2">
+    B. &nbsp;&nbsp; EMPLOYMENT IN PUBLIC SECTOR UNDERTAKING ETC.,
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Name of the Organization</div>
+    <div class="value">: <span class="line">{{public_sector_organization}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Designation</div>
+    <div class="value">: <span class="line">{{public_sector_designation}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">iii. &nbsp; Date of appointment to the Post</div>
+    <div class="value">: <span class="line">{{public_sector_appointment_date}}</span></div>
+  </div>
+
+
+  <div class="section2">
+    C. &nbsp;&nbsp; ARMED FORCES INCLUDING PARA MILITARY FORCES (THIS WILL<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT INCLUDE PERSONS HOLDING CIVIL POSTS)
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Designation</div>
+    <div class="value">: <span class="line">{{armed_designation}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Scale of Pay</div>
+    <div class="value">: <span class="line">{{armed_scale_pay}}</span></div>
+  </div>
+
+
+  <div class="section2">
+    D. &nbsp;&nbsp; PROFESSIONAL CLASS (OTHER THAN THOSE COVERED IN THE<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ITEM NOS. B&amp;C AND THOSE ENGAGED IN TRADE, BUSINESS AND<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INDUSTRY)
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Occupation / Profession</div>
+    <div class="value">: <span class="line long">{{profession}}</span></div>
+  </div>
+
+
+  <div class="section2">
+    E. &nbsp;&nbsp; PROPERTY OWNERS:
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">
+      I. &nbsp;&nbsp; Agricultural land holding owned<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by mother / father and minor<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Children
+    </div>
+    <div class="value">: <span class="line long">{{agricultural_holding}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Location</div>
+    <div class="value">: <span class="line">{{agri_location}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Size of holding</div>
+    <div class="value">: <span class="line">{{holding_size}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">iii. &nbsp; a) IRRIGATED (TYPE OF IRRIGATION LAND)</div>
+    <div class="value">:</div>
+  </div>
+
+  <div class="indent tight">i) <span class="line">{{irrigated_1}}</span></div>
+  <div class="indent tight">ii) <span class="line">{{irrigated_2}}</span></div>
+  <div class="indent tight">iii) <span class="line">{{irrigated_3}}</span></div>
+
+  <div class="indent tight">b) UNIRRIGATED</div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">iv) Percentage of Irrigated Land<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;holding to statutory ceiling<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit under State Land Ceiling<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Land
+    </div>
+    <div class="value">: <span class="line">{{irrigated_percentage}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">v) If land holding is both irrigated /<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unirrigated total irrigated land<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;holding on the basis of conversion<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formula in State Land Ceiling
+    </div>
+    <div class="value">: <span class="line">{{conversion}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">vi) Percentage of total irrigated<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;land holding to statutory ceiling<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit as per (vi)
+    </div>
+    <div class="value">: <span class="line">{{conversion_percentage}}</span></div>
+  </div>
+
+  <p style="font-weight:bold;margin:5mm 0 4mm">
+    TO BE CERTIFIED DISTRCT REVENUE OFFICER NOT LOWER<br>
+    THAN MANDAL REVENUE OFFICER / TAHSILDAR
+  </p>
+
+
+  <div class="section2">
+    II. &nbsp;&nbsp; PLANTATION
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Crops / Fruits</div>
+    <div class="value">: <span class="line">{{plantation_crops}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Location</div>
+    <div class="value">: <span class="line">{{plantation_location}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">iii. &nbsp; Area of Plantation</div>
+    <div class="value">: <span class="line">{{plantation_area}}</span></div>
+  </div>
+
+  <div class="pageno">//3//</div>
+
+</div>
+
+
+<!-- =====================================================
+     PAGE 3
+     ===================================================== -->
+
+<div class="page page-break">
+
+  <div class="section" style="margin-top:0">
+    F. &nbsp;&nbsp; III. VACANT LAND AND / OR BUILDING IN URBAN AREA OF URBAN<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AGGLEMERATION
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">i. &nbsp; Location of Property</div>
+    <div class="value">: <span class="line long">{{urban_property_location}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Details of Property</div>
+    <div class="value">: <span class="line long">{{urban_property_details}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">iii. &nbsp; Use to which it is put</div>
+    <div class="value">: <span class="line long">{{urban_property_use}}</span></div>
+  </div>
+
+
+  <div class="section2">
+    G. &nbsp;&nbsp; INCOME / WEALTH
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">
+      i. &nbsp; Annual Income from all<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source (Family Income)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Excluding Salaries and<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Income from Agrl. Land)
+    </div>
+    <div class="value">: <span class="line long">{{family_income}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">ii. &nbsp; Whether Tax Paid</div>
+    <div class="value">:
+      <span class="line short">{{tax_paid}}</span>
+      YES / NO
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="num"></div>
+    <div class="label">
+      iii. &nbsp; Whether covered in Wealth<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax Act. (Yes / No)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(If so furnish details)
+    </div>
+    <div class="value">:
+      <span class="line short">{{wealth_tax}}</span>
+      <br>
+      <span class="line long">{{wealth_details}}</span>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="num">16.</div>
+    <div class="label">Family members consisting</div>
+    <div class="value">: <span class="line long">{{family_members}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num">17.</div>
+    <div class="label">Purpose of Caste Certificate</div>
+    <div class="value">: <span class="line long">{{purpose}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num">18.</div>
+    <div class="label">Ration Card Number</div>
+    <div class="value">: <span class="line long">{{ration_card}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num">19.</div>
+    <div class="label">Aadhar Number</div>
+    <div class="value">: <span class="line long">{{aadhaar}}</span></div>
+  </div>
+
+  <div class="row">
+    <div class="num">20.</div>
+    <div class="label">Any other Information</div>
+    <div class="value">: <span class="line xlong">{{other_information}}</span></div>
+  </div>
+
+
+  <div class="row" style="margin-top:2mm">
+    <div class="num">21.</div>
+    <div class="value" style="flex:1;text-align:justify">
+      I certify that the above said particulars are true to the best of my knowledge
+      and belief and that I do not belongs to <b>CREAMY LAYER</b> of OBCs and eligible to
+      be considered for posts reserved for OBCs. In the event of any information being
+      found false or incorrect of ineligibility being detected before of after the selection.
+      I understand that my candidature appointment is liable to be cancelled and I shall
+      be liable to such further action as may be provided under law /or rules.
+    </div>
+  </div>
+
+
+  <div style="text-align:right;margin-top:5mm">
+    Yours faithfully,
+  </div>
+
+
+  <div class="signature">
+
+    <div class="signature-left">
+      Place:
+      <span class="line">{{place}}</span>
+      <br><br>
+      Dated:
+      <span class="line">{{dated}}</span>
+    </div>
+
+    <div class="signature-right">
+      Signature of the Candidate
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       PROCEDURE + CONTACT DETAILS
+       =================================================== -->
+
+  <div class="footer-area">
+
+    <div class="footer-box">
+
+      <b>Procedure (following to be enclosed)</b>
+
+      <div>1) Application <span class="red">*</span></div>
+
+      <div>
+        2) Ration Card/Aadhar Card/EPIC Card
+        <span class="blue">#</span>
+      </div>
+
+      <div>
+        3) Applicant Father/Mother property particulars
+        <span class="blue">#</span>
+      </div>
+
+      <div>
+        4) Applicant Father/Mother Employment
+        Particulars/Income Tax returns (for professionals)
+        <span class="red">*</span>
+      </div>
+
+      <br>
+
+      <b>
+        (<span class="red">*-mandatory</span>
+        <span class="blue">#-any one of them</span>)
+      </b>
+
+    </div>
+
+
+    <div class="footer-box">
+
+      <b>Contact Details</b>
+
+      <div><b>Land Line Number:</b> {{landline}}</div>
+
+      <div><b>Mobile Number:</b> {{mobile}}</div>
+
+      <div><b>E- Mail ID:</b> {{email}}</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

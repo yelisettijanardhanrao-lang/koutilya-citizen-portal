@@ -1,0 +1,1419 @@
+<!doctype html>
+<html lang="en">
+
+<head><script src="/api-config.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Late Registration of Death Certificate</title>
+
+<style>
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  padding:18px;
+  background:#f3f4f6;
+  font-family:Arial,sans-serif;
+  color:#111827
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08)
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:14px;
+  text-decoration:none;
+  color:#164e63;
+  border:1px solid #164e63;
+  padding:7px 12px;
+  border-radius:5px;
+  font-size:13px
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:24px
+}
+
+.subtitle{
+  margin:0 0 18px;
+  color:#4b5563;
+  font-size:13px
+}
+
+.section{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid #ddd
+}
+
+.section h2{
+  font-size:16px;
+  margin:0 0 14px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px 14px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:5px
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid #9ca3af;
+  border-radius:5px;
+  background:#fff;
+  font:13px Arial
+}
+
+textarea{
+  min-height:75px;
+  resize:vertical
+}
+
+button{
+  padding:11px 20px;
+  background:#166534;
+  color:#fff;
+  border:0;
+  border-radius:5px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.6
+}
+
+.button-row{
+  margin-top:24px;
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+
+.success{
+  color:#166534
+}
+
+.error{
+  color:#b91c1c
+}
+
+select:disabled{
+  background:#f3f4f6;
+  color:#6b7280;
+  cursor:not-allowed
+}
+
+@media(max-width:700px){
+
+  body{
+    padding:8px
+  }
+
+  .container{
+    padding:15px
+  }
+
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+
+  h1{
+    font-size:20px
+  }
+
+}
+
+</style>
+
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+
+
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+
+<div class="container">
+
+<a class="back" href="index.html">
+← Back to MeeSeva Applications
+</a>
+
+
+<h1>
+Late Registration of Death Certificate
+</h1>
+
+<p class="subtitle">
+Fill the application form carefully. Telugu + English labels are provided for all user fields.
+</p>
+
+
+<form id="appForm">
+
+
+<!-- =====================================================
+     APPLICANT DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Applicant Details / దరఖాస్తుదారు వివరాలు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Division / డివిజన్
+</label>
+
+<input
+type="text"
+name="division"
+placeholder=""
+>
+
+</div>
+
+
+<!-- RDO DISTRICT -->
+
+<div class="field">
+
+<label>
+District / జిల్లా
+</label>
+
+<select
+id="district"
+name="district"
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Applicant Name / దరఖాస్తుదారు పేరు
+</label>
+
+<input
+type="text"
+name="applicantName"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Relation Name / సంబంధం పేరు
+</label>
+
+<input
+type="text"
+name="relationName"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Age / వయస్సు
+</label>
+
+<input
+type="number"
+name="age"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Occupation / వృత్తి
+</label>
+
+<input
+type="text"
+name="occupation"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+House No. / ఇంటి నంబర్
+</label>
+
+<input
+type="text"
+name="houseNumber"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Near / సమీపంలో
+</label>
+
+<input
+type="text"
+name="near"
+placeholder=""
+>
+
+</div>
+
+
+<!-- APPLICANT MANDAL -->
+
+<div class="field">
+
+<label>
+Mandal / మండలం
+</label>
+
+<select
+id="mandal"
+name="mandal"
+disabled
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- APPLICANT DISTRICT -->
+
+<div class="field">
+
+<label>
+District / జిల్లా
+</label>
+
+<select
+id="district2"
+name="district2"
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- APPLICANT VILLAGE -->
+
+<div class="field">
+
+<label>
+Village / గ్రామం
+</label>
+
+<select
+id="village"
+name="village"
+disabled
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DECEASED DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Deceased Details / మరణించిన వ్యక్తి వివరాలు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Relationship / సంబంధం
+</label>
+
+<input
+type="text"
+name="deceasedRelation"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Deceased Name / మరణించిన వ్యక్తి పేరు
+</label>
+
+<input
+type="text"
+name="deceasedName"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Age / వయస్సు
+</label>
+
+<input
+type="number"
+name="deceasedAge"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Date of Death / మరణ తేదీ
+</label>
+
+<input
+type="text"
+name="dateOfDeath"
+placeholder="DD/MM/YYYY"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Death House No. / మరణం జరిగిన ఇంటి నంబర్
+</label>
+
+<input
+type="text"
+name="deathHouse"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Death Near / సమీపంలో
+</label>
+
+<input
+type="text"
+name="deathNear"
+placeholder=""
+>
+
+</div>
+
+
+<!-- DEATH MANDAL -->
+
+<div class="field">
+
+<label>
+Death Mandal / మరణం జరిగిన మండలం
+</label>
+
+<select
+id="deathMandal"
+name="deathMandal"
+disabled
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- DEATH DISTRICT -->
+
+<div class="field">
+
+<label>
+Death District / జిల్లా
+</label>
+
+<select
+id="deathDistrict"
+name="deathDistrict"
+>
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<!-- DEATH VILLAGE -->
+
+<div class="field">
+
+<label>
+Death Village / మరణం జరిగిన గ్రామం
+</label>
+
+<select
+id="deathVillage"
+name="deathVillage"
+disabled
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Authority Mandal / నమోదు అధికార మండలం
+</label>
+
+<input
+type="text"
+name="authorityMandal"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Register Mandal / రిజిస్టర్ మండలం
+</label>
+
+<input
+type="text"
+name="registerMandal"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Purpose / అవసరమైన ప్రయోజనం
+</label>
+
+<input
+type="text"
+name="purpose"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Municipal Council / మున్సిపల్ కౌన్సిల్
+</label>
+
+<input
+type="text"
+name="municipalCouncil"
+placeholder=""
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CONTACT DETAILS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Contact Details / సంప్రదింపు వివరాలు
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Landline / ల్యాండ్‌లైన్
+</label>
+
+<input
+type="text"
+name="landline"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Mobile / మొబైల్
+</label>
+
+<input
+type="text"
+name="mobile"
+placeholder=""
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Email / ఈమెయిల్
+</label>
+
+<input
+type="email"
+name="email"
+placeholder=""
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DOWNLOAD
+     ===================================================== -->
+
+<div class="button-row">
+
+<button type="submit">
+Download Application PDF
+</button>
+
+<span id="status"></span>
+
+</div>
+
+
+</form>
+
+</div>
+
+
+
+<!-- =====================================================
+     DISTRICT → MANDAL → VILLAGE
+     ===================================================== -->
+
+<script>
+
+let deathLocationData = [];
+
+
+function clean(value){
+
+  return String(value || "")
+    .replace(/^\uFEFF/, "")
+    .trim();
+
+}
+
+
+function normalize(value){
+
+  return clean(value)
+    .toLowerCase()
+    .replace(/[._\-\s]+/g, "");
+
+}
+
+
+/* =====================================================
+   CSV PARSER
+   ===================================================== */
+
+function parseCSV(text){
+
+  const rows = [];
+
+  let row = [];
+  let value = "";
+  let quoted = false;
+
+
+  for(
+    let i = 0;
+    i < text.length;
+    i++
+  ){
+
+    const char = text[i];
+
+    const next = text[i + 1];
+
+
+    if(
+      char === '"' &&
+      quoted &&
+      next === '"'
+    ){
+
+      value += '"';
+
+      i++;
+
+      continue;
+
+    }
+
+
+    if(char === '"'){
+
+      quoted = !quoted;
+
+      continue;
+
+    }
+
+
+    if(
+      char === "," &&
+      !quoted
+    ){
+
+      row.push(value);
+
+      value = "";
+
+      continue;
+
+    }
+
+
+    if(
+      (char === "\n" || char === "\r") &&
+      !quoted
+    ){
+
+      if(
+        char === "\r" &&
+        next === "\n"
+      ){
+
+        i++;
+
+      }
+
+
+      row.push(value);
+
+      value = "";
+
+
+      if(
+        row.some(
+          x => clean(x) !== ""
+        )
+      ){
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+
+      continue;
+
+    }
+
+
+    value += char;
+
+  }
+
+
+  if(
+    value !== "" ||
+    row.length
+  ){
+
+    row.push(value);
+
+    rows.push(row);
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* =====================================================
+   FIND COLUMN
+   ===================================================== */
+
+function findColumn(headers, names){
+
+  for(
+    const name of names
+  ){
+
+    const index =
+      headers.findIndex(
+        h =>
+          normalize(h) ===
+          normalize(name)
+      );
+
+
+    if(index !== -1){
+
+      return index;
+
+    }
+
+  }
+
+
+  return -1;
+
+}
+
+
+/* =====================================================
+   LOAD AP LOCATION DATA
+   ===================================================== */
+
+async function loadDeathLocationData(){
+
+  try{
+
+    console.log(
+      "Loading AP District / Mandal / Village data..."
+    );
+
+
+    const response =
+      await fetch(
+        "/api/locations",
+        {
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Location data could not be loaded."
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    const rows =
+      parseCSV(text);
+
+
+    if(rows.length < 2){
+
+      throw new Error(
+        "Location CSV is empty."
+      );
+
+    }
+
+
+    const headers =
+      rows[0].map(clean);
+
+
+    const districtIndex =
+      findColumn(
+        headers,
+        [
+          "District",
+          "District Name",
+          "district_name"
+        ]
+      );
+
+
+    const mandalIndex =
+      findColumn(
+        headers,
+        [
+          "Mandal",
+          "Mandal Name",
+          "Sub District",
+          "Sub-District",
+          "Taluk",
+          "Tehsil"
+        ]
+      );
+
+
+    const villageIndex =
+      findColumn(
+        headers,
+        [
+          "Village",
+          "Village Name",
+          "Village_Name"
+        ]
+      );
+
+
+    if(
+      districtIndex === -1 ||
+      mandalIndex === -1 ||
+      villageIndex === -1
+    ){
+
+      throw new Error(
+        "District / Mandal / Village columns not found."
+      );
+
+    }
+
+
+    deathLocationData =
+      rows
+        .slice(1)
+        .map(row => ({
+
+          district:
+            clean(row[districtIndex]),
+
+          mandal:
+            clean(row[mandalIndex]),
+
+          village:
+            clean(row[villageIndex])
+
+        }))
+        .filter(item =>
+          item.district &&
+          item.mandal &&
+          item.village
+        );
+
+
+    populateAllDeathDistricts();
+
+
+    console.log(
+      "Death location records:",
+      deathLocationData.length
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "DEATH LOCATION ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   POPULATE DISTRICT DROPDOWNS
+   ===================================================== */
+
+function populateAllDeathDistricts(){
+
+  const districts = [
+    ...new Set(
+      deathLocationData.map(
+        x => x.district
+      )
+    )
+  ].sort(
+    (a,b) =>
+      a.localeCompare(b)
+  );
+
+
+  const districtSelect =
+    document.getElementById("district");
+
+  const district2Select =
+    document.getElementById("district2");
+
+  const deathDistrictSelect =
+    document.getElementById("deathDistrict");
+
+
+  const selects = [
+    districtSelect,
+    district2Select,
+    deathDistrictSelect
+  ];
+
+
+  selects.forEach(select => {
+
+    if(!select) return;
+
+
+    select.innerHTML = `
+      <option value="">
+        Select District / జిల్లా ఎంచుకోండి
+      </option>
+    `;
+
+
+    districts.forEach(
+      district => {
+
+        const option =
+          document.createElement("option");
+
+        option.value =
+          district;
+
+        option.textContent =
+          district;
+
+        select.appendChild(option);
+
+      }
+    );
+
+
+    select.disabled = false;
+
+  });
+
+}
+
+
+/* =====================================================
+   APPLICANT DISTRICT → MANDAL
+   ===================================================== */
+
+document
+  .getElementById("district2")
+  .addEventListener(
+    "change",
+    function(){
+
+      populateMandals(
+        this.value,
+        document.getElementById("mandal")
+      );
+
+
+      resetSelect(
+        document.getElementById("village"),
+        "Select Village / గ్రామం ఎంచుకోండి"
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   APPLICANT MANDAL → VILLAGE
+   ===================================================== */
+
+document
+  .getElementById("mandal")
+  .addEventListener(
+    "change",
+    function(){
+
+      populateVillages(
+        document.getElementById("district2").value,
+        this.value,
+        document.getElementById("village")
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   DEATH DISTRICT → DEATH MANDAL
+   ===================================================== */
+
+document
+  .getElementById("deathDistrict")
+  .addEventListener(
+    "change",
+    function(){
+
+      populateMandals(
+        this.value,
+        document.getElementById("deathMandal")
+      );
+
+
+      resetSelect(
+        document.getElementById("deathVillage"),
+        "Select Village / గ్రామం ఎంచుకోండి"
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   DEATH MANDAL → DEATH VILLAGE
+   ===================================================== */
+
+document
+  .getElementById("deathMandal")
+  .addEventListener(
+    "change",
+    function(){
+
+      populateVillages(
+        document.getElementById("deathDistrict").value,
+        this.value,
+        document.getElementById("deathVillage")
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   POPULATE MANDALS
+   ===================================================== */
+
+function populateMandals(
+  district,
+  select
+){
+
+  if(!select) return;
+
+
+  resetSelect(
+    select,
+    "Select Mandal / మండలం ఎంచుకోండి"
+  );
+
+
+  if(!district){
+
+    select.disabled = true;
+
+    return;
+
+  }
+
+
+  const mandals = [
+    ...new Set(
+
+      deathLocationData
+        .filter(
+          item =>
+            normalize(item.district) ===
+            normalize(district)
+        )
+        .map(
+          item => item.mandal
+        )
+
+    )
+  ].sort(
+    (a,b) =>
+      a.localeCompare(b)
+  );
+
+
+  mandals.forEach(
+    mandal => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        mandal;
+
+      option.textContent =
+        mandal;
+
+      select.appendChild(option);
+
+    }
+  );
+
+
+  select.disabled =
+    mandals.length === 0;
+
+}
+
+
+/* =====================================================
+   POPULATE VILLAGES
+   ===================================================== */
+
+function populateVillages(
+  district,
+  mandal,
+  select
+){
+
+  if(!select) return;
+
+
+  resetSelect(
+    select,
+    "Select Village / గ్రామం ఎంచుకోండి"
+  );
+
+
+  if(
+    !district ||
+    !mandal
+  ){
+
+    select.disabled = true;
+
+    return;
+
+  }
+
+
+  const villages = [
+    ...new Set(
+
+      deathLocationData
+        .filter(
+          item =>
+            normalize(item.district) ===
+            normalize(district)
+
+            &&
+
+            normalize(item.mandal) ===
+            normalize(mandal)
+        )
+        .map(
+          item => item.village
+        )
+
+    )
+  ].sort(
+    (a,b) =>
+      a.localeCompare(b)
+  );
+
+
+  villages.forEach(
+    village => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        village;
+
+      option.textContent =
+        village;
+
+      select.appendChild(option);
+
+    }
+  );
+
+
+  select.disabled =
+    villages.length === 0;
+
+}
+
+
+/* =====================================================
+   RESET SELECT
+   ===================================================== */
+
+function resetSelect(
+  select,
+  text
+){
+
+  if(!select) return;
+
+
+  select.innerHTML = `
+    <option value="">
+      ${text}
+    </option>
+  `;
+
+}
+
+
+/* =====================================================
+   START LOCATION DATA
+   ===================================================== */
+
+loadDeathLocationData();
+
+</script>
+
+
+<!-- YOUR EXISTING PDF / FORM JAVASCRIPT -->
+
+<script
+  type="module"
+  src="death.js"
+></script>
+
+
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

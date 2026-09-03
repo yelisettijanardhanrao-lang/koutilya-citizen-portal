@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="te">
+
+<head>
+<meta charset="utf-8">
+
+<style>
+
+@page{
+  size:A4;
+  margin:0;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#fff;
+  color:#000;
+  font-family:"Noto Serif Telugu",
+              "Noto Sans Telugu",
+              "Times New Roman",
+              serif;
+  font-size:11.5pt;
+  line-height:1.3;
+}
+
+.page{
+  width:210mm;
+  height:297mm;
+  padding:10mm 20mm 10mm;
+  position:relative;
+  overflow:hidden;
+}
+
+.logo{
+  display:block;
+  width:30mm;
+  height:auto;
+  margin:0 auto 4mm;
+}
+
+.price{
+  position:absolute;
+  right:18mm;
+  top:7mm;
+  font-size:10pt;
+}
+
+.title{
+  text-align:center;
+  font-weight:bold;
+  text-decoration:underline;
+  font-size:14pt;
+  margin:0 0 5mm;
+}
+
+
+/* ================================
+   BLANK LINES
+   ================================ */
+
+.line{
+  display:inline-block;
+  border-bottom:1px dotted #000;
+  height:4.5mm;
+  min-width:25mm;
+  vertical-align:baseline;
+  padding:0 1mm;
+  white-space:nowrap;
+}
+
+.sm{
+  min-width:20mm;
+}
+
+.md{
+  min-width:32mm;
+}
+
+.lg{
+  min-width:48mm;
+}
+
+.xl{
+  min-width:65mm;
+}
+
+.xxl{
+  min-width:85mm;
+}
+
+
+/* ================================
+   MAIN TEXT
+   ================================ */
+
+.main-text{
+  margin:0 0 3mm;
+  text-align:justify;
+  line-height:1.32;
+}
+
+
+/* ================================
+   APPLICANT DETAILS
+   ================================ */
+
+.section-title{
+  font-weight:bold;
+  margin:2.5mm 0 2mm;
+}
+
+.details-row{
+  display:flex;
+  align-items:baseline;
+  width:100%;
+  margin:1.8mm 0;
+  line-height:1.25;
+}
+
+.gender{
+  width:27%;
+}
+
+.dob{
+  width:31%;
+}
+
+.locality{
+  width:42%;
+}
+
+.district{
+  width:50%;
+}
+
+.pincode{
+  width:50%;
+}
+
+
+/* ================================
+   INCOME SECTION
+   ================================ */
+
+.income-heading{
+  font-weight:bold;
+  margin-top:3mm;
+  margin-bottom:2mm;
+  line-height:1.3;
+}
+
+.income-question{
+  display:flex;
+  align-items:baseline;
+  width:100%;
+  margin:1.7mm 0;
+  line-height:1.25;
+}
+
+.income-text{
+  flex:1;
+}
+
+.amount{
+  width:40mm;
+  white-space:nowrap;
+}
+
+.other-details{
+  margin:1mm 0 1mm 8mm;
+}
+
+
+/* ================================
+   TOTAL
+   ================================ */
+
+.total{
+  margin-top:1.5mm;
+  margin-bottom:3mm;
+  font-weight:bold;
+}
+
+
+/* ================================
+   DECLARATION
+   ================================ */
+
+.declaration{
+  margin:0;
+  text-align:justify;
+  line-height:1.35;
+}
+
+
+/* ================================
+   SIGNATURES
+   ================================ */
+
+.signatures{
+  display:flex;
+  justify-content:space-between;
+  margin-top:27mm;
+  padding:0 3mm;
+  font-weight:bold;
+}
+
+.signature-left{
+  width:42%;
+  text-align:left;
+}
+
+.signature-right{
+  width:48%;
+  text-align:center;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+<img
+  class="logo"
+  src="{{LOGO_DATA}}"
+>
+
+<div class="price">
+  Price: ` 1
+</div>
+
+
+<div class="title">
+  రాబడి దృవ పత్రము కొరకు దరఖాస్తు
+</div>
+
+
+<!-- =====================================================
+     MAIN APPLICATION TEXT
+     ===================================================== -->
+
+<p class="main-text">
+
+<span class="line lg">{{applicant_name}}</span>
+
+నేను
+
+<span class="line lg">{{father_name}}</span>
+
+అను వారికి తండ్రి/తల్లి/అయివున్నట్టి.
+
+నేను
+
+<span class="line md">{{mandal}}</span>
+
+మండలములోని
+
+<span class="line lg">{{village}}</span>
+
+వార్డు/ గ్రామములలో
+
+<span class="line md">{{house_number}}</span>
+
+నంబరు గల ఇంటిలో నివశించుచున్నాను.
+
+</p>
+
+
+<p class="main-text">
+
+నాకు
+
+<span class="line md">{{ration_card_number}}</span>
+
+నంబరు గల
+
+{{ration_card_type}}
+
+గులాబీ / తెలుపు రేషన్ కార్డు కలదు.
+
+నా ఆదాయము సంవత్సరమునకు అన్ని విధముల కలసి రూ.
+
+<span class="line lg">{{annual_income}}</span>
+
+/- లు
+
+(అక్షరాలా
+
+<span class="line xxl">{{annual_income_words}}</span>
+
+)
+
+రూపాయలనియూ, నాకు పై దృవపత్రము
+
+<span class="line lg">{{certificate_purpose}}</span>
+
+నిమిత్తము కావలయును. కావున, ఇప్పించగోరుతున్నాను.
+
+</p>
+
+
+<!-- =====================================================
+     APPLICANT DETAILS
+     ===================================================== -->
+
+<div class="section-title">
+  దరఖాస్తుదారుని వివరములు :
+</div>
+
+
+<div class="details-row">
+
+  <div class="gender">
+    లింగము :
+    <span class="line sm">{{gender}}</span>
+  </div>
+
+  <div class="dob">
+    పుట్టిన తేదీ :
+    <span class="line sm">{{date_of_birth}}</span>
+  </div>
+
+  <div class="locality">
+    లొకాలిటి / ల్యాండ్ మార్క్:
+    <span class="line md">{{locality}}</span>
+  </div>
+
+</div>
+
+
+<div class="details-row">
+
+  <div class="district">
+    జిల్లా:
+    <span class="line md">{{district}}</span>
+  </div>
+
+  <div class="pincode">
+    పిన్ కోడ్ :
+    <span class="line sm">{{pincode}}</span>
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     INCOME METHOD
+     ===================================================== -->
+
+<div class="income-heading">
+
+ఆదాయము వచ్చు విధానము
+(వృత్తి లేదా వ్యాపారము స్పష్టముగా వ్రాయవలయును )
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="income-question">
+
+  <div class="income-text">
+    1. భూముల నుండి మరియు భవనముల నుండి
+  </div>
+
+  <div class="amount">
+    రూ.
+    <span class="line sm">{{land_buildings_income}}</span>
+  </div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="income-question">
+
+  <div class="income-text">
+    2. ............................................................వ్యాపారము రీత్యా
+  </div>
+
+  <div class="amount">
+    రూ.
+    <span class="line sm">{{business_income}}</span>
+  </div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="income-question">
+
+  <div class="income-text">
+    3. భార్యాభర్తలకు కలిపి జీతము రీత్యా
+  </div>
+
+  <div class="amount">
+    రూ.
+    <span class="line sm">{{husband_wife_salary_income}}</span>
+  </div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="income-question">
+
+  <div class="income-text">
+    4. ............................................................రోజు కూలీ రీత్యా
+  </div>
+
+  <div class="amount">
+    రూ.
+    <span class="line sm">{{daily_wage_income}}</span>
+  </div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="income-question">
+
+  <div class="income-text">
+    5. మరియు ఇతర మార్గముల ద్వారా
+  </div>
+
+  <div class="amount">
+    రూ.
+    <span class="line sm">{{other_income}}</span>
+  </div>
+
+</div>
+
+
+<div class="other-details">
+
+  ( ఆయా మార్గముల వివరము తెలియపర్చుము.)
+
+  <span class="line sm">{{other_income_details}}</span>
+
+</div>
+
+
+<!-- =====================================================
+     TOTAL
+     ===================================================== -->
+
+<div class="income-question">
+
+  <div class="income-text">
+  <strong>మొత్తము :</strong>
+  </div>
+  <div class="amount">
+    <strong>రూ.</strong>
+    <span class="line sm">{{total_income}}</span>
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     DECLARATION
+     ===================================================== -->
+
+<p class="declaration">
+
+పై విషయములు యదార్థములు అని తెలియపర్చుకొనుచున్నాను.
+ఈ విషయములు యదార్థములు కానిచో ప్రభుత్వము వారు ఇండియన్ పీనల్ కోడ్
+క్రింద గైకొను చర్యలకు బాధ్యుడను.
+
+</p>
+
+
+<!-- =====================================================
+     SIGNATURES
+     ===================================================== -->
+
+<div class="signatures">
+
+  <div class="signature-left">
+    అభ్యర్థి సంతకము
+  </div>
+
+  <div class="signature-right">
+    తండ్రి / తల్లి / సంరక్షకుని సంతకము
+  </div>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

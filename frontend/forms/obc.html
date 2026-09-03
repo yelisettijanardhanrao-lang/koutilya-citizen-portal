@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+<head><script src="/api-config.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>OBC Certificate</title>
+
+<style>
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  padding:18px;
+  background:#f3f4f6;
+  font-family:Arial,sans-serif;
+  color:#111827
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08)
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:14px;
+  text-decoration:none;
+  color:#164e63;
+  border:1px solid #164e63;
+  padding:7px 12px;
+  border-radius:5px;
+  font-size:13px
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:24px
+}
+
+.subtitle{
+  margin:0 0 18px;
+  color:#4b5563;
+  font-size:13px
+}
+
+.section{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid #ddd
+}
+
+.section h2{
+  font-size:16px;
+  margin:0 0 14px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px 14px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:5px
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid #9ca3af;
+  border-radius:5px;
+  background:#fff;
+  font:13px Arial
+}
+
+select{
+  cursor:pointer
+}
+
+textarea{
+  min-height:75px;
+  resize:vertical
+}
+
+.button-row{
+  margin-top:24px;
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+
+button{
+  padding:11px 20px;
+  background:#166534;
+  color:#fff;
+  border:0;
+  border-radius:5px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.6
+}
+
+.success{
+  color:#166534
+}
+
+.error{
+  color:#b91c1c
+}
+
+@media(max-width:700px){
+
+  body{
+    padding:8px
+  }
+
+  .container{
+    padding:15px
+  }
+
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+
+  h1{
+    font-size:20px
+  }
+}
+</style>
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header>
+
+<div class="container">
+
+<a class="back" href="index.html">
+  ← Back to MeeSeva Applications
+</a>
+
+<h1>OBC Certificate</h1>
+
+<p class="subtitle">
+  Annexure-B application for eligibility for reservation for Other Backward Classes, based on the supplied 3-page reference.
+</p>
+
+
+<form id="appForm">
+
+
+<!-- =====================================================
+     APPLICANT PARTICULARS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Applicant Particulars / దరఖాస్తుదారు వివరాలు
+</h2>
+
+<div class="grid">
+
+
+<div class="field">
+<label>Full Name of Applicant / దరఖాస్తుదారు పూర్తి పేరు</label>
+<input type="text" name="applicantName">
+</div>
+
+
+<div class="field">
+<label>Gender / లింగం</label>
+<input type="text" name="gender">
+</div>
+
+
+<div class="field">
+<label>Date of Birth / పుట్టిన తేదీ</label>
+<input type="text" name="dateOfBirth">
+</div>
+
+
+<div class="field">
+<label>Religion / మతం</label>
+<input type="text" name="religion">
+</div>
+
+
+<div class="field">
+<label>Caste / కులం</label>
+<input type="text" name="caste">
+</div>
+
+
+<div class="field">
+<label>Sub-Caste / ఉప కులం</label>
+<input type="text" name="subCaste">
+</div>
+
+
+<div class="field">
+<label>
+Issued Caste Certificate in Past / గతంలో కుల ధృవీకరణ
+</label>
+
+<select name="castePast">
+<option value="">Select / ఎంచుకోండి</option>
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Education Certificate Contains Caste / విద్యా ధృవీకరణలో కులం
+</label>
+
+<select name="educationCaste">
+<option value="">Select / ఎంచుకోండి</option>
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+</select>
+
+</div>
+
+
+<div class="field">
+<label>Occupation Group / వృత్తి వర్గం</label>
+<input type="text" name="occupationGroup">
+</div>
+
+
+<div class="field">
+<label>
+Serial Number of Caste in Central List of OBCs / OBC జాబితా సీరియల్
+</label>
+
+<input type="text" name="centralOBCSerial">
+</div>
+
+
+<div class="field">
+<label>Name of Father / తండ్రి పేరు</label>
+<input type="text" name="fatherName">
+</div>
+
+
+<div class="field">
+<label>Name of Mother / తల్లి పేరు</label>
+<input type="text" name="motherName">
+</div>
+
+
+<div class="field">
+<label>Name of Husband / భర్త పేరు</label>
+<input type="text" name="husbandName">
+</div>
+
+
+<div class="field">
+<label>
+Status of Parents / Husband / తల్లిదండ్రులు / భర్త స్థితి
+</label>
+
+<select name="parentStatus">
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option value="Father">
+Father
+</option>
+
+<option value="Mother">
+Mother
+</option>
+
+<option value="Husband">
+Husband
+</option>
+
+<option value="Wife">
+Wife
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Constitutional Posts / రాజ్యాంగ పదవులు
+</label>
+
+<input type="text" name="constitutionalPosts">
+</div>
+
+
+<div class="field">
+<label>Designation / హోదా</label>
+<input type="text" name="designation">
+</div>
+
+
+<div class="field">
+<label>
+Services CENTRAL / STATE / సేవా రకం
+</label>
+
+<input type="text" name="serviceType">
+</div>
+
+
+<div class="field">
+<label>Service Designation / సేవా హోదా</label>
+<input type="text" name="serviceDesignation">
+</div>
+
+
+<div class="field">
+<label>Scale of Pay / వేతన శ్రేణి</label>
+<input type="text" name="scalePay">
+</div>
+
+
+<div class="field">
+<label>Clarification if any / వివరణ</label>
+<input type="text" name="clarification">
+</div>
+
+
+<div class="field">
+<label>Date of Appointment / నియామక తేదీ</label>
+<input type="text" name="appointmentDate">
+</div>
+
+
+<div class="field">
+<label>
+Age at Promotion to Class I / ప్రమోషన్ వయస్సు
+</label>
+
+<input type="text" name="promotionAge">
+</div>
+
+
+<!-- =====================================================
+     PERMANENT ADDRESS
+     ===================================================== -->
+
+
+<div class="field">
+<label>
+Permanent D.No. / శాశ్వత డోర్
+</label>
+
+<input type="text" name="permanentDoor">
+</div>
+
+
+<div class="field">
+<label>
+Permanent Locality / ప్రాంతం
+</label>
+
+<input type="text" name="permanentLocality">
+</div>
+
+
+<div class="field">
+<label>
+Permanent Village / గ్రామం
+</label>
+
+<select
+  name="permanentVillage"
+  id="permanentVillage"
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Permanent Mandal / మండలం
+</label>
+
+<select
+  name="permanentMandal"
+  id="permanentMandal"
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Permanent District / జిల్లా
+</label>
+
+<select
+  name="permanentDistrict"
+  id="permanentDistrict"
+>
+
+<option value="">
+Select District / జిల్లా ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Permanent Pincode / పిన్ కోడ్
+</label>
+
+<input
+  type="text"
+  name="permanentPincode"
+  maxlength="6"
+>
+</div>
+
+
+<!-- =====================================================
+     PRESENT ADDRESS
+     ===================================================== -->
+
+
+<div class="field">
+<label>
+Present D.No. / ప్రస్తుత డోర్
+</label>
+
+<input type="text" name="presentDoor">
+</div>
+
+
+<div class="field">
+<label>
+Present Locality / ప్రాంతం
+</label>
+
+<input type="text" name="presentLocality">
+</div>
+
+
+<div class="field">
+<label>
+Present Village / గ్రామం
+</label>
+
+<select
+  name="presentVillage"
+  id="presentVillage"
+>
+
+<option value="">
+Select Village / గ్రామం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Present Mandal / మండలం
+</label>
+
+<select
+  name="presentMandal"
+  id="presentMandal"
+>
+
+<option value="">
+Select Mandal / మండలం ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Present District / జిల్లా
+</label>
+
+<select
+  name="presentDistrict"
+  id="presentDistrict"
+>
+
+<option value="">
+Select District / జిల్లా ఎంచుకోండి
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Present Pincode / పిన్ కోడ్
+</label>
+
+<input
+  type="text"
+  name="presentPincode"
+  maxlength="6"
+>
+</div>
+
+
+</div>
+</div>
+
+
+<!-- =====================================================
+     OTHER PARTICULARS
+     ===================================================== -->
+
+<div class="section">
+
+<h2>
+Other Particulars / ఇతర వివరాలు
+</h2>
+
+<div class="grid">
+
+
+<div class="field">
+<label>
+International Organization Name / అంతర్జాతీయ సంస్థ
+</label>
+
+<input type="text" name="intlOrg">
+</div>
+
+
+<div class="field">
+<label>
+International Designation / హోదా
+</label>
+
+<input type="text" name="intlDesignation">
+</div>
+
+
+<div class="field">
+<label>
+Period From / ప్రారంభ తేదీ
+</label>
+
+<input type="text" name="intlFrom">
+</div>
+
+
+<div class="field">
+<label>
+Period To / ముగింపు తేదీ
+</label>
+
+<input type="text" name="intlTo">
+</div>
+
+
+<div class="field">
+<label>
+Death/Permanent Incapacitation Date / తేదీ
+</label>
+
+<input type="text" name="incapDate">
+</div>
+
+
+<div class="field">
+<label>
+Details of Permanent Incapacitation / వివరాలు
+</label>
+
+<textarea name="incapDetails"></textarea>
+</div>
+
+
+<div class="field">
+<label>
+PSU Organization / సంస్థ
+</label>
+
+<input type="text" name="psuOrg">
+</div>
+
+
+<div class="field">
+<label>
+PSU Designation / హోదా
+</label>
+
+<input type="text" name="psuDesignation">
+</div>
+
+
+<div class="field">
+<label>
+PSU Appointment Date / నియామక తేదీ
+</label>
+
+<input type="text" name="psuAppointment">
+</div>
+
+
+<div class="field">
+<label>
+Armed Forces Designation / హోదా
+</label>
+
+<input type="text" name="armedDesignation">
+</div>
+
+
+<div class="field">
+<label>
+Armed Forces Scale of Pay / వేతనం
+</label>
+
+<input type="text" name="armedScale">
+</div>
+
+
+<div class="field">
+<label>
+Occupation / Profession / వృత్తి
+</label>
+
+<input type="text" name="profession">
+</div>
+
+
+<div class="field">
+<label>
+Agricultural Land Location / భూమి స్థలం
+</label>
+
+<input type="text" name="agriLocation">
+</div>
+
+
+<div class="field">
+<label>
+Size of Holding / విస్తీర్ణం
+</label>
+
+<input type="text" name="agriSize">
+</div>
+
+
+<div class="field">
+<label>
+Irrigated Land 1 / నీటిపారుదల భూమి
+</label>
+
+<input type="text" name="irrigated1">
+</div>
+
+
+<div class="field">
+<label>
+Irrigated Land 2 / నీటిపారుదల భూమి
+</label>
+
+<input type="text" name="irrigated2">
+</div>
+
+
+<div class="field">
+<label>
+Irrigated Land 3 / నీటిపారుదల భూమి
+</label>
+
+<input type="text" name="irrigated3">
+</div>
+
+
+<div class="field">
+<label>
+Unirrigated / నీటిపారుదల లేని భూమి
+</label>
+
+<input type="text" name="unirrigated">
+</div>
+
+
+<div class="field">
+<label>
+Percentage to Ceiling / శాతం
+</label>
+
+<input type="text" name="irrigatedPercent">
+</div>
+
+
+<div class="field">
+<label>
+Conversion Formula Details / మార్పిడి వివరాలు
+</label>
+
+<input type="text" name="conversion">
+</div>
+
+
+<div class="field">
+<label>
+Converted Percentage / శాతం
+</label>
+
+<input type="text" name="conversionPercent">
+</div>
+
+
+<div class="field">
+<label>
+Plantation Crops/Fruits / పంటలు
+</label>
+
+<input type="text" name="plantationCrops">
+</div>
+
+
+<div class="field">
+<label>
+Plantation Location / స్థలం
+</label>
+
+<input type="text" name="plantationLocation">
+</div>
+
+
+<div class="field">
+<label>
+Plantation Area / విస్తీర్ణం
+</label>
+
+<input type="text" name="plantationArea">
+</div>
+
+
+<div class="field">
+<label>
+Urban Property Location / ఆస్తి స్థలం
+</label>
+
+<input type="text" name="urbanLocation">
+</div>
+
+
+<div class="field">
+<label>
+Property Details / ఆస్తి వివరాలు
+</label>
+
+<input type="text" name="urbanDetails">
+</div>
+
+
+<div class="field">
+<label>
+Use of Property / వినియోగం
+</label>
+
+<input type="text" name="urbanUse">
+</div>
+
+
+<div class="field">
+<label>
+Annual Family Income / కుటుంబ వార్షిక ఆదాయం
+</label>
+
+<input type="text" name="familyIncome">
+</div>
+
+
+<div class="field">
+<label>
+Whether Tax Paid / పన్ను చెల్లించారా
+</label>
+
+<select name="taxPaid">
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Covered in Wealth Tax Act / సంపద పన్ను చట్టం
+</label>
+
+<select name="wealthTax">
+
+<option value="">
+Select / ఎంచుకోండి
+</option>
+
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>
+Wealth Tax Details / వివరాలు
+</label>
+
+<input type="text" name="wealthDetails">
+</div>
+
+
+<div class="field">
+<label>
+Family Members / కుటుంబ సభ్యులు
+</label>
+
+<input type="text" name="familyMembers">
+</div>
+
+
+<div class="field">
+<label>
+Purpose of Caste Certificate / ధృవీకరణ ప్రయోజనం
+</label>
+
+<input type="text" name="purpose">
+</div>
+
+
+<div class="field">
+<label>
+Ration Card Number / రేషన్ కార్డు
+</label>
+
+<input type="text" name="rationCard">
+</div>
+
+
+<div class="field">
+<label>
+Aadhar Number / ఆధార్
+</label>
+
+<input type="text" name="aadhaar">
+</div>
+
+
+<div class="field">
+<label>
+Any Other Information / ఇతర సమాచారం
+</label>
+
+<textarea name="otherInfo"></textarea>
+</div>
+
+
+<div class="field">
+<label>
+Place / స్థలం
+</label>
+
+<input type="text" name="place">
+</div>
+
+
+<div class="field">
+<label>
+Dated / తేదీ
+</label>
+
+<input type="text" name="dated">
+</div>
+
+
+</div>
+</div>
+
+
+<!-- =====================================================
+     DOWNLOAD
+     ===================================================== -->
+
+<div class="button-row">
+
+<button type="submit">
+Download Application PDF
+</button>
+
+<span id="status"></span>
+
+</div>
+
+
+</form>
+
+</div>
+
+
+<script type="module" src="obc.js"></script>
+
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body>
+</html>

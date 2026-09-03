@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head><script src="/api-config.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mobile Number & Pattadar Aadhaar Seeding</title>
+<style>
+*{box-sizing:border-box} body{margin:0;padding:18px;background:#f3f4f6;font-family:Arial,sans-serif;color:#111827}
+.container{max-width:1100px;margin:auto;background:#fff;padding:22px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.back{display:inline-block;margin-bottom:14px;text-decoration:none;color:#164e63;border:1px solid #164e63;padding:7px 12px;border-radius:5px;font-size:13px}
+h1{margin:0 0 5px;font-size:24px} .subtitle{margin:0 0 18px;color:#4b5563;font-size:13px}
+.section{margin-top:22px;padding-top:16px;border-top:1px solid #ddd} .section h2{font-size:16px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 14px} .full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:600;margin-bottom:5px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid #9ca3af;border-radius:5px;background:#fff;font:13px Arial}
+textarea{min-height:75px;resize:vertical} .button-row{margin-top:24px;display:flex;gap:12px;align-items:center}
+button{padding:11px 20px;background:#166534;color:#fff;border:0;border-radius:5px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6} .success{color:#166534} .error{color:#b91c1c}
+@media(max-width:700px){body{padding:8px}.container{padding:15px}.grid{grid-template-columns:1fr}.full{grid-column:auto}h1{font-size:20px}}
+</style>
+<link rel="stylesheet" href="/assets/portal.css">
+</head>
+<body class="portal-page"><header class="portal-header"><div class="portal-header-inner"><a class="portal-brand" href="/" style="text-decoration:none"><span class="portal-mark">KS</span><span class="portal-brand-text">KOUTILYA SOLUTIONS<small>Citizen Services Portal</small></span></a><nav class="portal-nav"><a href="/">Home</a><a href="/forms/affidavits.html">Affidavits</a><a href="/forms/affidavits.html">Services</a><a href="/forms/affidavits.html">Contact</a><a class="portal-user" href="/forms/affidavits.html">👤 User Portal⌄</a></nav></div></header><div class="container">
+<a class="back" href="index.html">← Back to MeeSeva Applications</a>
+<h1>Mobile Number & Pattadar Aadhaar Seeding</h1><p class="subtitle">Land-record seeding application based on the supplied reference.</p>
+<form id="appForm"><div class="section"><h2>Selection Criteria / ఎంపిక వివరాలు</h2><div class="grid"><div class="field"><label>District / జిల్లా *</label><select name="district" required><option value="">Select / ఎంచుకోండి</option><option>Alluri Sitharama Raju</option><option>Anakapalli</option><option>Anantapur</option><option>Annamayya</option><option>Bapatla</option><option>Chittoor</option><option>Dr. B.R. Ambedkar Konaseema</option><option>East Godavari</option><option>Eluru</option><option>Guntur</option><option>Kakinada</option><option>Krishna</option><option>Kurnool</option><option>Nandyal</option><option>NTR</option><option>Palnadu</option><option>Parvathipuram Manyam</option><option>Prakasam</option><option>SPSR Nellore</option><option>Sri Sathya Sai</option><option>Srikakulam</option><option>Tirupati</option><option>Visakhapatnam</option><option>Vizianagaram</option><option>West Godavari</option><option>YSR Kadapa</option></select></div><div class="field"><label>Mandal / మండలం *</label><input type="text" name="mandal" required placeholder=""></div><div class="field"><label>Village / Ward / గ్రామం *</label><input type="text" name="village" required placeholder=""></div><div class="field"><label>Khata Number / ఖాతా నంబర్</label><input type="text" name="khataNumber" placeholder=""></div></div></div><div class='section'><h2>Pattadar Seeding Details / పట్టాదారు సీడింగ్ వివరాలు</h2><div class='grid'><div class="field"><label>Seeding Type / సీడింగ్ రకం</label><select name="seedingType"><option value="">Select / ఎంచుకోండి</option><option>Mobile</option><option>Aadhaar</option></select></div><div class="field"><label>New Mobile Number to Seed / కొత్త మొబైల్ నంబర్</label><input type="text" name="newMobile" placeholder=""></div><div class="field"><label>New AADHAAR Number to Seed / కొత్త ఆధార్ నంబర్</label><input type="text" name="newAadhaar" placeholder=""></div></div></div>
+<div class="button-row"><button type="submit">Download Application PDF</button><span id="status"></span></div>
+</form></div>
+<script type="module" src="seeding.js"></script>
+<footer class="portal-footer"><div class="portal-footer-inner"><span>© 2026 Koutilya Solutions. All rights reserved. &nbsp;|&nbsp; Citizen Services Portal</span><span class="portal-footer-right">🛡️ Your Digital Service Partner</span></div></footer>
+<script>
+(()=>{
+ const nativeFetch=window.fetch.bind(window);
+ window.fetch=async(...args)=>{
+  const input=args[0]; const url=typeof input==='string'?input:(input&&input.url)||'';
+  if(!url.includes('/api/pdf/')) return nativeFetch(...args);
+  let serviceKey='';
+  if(url.includes('/api/pdf/affidavit/')){ const m=url.match(/\/api\/pdf\/affidavit\/([^/?]+)/); serviceKey=m?`affidavit:${m[1]}`:'affidavit'; }
+  else { const m=url.match(/\/api\/pdf\/([^/?]+)/); serviceKey=m?m[1]:''; }
+  const pay=await nativeFetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})});
+  if(!pay.ok){let j={};try{j=await pay.json()}catch{};window.parent?.postMessage({type:'wallet-required',message:j.message||'Please add money to Wallet.'},location.origin);throw new Error(j.message||'Payment required');}
+  const response=await nativeFetch(...args);
+  if(!response.ok){try{await nativeFetch('/api/portal/refund-service',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceKey})})}catch{}}
+  return response;
+ };
+})();
+</script>
+</body></html>
