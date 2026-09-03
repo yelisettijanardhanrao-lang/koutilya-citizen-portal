@@ -312,7 +312,57 @@ app.post('/api/auth/change-password',requireUser,async(req,res)=>{const cur=Stri
 app.get('/api/portal/dashboard',requireUser,requireChangedPassword,async(req,res)=>{const db=await getDb(),u=db.users.find(x=>x.id===req.user.id),tx=db.transactions.filter(x=>x.userId===u.id),serviceTx=tx.filter(x=>x.type==='service');res.json({success:true,user:publicUser(u),stats:{transactions:serviceTx.length,amountSpent:serviceTx.reduce((a,x)=>a+Number(x.amount||0),0),balance:Number(u.walletBalance||0)},recent:tx.sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).slice(0,8)});});
 app.get('/api/portal/transactions',requireUser,requireChangedPassword,async(req,res)=>{const from=String(req.query.from||''),to=String(req.query.to||''),db=await getDb();const rows=db.transactions.filter(x=>x.userId===req.user.id).filter(x=>!from||x.createdAt.slice(0,10)>=from).filter(x=>!to||x.createdAt.slice(0,10)<=to).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));res.json({success:true,transactions:rows});});
 app.get('/api/wallet',requireUser,requireChangedPassword,async(req,res)=>{const db=await getDb(),u=db.users.find(x=>x.id===req.user.id);res.json({success:true,balance:Number(u.walletBalance||0),transactions:db.transactions.filter(x=>x.userId===u.id&&x.type==='topup').sort((a,b)=>b.createdAt.localeCompare(a.createdAt))});});
+app.post('/api/wallet/topup',requireUser,requireChangedPassword,async(req,res)=>{
+  try{
+    const amount=Number(req.body?.amount);
 
+    if(!Number.isFinite(amount)||amount<10||amount>100000){
+      return res.status(400).json({
+        success:false,
+        message:'Top-up amount must be between ₹10 and ₹1,00,000.'
+      });
+    }
+
+    const db=await getDb();
+    const user=db.users.find(x=>x.id===req.user.id);
+
+    if(!user){
+      return res.status(404).json({
+        success:false,
+        message:'User not found.'
+      });
+    }
+
+    const order=await cashfreeCreateOrder(user,amount);
+
+    await mutate(db=>{
+      db.cashfreeOrders=db.cashfreeOrders||[];
+
+      db.cashfreeOrders.push({
+        orderId:order.orderId,
+        userId:user.id,
+        amount:Number(amount.toFixed(2)),
+        status:'PENDING',
+        createdAt:now()
+      });
+    });
+
+    res.json({
+      success:true,
+      orderId:order.orderId,
+      paymentSessionId:order.paymentSessionId,
+      environment:order.environment
+    });
+
+  }catch(e){
+    console.error('Wallet top-up error:',e);
+
+    res.status(500).json({
+      success:false,
+      message:e.message||'Unable to create Cashfree payment.'
+    });
+  }
+});
 async function cashfreeCreateOrder(user,amount){
   const appId=String(
     process.env.CASHFREE_APP_ID||process.env.CASHFREE_CLIENT_ID||''
