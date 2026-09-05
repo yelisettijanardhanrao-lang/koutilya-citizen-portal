@@ -4,15 +4,14 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node --import ./resume-design-preload.mjs server.js",
-    "dev": "nodemon --exec node --import ./resume-design-preload.mjs server.js",
+    "start": "node --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
+    "dev": "nodemon --exec node --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
     "postinstall": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
-    "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0",
     "nodemailer": "^9.0.6",
