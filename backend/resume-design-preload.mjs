@@ -1,6 +1,62 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import express from 'express';
 import puppeteer from 'puppeteer';
+import nodemailer from 'nodemailer';
+
+// Production email safety: when SMTP is configured, intercept the portal's
+// Resend API call and deliver the same message through SMTP instead. This
+// prevents an exhausted Resend quota from blocking citizen registration.
+// If SMTP is not configured, the existing Resend request is left untouched.
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async function(url, options = {}) {
+  const target = String(url || '');
+  const smtpReady = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS;
+
+  if (target === 'https://api.resend.com/emails' && smtpReady) {
+    try {
+      const payload = typeof options.body === 'string' ? JSON.parse(options.body) : (options.body || {});
+      const port = Number(process.env.SMTP_PORT || 587);
+      const secure = String(process.env.SMTP_SECURE || 'false').toLowerCase() === 'true';
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port,
+        secure,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS
+        },
+        tls: { rejectUnauthorized: true }
+      });
+
+      const info = await transporter.sendMail({
+        from: payload.from || process.env.MAIL_FROM || process.env.SMTP_USER,
+        to: Array.isArray(payload.to) ? payload.to : [payload.to],
+        subject: payload.subject || '',
+        text: payload.text || '',
+        html: payload.html || payload.text || ''
+      });
+
+      console.log('SMTP EMAIL SENT', {
+        to: payload.to,
+        subject: payload.subject,
+        messageId: info.messageId || null
+      });
+
+      return new Response(JSON.stringify({ id: info.messageId || `smtp-${Date.now()}` }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } catch (error) {
+      console.error('SMTP EMAIL ERROR', error?.message || error);
+      return new Response(JSON.stringify({ error: { message: error?.message || 'SMTP delivery failed' } }), {
+        status: 502,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  }
+
+  return originalFetch(url, options);
+};
 
 // server.js currently references resumeTitleCase from the resume skill formatter.
 // Keep the locked resume changes isolated: expose the existing smart-title helper
