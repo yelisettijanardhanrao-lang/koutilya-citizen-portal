@@ -2,6 +2,15 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import express from 'express';
 import puppeteer from 'puppeteer';
 
+// server.js currently references resumeTitleCase from the resume skill formatter.
+// Keep the locked resume changes isolated: expose the existing smart-title helper
+// under that legacy name before server.js is evaluated.
+globalThis.resumeTitleCase = (value) => {
+  const s = String(value ?? '').trim().replace(/\s+/g, ' ');
+  if (!s) return '';
+  return s.toLowerCase().replace(/\b([a-z])/g, c => c.toUpperCase());
+};
+
 const resumeContext = new AsyncLocalStorage();
 const originalPost = express.application.post;
 express.application.post = function(path, ...handlers) {
