@@ -3,7 +3,7 @@ import express from 'express';
 import crypto from 'node:crypto';
 import { mutate, hashPassword, id, now, getDb } from './portal-db.js';
 
-const originalPost = express.application.post;
+const resumePost = express.application.post;
 
 function findCitizen(db, credential) {
   const value = String(credential || '').trim().toLowerCase();
@@ -52,18 +52,18 @@ function citizenLogin(req,res){
   })();
 }
 
+// Express application's native route method bypasses the earlier registration wrapper.
 express.application.post=function(path,...handlers){
-  if(path==='/api/auth/register') return originalPost.call(this,path,registration);
+  if(path==='/api/auth/register') return this.route(path).post(registration);
   if(path==='/api/auth/unified-login') {
     const originalHandler=handlers[handlers.length-1];
-    const wrapped=[...handlers.slice(0,-1),async(req,res,next)=>{
+    return this.route(path).post(...handlers.slice(0,-1),async(req,res,next)=>{
       const db=await getDb();
       if(findCitizen(db,req.body?.userId)) return citizenLogin(req,res);
       return originalHandler(req,res,next);
-    }];
-    return originalPost.call(this,path,...wrapped);
+    });
   }
-  return originalPost.call(this,path,...handlers);
+  return resumePost.call(this,path,...handlers);
 };
 
 // Rewrite only the registration screen in the existing static portal JS.
