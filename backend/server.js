@@ -12,6 +12,7 @@ import lateBirthPdfRouter from './routes/lateBirthPdf.js';
 import crypto from 'crypto';
 import { initDb, mutate, getDb, id, hashPassword, randomPassword, now } from './portal-db.js';
 import { decideAffidavit } from './affidavit-rules.js';
+import { createJobAlertService } from './job-alerts/service.js';
 
 
 /* =====================================================
@@ -83,9 +84,9 @@ async function sessionUser(req){const token=authToken(req,SESSION_COOKIE);if(!to
 async function requireUser(req,res,next){const user=await sessionUser(req);if(!user)return res.status(401).json({success:false,message:'Please login.'});req.user=user;next();}
 function requireChangedPassword(req,res,next){if(req.user?.mustChangePassword)return res.status(403).json({success:false,code:'PASSWORD_CHANGE_REQUIRED',message:'Please change your temporary password before using citizen services.'});next();}
 function publicUser(u){return{id:u.id,userId:u.userId,name:u.name,mobile:u.mobile,email:u.email,city:u.city,mustChangePassword:!!u.mustChangePassword,createdAt:u.createdAt};}
-const serviceNames={death:'Late Registration of Death','late-birth':'Late Registration of Birth',income:'Income Certificate',ews:'EWS Income Certificate',obc:'OBC Certificate','caste-integrated':'Caste / Integrated Certificate','family-member':'Family Membership Certificate',seeding:'Pattadar Aadhaar Seeding','death-affidavit':'Death Registration Affidavit','family-member-affidavit':'Family Member Affidavit','one-same-person-affidavit':'One & Same Person Affidavit','name-difference-affidavit':'Name Difference Affidavit'};
+const serviceNames={resume:'Koutilya Resume Writer',death:'Late Registration of Death','late-birth':'Late Registration of Birth',income:'Income Certificate',ews:'EWS Income Certificate',obc:'OBC Certificate','caste-integrated':'Caste / Integrated Certificate','family-member':'Family Membership Certificate',seeding:'Pattadar Aadhaar Seeding','death-affidavit':'Death Registration Affidavit','family-member-affidavit':'Family Member Affidavit','one-same-person-affidavit':'One & Same Person Affidavit','name-difference-affidavit':'Name Difference Affidavit'};
 function affidavitServiceKey(key){return String(key||'').startsWith('affidavit:')||/affidavit|declaration/i.test(String(key||''));}
-function serviceFee(key){return affidavitServiceKey(key)?5:2;}
+function serviceFee(key){if(String(key||'')==='resume')return 10;return affidavitServiceKey(key)?5:2;}
 async function sendEmail({to, subject, text, html}) {
   // Resend HTTPS API — used in production
   const resendKey = process.env.RESEND_API_KEY;
@@ -283,8 +284,38 @@ async function sendEmail({to, subject, text, html}) {
 }
 
 
+const jobAlerts = createJobAlertService({ sendEmail });
+try {
+  await jobAlerts.init();
+  // Every active citizen is enrolled automatically. No category-selection step is used.
+  jobAlerts.syncAllUsers().then(count=>console.log('JOB ALERT AUTO-ENROLL SYNC',count)).catch(e=>console.error('JOB ALERT AUTO-ENROLL ERROR:',e.message));
+} catch (e) { console.error('JOB ALERT INIT ERROR:', e.message); }
+let jobAlertRunInProgress=false;
+async function scheduledJobAlertRun(){
+  if(jobAlertRunInProgress){console.warn('JOB ALERT SCHEDULED RUN SKIPPED: previous run still active');return;}
+  jobAlertRunInProgress=true;
+  try{
+    const dryRun=String(process.env.JOB_ALERT_DRY_RUN||'true').toLowerCase()!=='false';
+    const result=await jobAlerts.run({test:false,dryRun});
+    console.log('JOB ALERT SCHEDULED RUN',JSON.stringify(result));
+  }catch(e){console.error('JOB ALERT SCHEDULER ERROR:',e.message)}
+  finally{jobAlertRunInProgress=false;}
+}
+if(String(process.env.JOB_ALERT_SCHEDULER_ENABLED||'false').toLowerCase()==='true'){
+  const interval=Math.max(3600000,Number(process.env.JOB_ALERT_INTERVAL_MS||21600000));
+  const startupDelay=Math.max(10000,Number(process.env.JOB_ALERT_STARTUP_DELAY_MS||30000));
+  setTimeout(()=>scheduledJobAlertRun(),startupDelay);
+  setInterval(()=>scheduledJobAlertRun(),interval);
+  console.log('JOB ALERT SCHEDULER ENABLED', {intervalMs:interval,startupDelayMs:startupDelay,dryRun:String(process.env.JOB_ALERT_DRY_RUN||'true').toLowerCase()!=='false'});
+}
+
+
 app.post('/api/auth/register',async(req,res)=>{try{const name=String(req.body.name||'').trim(),mobile=String(req.body.mobile||'').replace(/\D/g,''),email=String(req.body.email||'').trim().toLowerCase(),city=String(req.body.city||'').trim();if(!name||!/^[6-9]\d{9}$/.test(mobile)||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!city)return res.status(400).json({success:false,message:'Enter valid name, 10-digit mobile, email and city.'});const result=await mutate(db=>{if(db.users.some(u=>u.mobile===mobile))throw new Error('This mobile number is already registered.');if(db.users.some(u=>u.email===email))throw new Error('This email address is already registered.');let userId;do{db.counters.user+=1;userId=`KSPL${db.counters.user}`;}while(db.users.some(u=>u.userId===userId));const password=randomPassword();const user={id:id('usr'),userId,name,mobile,email,city,passwordHash:hashPassword(password),mustChangePassword:true,walletBalance:0,pdfEntitlements:[],active:true,createdAt:now()};db.users.push(user);return{user,password};});const msg=`Koutilya Solutions Citizen Portal\nUser ID: ${result.user.userId}\nTemporary Password: ${result.password}\nPlease login and change your password immediately.`;
-const emailSent=await sendEmail({to:result.user.email,subject:'Koutilya Citizen Portal Login Credentials',text:msg});if(!emailSent){await mutate(db=>{db.users=db.users.filter(u=>u.id!==result.user.id);});return res.status(503).json({success:false,message:'Registration could not be completed because the credential email could not be sent. Please try again after email settings are verified.'});}res.json({success:true,message:'Registration successful. Your User ID and temporary password have been sent to your registered email address.'});}catch(e){console.error('REGISTER ERROR',e);res.status(409).json({success:false,message:e.message});}});
+const emailSent=await sendEmail({to:result.user.email,subject:'Koutilya Citizen Portal Login Credentials',text:msg});if(!emailSent){await mutate(db=>{db.users=db.users.filter(u=>u.id!==result.user.id);});return res.status(503).json({success:false,message:'Registration could not be completed because the credential email could not be sent. Please try again after email settings are verified.'});}try{await jobAlerts.enrollUser(result.user);}catch(alertErr){console.error('JOB ALERT ENROLL ERROR:',alertErr.message);}res.json({success:true,message:'Registration successful. Your User ID and temporary password have been sent to your registered email address.'});}catch(e){console.error('REGISTER ERROR',e);res.status(409).json({success:false,message:e.message});}});
+app.get('/api/alerts',requireUser,requireChangedPassword,async(req,res)=>{try{await jobAlerts.enrollUser(req.user);const [notifications,alertStats]=await Promise.all([jobAlerts.list(100),jobAlerts.getStats()]);const catalog=jobAlerts.sourceCatalog||[];const byId=new Map(catalog.map(s=>[s.id,s]));const enriched=notifications.map(n=>{const s=byId.get(n.sourceId);return {...n,sourceName:s?.name||n.sourceId,sourceOfficialUrl:s?.officialUrl||n.officialUrl};});res.json({success:true,notifications:enriched,sources:catalog.filter(s=>s.active!==false).map(s=>({id:s.id,name:s.name,scope:s.scope,type:s.type,officialUrl:s.officialUrl})),stats:alertStats});}catch(e){console.error('ALERTS GET ERROR',e);res.status(500).json({success:false,message:'Unable to load alerts.'});}});
+app.get('/api/alerts/unsubscribe',async(req,res)=>{try{const ok=await jobAlerts.unsubscribe(String(req.query.token||''));res.status(ok?200:404).send(`<!doctype html><html><head><meta charset="utf-8"><title>Koutilya Alerts</title></head><body style="font-family:Arial;padding:40px;text-align:center"><h2>${ok?'Alerts unsubscribed':'Invalid or expired unsubscribe link'}</h2><p>${ok?'You will no longer receive Government Jobs, Competitive Exams & Education Alerts from Koutilya.':'Please use the unsubscribe link from a recent email.'}</p></body></html>`);}catch(e){res.status(500).send('Unable to process unsubscribe request.');}});
+
+
 app.post('/api/auth/login',async(req,res)=>{const userId=String(req.body.userId||'').trim().toUpperCase(),password=String(req.body.password||'');const db=await getDb();const user=db.users.find(u=>u.userId===userId&&u.active);if(!user||user.passwordHash!==hashPassword(password))return res.status(401).json({success:false,message:'Invalid User ID or password.'});const token=crypto.randomBytes(32).toString('hex');await mutate(db=>{db.sessions=db.sessions.filter(s=>s.expiresAt>Date.now());db.sessions.push({token,userId:user.id,createdAt:now(),expiresAt:Date.now()+SESSION_TTL_DAYS*86400000});});setCookie(res,SESSION_COOKIE,token);res.json({success:true,user:publicUser(user),authToken:token});});
 // Unified CSP login: one login screen decides whether the credentials belong to the administrator or a citizen.
 app.post('/api/auth/unified-login',async(req,res)=>{
@@ -403,11 +434,11 @@ async function cashfreeCreateOrder(user,amount){
     Environment variables can override them.
   */
   const returnBase=String(
-    process.env.CASHFREE_RETURN_URL||
-    (env==='production'
-      ? 'https://csp.koutilyasolutions.in/wallet'
-      : 'http://localhost:5173/wallet')
-  ).trim();
+  process.env.CASHFREE_RETURN_URL||
+  (env==='production'
+    ? 'https://csp.koutilyasolutions.in/'
+    : 'http://localhost:5173/')
+).trim();
 
   const webhookUrl=String(
     process.env.CASHFREE_WEBHOOK_URL||
@@ -629,6 +660,138 @@ app.use(
    Mount its PDF router so the form is fully connected to the main portal.
    ===================================================== */
 app.use('/api/pdf', lateBirthPdfRouter);
+
+
+/* =====================================================
+   KOUTILYA RESUME WRITER
+   Turns citizen-provided facts into polished resume wording.
+   It never adds qualifications, employers, achievements or experience
+   that the citizen did not provide.
+   ===================================================== */
+function resumeNormalizeText(value){
+  let s=String(value??'').replace(/\r/g,' ').replace(/\s+/g,' ').trim(); if(!s)return '';
+  const replacements=[
+    [/\bvisakhpatham\b/gi,'Visakhapatnam'],[/\bvishakapatnam\b/gi,'Visakhapatnam'],[/\bvisakapatnam\b/gi,'Visakhapatnam'],[/\bvisakha?patnam\b/gi,'Visakhapatnam'],
+    [/\bandhra\s+univerity\b/gi,'Andhra University'],[/\bandhra\s+university\b/gi,'Andhra University'],
+    [/\bstatments?\b/gi,'statements'],[/\bstatemants?\b/gi,'statements'],[/\bqui?res?\b/gi,'queries'],[/\bqueries?\b/gi,'queries'],
+    [/\bcleart\b/gi,'clear'],[/\bbraches\b/gi,'branches'],[/\bbrances\b/gi,'branches'],[/\butiliy\b/gi,'utility'],[/\butilit(y|ies)\b/gi,'utility'],
+    [/\bexcell\b/gi,'Excel'],[/\btalley\b/gi,'Tally'],[/\btallyman\b/gi,'Tally'],[/\bms\s+excell\b/gi,'MS Excel'],
+    [/\bbsc\s+computers\b/gi,'B.Sc. in Computer Science'],[/\bb\.?sc\.?\s+computers\b/gi,'B.Sc. in Computer Science']
+  ];
+  for(const [re,to] of replacements)s=s.replace(re,to);
+  return s;
+}
+function resumeWriterLines(text){return resumeNormalizeText(text).split(/\n+/).flatMap(x=>x.split(/[;]+/)).map(x=>x.trim()).filter(Boolean);}
+function resumeWriterSkills(text){return resumeNormalizeText(String(text||'').replace(/,/g,'\n')).split(/\n+/).map(x=>x.replace(/^[•\-–—\s]+/,'').trim()).filter(Boolean);}
+function resumePolishEducation(v){return resumeWriterLines(v).map(x=>x.replace(/^bsc$/i,'B.Sc.').replace(/^msc$/i,'M.Sc.').replace(/^bcom$/i,'B.Com.').replace(/^mcom$/i,'M.Com.').replace(/^ba$/i,'B.A.').replace(/^ma$/i,'M.A.').replace(/^btech$/i,'B.Tech.').replace(/^mtech$/i,'M.Tech.').replace(/^bca$/i,'BCA').replace(/^mca$/i,'MCA').replace(/^mba$/i,'MBA').replace(/^bed$/i,'B.Ed.').replace(/^med$/i,'M.Ed.').replace(/^10th$/i,'Secondary School Certificate (10th)').replace(/^12th$/i,'Higher Secondary / Intermediate')).join('\n');}
+function resumeRoleArticle(role){return /^[aeiou]/i.test(String(role||''))?'an':'a';}
+function resumePolishSkill(v){const x=String(v||'').trim().replace(/^[-•]+/,'').trim();const m={'ms excel':'MS Excel','excel':'MS Excel','ms office':'MS Office','microsoft office':'MS Office','tally':'Tally / Accounting Software','customer handling':'Customer Service & Customer Handling','customer service':'Customer Service','cash handling':'Cash Handling','billing':'Billing & Invoicing','communication':'Communication','teamwork':'Teamwork','leadership':'Leadership','problem solving':'Problem Solving','data entry':'Data Entry','computer knowledge':'Computer Skills','computer work':'Computer Skills'};return m[x.toLowerCase()]||resumeTitleCase(x);}
+function resumeIsExperienceDuration(v){return /^(?:\d+(?:\.\d+)?\+?\s*(?:years?|yrs?|months?|mos?))(?:\s+of\s+experience)?$/i.test(String(v||'').trim());}
+function resumePolishExperience(v){let x=String(v||'').trim().replace(/^[-•]+\s*/,'');if(!x||resumeIsExperienceDuration(x))return '';const l=x.toLowerCase();if(/^billing$|^billing activities?$/.test(l))return 'Handled billing activities.';if(/^customer handling$|^customer service$/.test(l))return 'Handled customer interactions and service activities.';if(/^cash handling$|^cash$/.test(l))return 'Handled cash-related activities.';if(/^tally$|^tally software$/.test(l))return 'Used Tally for the stated work.';if(/^excel$|^ms excel$|^spreadsheet$/.test(l))return 'Used MS Excel for the stated work.';if(/^data entry$/.test(l))return 'Performed data-entry work.';if(/^sales$/.test(l))return 'Supported sales activities.';if(/^teaching$|^teach$/.test(l))return 'Supported teaching activities.';if(/^computer work$|^computer$/.test(l))return 'Performed computer-based work.';return x.charAt(0).toUpperCase()+x.slice(1).replace(/[.!?]*$/,'')+'.';}
+function resumePolishProject(v){const x=String(v||'').trim().replace(/^[-•]+\s*/,'');if(!x)return '';return x.charAt(0).toUpperCase()+x.slice(1).replace(/[.!?]*$/,'')+'.';}
+function resumePolishCertification(v){const x=String(v||'').trim().replace(/^[-•]+\s*/,'');return x?x.charAt(0).toUpperCase()+x.slice(1).replace(/\.$/,'')+'.':'';}
+function resumePolishAchievement(v){const x=String(v||'').trim().replace(/^[-•]+\s*/,'');return x?x.charAt(0).toUpperCase()+x.slice(1).replace(/\.$/,'')+'.':'';}
+function resumeSmartTitle(v){
+  const s=String(v||'').trim().replace(/\s+/g,' '); if(!s)return '';
+  const acr=new Set(['IT','HR','BPO','KYC','GST','TDS','MS','MBA','MCA','BCA','B.Tech.','M.Tech.','B.Sc.','M.Sc.','B.Com.','M.Com.','B.A.','M.A.','B.Ed.','M.Ed.','SSC','HSC','CBSE','ICSE','API','UI','UX','SQL','HTML','CSS','PHP','C','C++','C#','AI','ML']);
+  return s.toLowerCase().split(/\s+/).map(w=>{const bare=w.replace(/[^a-z0-9.+#-]/gi,'');if(acr.has(bare.toUpperCase())||acr.has(bare))return bare.toUpperCase()=== 'BTECH'?'B.Tech.':bare.toUpperCase()=== 'MTECH'?'M.Tech.':bare.toUpperCase()=== 'BSC'?'B.Sc.':bare.toUpperCase()=== 'MSC'?'M.Sc.':bare.toUpperCase()=== 'BCOM'?'B.Com.':bare.toUpperCase()=== 'MCOM'?'M.Com.':bare.toUpperCase()=== 'BED'?'B.Ed.':bare.toUpperCase()=== 'MED'?'M.Ed.':w.replace(/[a-z]+/gi,m=>m.toUpperCase());return w.charAt(0).toUpperCase()+w.slice(1);}).join(' ');
+}
+function resumeBullet(v){
+  let x=resumeNormalizeText(v).replace(/^[-•]+\s*/,'').trim(); if(!x)return '';
+  const raw=x, l=x.toLowerCase();
+  if(resumeIsExperienceDuration(x))return '';
+  const exact={
+    'billing':'Handled billing activities.',
+    'billing activities':'Handled billing activities.',
+    'billing queries':'Handled billing-related queries and provided appropriate support.',
+    'salary statements':'Prepared salary statements as part of routine office activities.',
+    'tally':'Used Tally for accounting and transaction-related work.',
+    'excel':'Used MS Excel for records, calculations and routine reporting.',
+    'ms excel':'Used MS Excel for records, calculations and routine reporting.',
+    'data entry':'Performed data-entry activities with attention to accuracy.',
+    'customer handling':'Handled customer interactions and service-related queries.',
+    'customer service':'Handled customer service activities and responded to queries.',
+    'cash handling':'Handled cash-related activities and maintained transaction records.',
+    'bank statements':'Reviewed bank statements as part of routine accounting activities.',
+    'sales':'Supported sales activities and customer follow-up.',
+    'teaching':'Supported teaching and learning activities.',
+    'computer work':'Performed computer-based administrative and operational activities.'
+  };
+  if(exact[l])return exact[l];
+  // Turn common run-on input into separate factual clauses before professional rewriting.
+  const clauses=x.replace(/\b(i am|i'm|am|i was|i|we|we are|we're)\b/gi,' ')
+    .replace(/\s+(and|&|then)\s+/gi,'|')
+    .split('|').map(s=>s.trim()).filter(Boolean);
+  if(clauses.length>1){
+    const out=[]; for(const c of clauses){const b=resumeBullet(c);if(b&&!out.includes(b))out.push(b);} if(out.length)return out.join('\n');
+  }
+  let y=x.replace(/^\s*(i\s+)?(?:am|was|do|did)\s+/i,'').replace(/\s+/g,' ').trim();
+  y=y.replace(/\bcleared\s+the\s+daily\s+requirements\b/i,'handled day-to-day requirements');
+  y=y.replace(/\bclear\s+the\s+daily\s+requirements\b/i,'handled day-to-day requirements');
+  y=y.replace(/\bbilling\s+quires\b/gi,'billing queries');
+  y=y.replace(/\bsalary\s+statements?\b/gi,'salary statements');
+  if(/salary statements/i.test(y))y=y.replace(/^.*?salary statements?/i,'Prepared salary statements');
+  if(/billing[- ]related queries|billing queries/i.test(y))y=y.replace(/^.*?(billing[- ]related queries|billing queries).*$/i,'Handled billing-related queries and provided appropriate support.');
+  if(/day-to-day requirements|daily requirements/i.test(y))y='Handled day-to-day requirements and routine office needs.';
+  if(/bank statements/i.test(y)&&/check|review|verify/i.test(y))y='Reviewed bank statements as part of routine accounting activities.';
+  if(/tally/i.test(y)&&/excel/i.test(y))y='Used Tally and MS Excel for the stated accounting and record-keeping work.';
+  else if(/tally/i.test(y))y='Used Tally for the stated accounting and transaction-related work.';
+  else if(/excel/i.test(y))y='Used MS Excel for the stated records, calculations or reporting work.';
+  y=y.replace(/[.!?]+$/,'').trim();
+  if(!y)return '';
+  y=y.charAt(0).toUpperCase()+y.slice(1);
+  if(!/[.!?]$/.test(y))y+='.';
+  return y;
+}
+function writeKoutilyaResume(input){
+  const d={...input};const role=resumeSmartTitle(d.targetRole||'Professional');const skills=resumeWriterSkills(d.skills).map(resumePolishSkill).filter(Boolean);const exp=resumeWriterLines(d.experience).filter(x=>!resumeIsExperienceDuration(x)&&!/^fresher$/i.test(x));const projects=resumeWriterLines(d.projects);const certs=resumeWriterLines(d.certifications);const ach=resumeWriterLines(d.achievements);const langs=resumeWriterSkills(d.languages).map(resumeSmartTitle);const education=resumePolishEducation(d.education);const status=String(d.careerStatus||'').toLowerCase();const fresher=/fresh|student|entry/.test(status)||/fresh/.test(String(d.experience||'').toLowerCase());const duration=resumeWriterLines(d.experience).find(resumeIsExperienceDuration)||'';const skillText=skills.slice(0,10).join(', ');
+  d.fullName=resumeSmartTitle(d.fullName);d.targetRole=role;d.jobTitle=resumeSmartTitle(d.jobTitle||role);d.company=resumeSmartTitle(d.company);d.employmentDates=String(d.employmentDates||'').trim();d.education=education;d.skills=skills.join(' • ');d.languages=langs.join(', ');d.industry=String(d.industry||'').trim();
+  const internshipLines=resumeWriterLines(d.internships);
+  d.internships=internshipLines.map(x=>resumeBullet(x)).filter(Boolean).join('\n');
+  d.summary=fresher?`Entry-level candidate targeting ${role}${education?`, with ${education}`:''}${skillText?`, bringing knowledge of ${skillText}`:''}.`:`${role} professional${duration?` with ${duration.replace(/\s+of\s+experience/i,'')} of experience`:''}${d.company?` at ${resumeSmartTitle(d.company)}`:''}${skillText?`, with hands-on experience in ${skillText}`:''}.`;
+  const expBullets=exp.map(resumeBullet).filter(Boolean);const header=[d.jobTitle,d.company,d.employmentDates].filter(Boolean).join('  |  ');d.experience=fresher?expBullets.join('\n'):[header,...expBullets].filter(Boolean).join('\n');d.projects=projects.map(resumePolishProject).filter(Boolean).join('\n');d.certifications=certs.map(x=>resumeSmartTitle(x).replace(/\.$/,'')+'.').join('\n');d.achievements=ach.map(resumePolishAchievement).filter(Boolean).join('\n');d.strengths=skills.slice(0,6).join(' • ');d.writerGenerated=true;d.fresher=fresher;return d;
+}
+
+/* =====================================================
+   RESUME PREPARATION
+   ₹10 deducted only after successful PDF generation.
+   ===================================================== */
+app.post('/api/resume/generate', requireUser, requireChangedPassword, async (req,res)=>{
+  let browser=null;
+  try{
+    const raw=req.body||{};const level=['basic','standard','advanced','professional'].includes(String(raw.level))?String(raw.level):'basic';
+    const required=['fullName','mobile','email','location','careerStatus','targetRole','education','skills','languages'];for(const k of required){if(!String(raw[k]||'').trim())return res.status(400).json({success:false,message:`Please enter ${k.replace(/([A-Z])/g,' $1').toLowerCase()}.`});}
+    const status=String(raw.careerStatus||'').toLowerCase();const needsEntry=/no experience|fresher|student|entry/.test(status);const needsWork=!needsEntry;if(needsWork){for(const k of ['company','jobTitle','employmentDates','experience'])if(!String(raw[k]||'').trim())return res.status(400).json({success:false,message:`Please provide ${k.replace(/([A-Z])/g,' $1').toLowerCase()} for an experienced resume.`});}if(needsEntry&&!String(raw.projects||'').trim()&&!String(raw.internships||'').trim())return res.status(400).json({success:false,message:'Please provide at least one real project/practical work or internship/training for a fresher/student resume.'});
+    const d=writeKoutilyaResume({...raw,level});d.template=['executive','modern','classic','creative'].includes(String(raw.template))?String(raw.template):'modern';const user=await getDb().then(db=>db.users.find(u=>u.id===req.user.id));if(!user)return res.status(404).json({success:false,message:'User account not found.'});const balance=Number(user.walletBalance||0);if(balance<10)return res.status(402).json({success:false,code:'INSUFFICIENT_WALLET_BALANCE',message:`Insufficient wallet balance. Required ₹10. Available ₹${balance.toFixed(2)}.`,walletBalance:balance});
+    const escR=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    const photo=d.level==='professional'&&d.photo&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(String(d.photo))?`<img class="photo" src="${d.photo}" alt="Photo">`:'';
+    const section=(title,value,bullets=false)=>{if(!String(value||'').trim())return '';const parts=String(value).split('\n').filter(Boolean);const body=bullets?`<ul>${parts.map((x,i)=>`<li class="${i===0?'entry-head':''}">${escR(x)}</li>`).join('')}</ul>`:`<div class="body">${escR(value).replace(/\n/g,'<br>')}</div>`;return `<section><h2>${escR(title)}</h2>${body}</section>`;};
+    const contact=[d.mobile,d.email,d.location].filter(Boolean).map(escR).join(' <span>•</span> ');
+    const includeProjects=(level!=='basic'||d.fresher)&&d.projects;const includeInternship=(level!=='basic'||d.fresher)&&d.internships;const extra=[includeProjects?section('Projects',d.projects,true):'',includeInternship?section('Internship / Training',d.internships,true):'',level!=='basic'&&d.certifications?section('Certifications & Training',d.certifications,true):'',level!=='basic'&&d.achievements?section('Achievements',d.achievements,true):'',level!=='basic'&&d.strengths?section('Core Strengths',d.strengths,false):'',d.languages?section('Languages',d.languages,false):''].join('');
+    const html=`<!doctype html><html><head><meta charset="utf-8"><style>
+@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#fff;color:#24384d;font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1.48}.page{width:210mm;min-height:297mm;padding:15mm 17mm 14mm;position:relative}.head{display:flex;gap:17px;align-items:flex-start;padding:0 0 13px;border-bottom:2px solid #123f70}.photo{width:28mm;height:36mm;object-fit:cover;border:1px solid #d4dfe9;border-radius:3px;flex:0 0 auto}.head-main{flex:1;min-width:0}.head h1{margin:0;color:#123f70;font-size:25pt;line-height:1.04;font-weight:800;letter-spacing:-.35px}.role{margin-top:5px;color:#365b78;font-size:11.5pt;font-weight:700}.contact{margin-top:7px;color:#5e7183;font-size:8.6pt;line-height:1.55;word-break:break-word}.contact span{padding:0 3px;color:#9aa8b5}.link{margin-top:3px;color:#1769aa;font-size:8.2pt;word-break:break-all}.summary{margin-top:13px;color:#3b5063;font-size:9.7pt;line-height:1.55}.summary strong{display:block;color:#123f70;font-size:9.5pt;letter-spacing:1.1px;text-transform:uppercase;margin-bottom:5px}.section{margin-top:13px}.section-title{display:flex;align-items:center;gap:8px;margin:0 0 7px;color:#123f70;font-size:9.6pt;letter-spacing:1.05px;text-transform:uppercase;font-weight:800}.section-title:after{content:'';height:1px;background:#cbd8e3;flex:1}.skills{color:#334b61;font-size:9.6pt;font-weight:600;line-height:1.55}.job{margin-bottom:10px}.job-head{display:flex;justify-content:space-between;gap:14px;align-items:baseline}.job-title{color:#183e60;font-size:10.2pt;font-weight:800}.job-meta{color:#6a7c8c;font-size:8.7pt;text-align:right;white-space:nowrap}.company{color:#4d657a;font-size:9.1pt;margin-top:1px}.bullets{margin:5px 0 0;padding-left:18px;color:#344c60;font-size:9.4pt;line-height:1.48}.bullets li{margin:0 0 4px}.simple-list{margin:0;padding-left:18px;color:#344c60;font-size:9.4pt;line-height:1.48}.simple-list li{margin-bottom:4px}.education-line{color:#344c60;font-size:9.5pt;line-height:1.55}.theme-executive .head{border-bottom:3px solid #123f70;padding-bottom:15px}.theme-executive .head h1{font-size:27pt}.theme-executive .section-title{font-size:10pt}.theme-modern .head{border-bottom:2px solid #1769aa}.theme-modern .section-title{color:#1769aa}.theme-classic .head{border-bottom:1px solid #526b7d}.theme-classic .head h1{color:#273f53}.theme-classic .section-title{color:#273f53;letter-spacing:.8px}.theme-creative .head{border-bottom:3px solid #1769aa}.theme-creative .role{color:#1769aa}.theme-creative .section-title{color:#1769aa}
+/* Distinct Koutilya resume designs */
+.theme-modern .head{display:block;text-align:left;border-bottom:2px solid #1769aa}.theme-modern .role{color:#1769aa}.theme-modern .section-title{color:#1769aa}
+.theme-executive .head{background:#f4f7fa;border-bottom:4px solid #123f70;padding:16px 17mm 18px;margin:-15mm -17mm 0}.theme-executive .head h1{font-size:28pt}.theme-executive .section-title{border-left:4px solid #123f70;padding-left:8px}.theme-executive .section-title:after{display:none}
+.theme-classic{font-family:Georgia,'Times New Roman',serif}.theme-classic .head{text-align:center;border-bottom:1px solid #596c7a}.theme-classic .head-main{width:100%}.theme-classic .section-title{justify-content:center;letter-spacing:1.5px}.theme-classic .section-title:before,.theme-classic .section-title:after{content:'';height:1px;background:#bcc7cf;flex:1}.theme-classic .section-title span{display:none}
+.theme-creative .head{border-bottom:0;position:relative;padding-bottom:20px}.theme-creative .head:after{content:'';position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#123f70 0 24%,#1769aa 24% 76%,#d9e6ef 76%)}.theme-creative .section-title{color:#1769aa}.theme-creative .section-title span{display:block;height:4px;width:4px;background:#1769aa;border-radius:50%}
+</style></head><body><div class="page theme-${escR(d.template)}"><header class="head">${photo}<div class="head-main"><h1>${escR(d.fullName)}</h1><div class="role">${escR(d.targetRole)}</div><div class="contact">${contact}</div>${d.linkedin?`<div class="link">${escR(d.linkedin)}</div>`:''}</div></header>
+${d.summary?`<div class="summary"><strong>Professional Summary</strong>${escR(d.summary)}</div>`:''}
+${d.skills?`<section class="section"><div class="section-title">Core Skills</div><div class="skills">${escR(d.skills)}</div></section>`:''}
+${d.experience&&!d.fresher?`<section class="section"><div class="section-title">Professional Experience</div><div class="job"><div class="job-head"><div class="job-title">${escR(d.jobTitle||d.targetRole)}</div><div class="job-meta">${escR(d.employmentDates||'')}</div></div>${d.company?`<div class="company">${escR(d.company)}</div>`:''}<ul class="bullets">${String(d.experience).split('\n').slice(1).filter(Boolean).map(x=>`<li>${escR(x)}</li>`).join('')}</ul></div></section>`:''}
+${d.projects?`<section class="section"><div class="section-title">Projects / Practical Work</div><ul class="simple-list">${String(d.projects).split('\n').filter(Boolean).map(x=>`<li>${escR(x)}</li>`).join('')}</ul></section>`:''}
+${d.internships?`<section class="section"><div class="section-title">Internship / Training</div><ul class="simple-list">${String(d.internships).split('\n').filter(Boolean).map(x=>`<li>${escR(x)}</li>`).join('')}</ul></section>`:''}
+${d.education?`<section class="section"><div class="section-title">Education</div><div class="education-line">${escR(d.education).replace(/\n/g,'<br>')}</div></section>`:''}
+${level!=='basic'&&d.certifications?`<section class="section"><div class="section-title">Certifications & Training</div><ul class="simple-list">${String(d.certifications).split('\n').filter(Boolean).map(x=>`<li>${escR(x)}</li>`).join('')}</ul></section>`:''}
+${level!=='basic'&&d.achievements?`<section class="section"><div class="section-title">Achievements</div><ul class="simple-list">${String(d.achievements).split('\n').filter(Boolean).map(x=>`<li>${escR(x)}</li>`).join('')}</ul></section>`:''}
+${level!=='basic'&&d.strengths?`<section class="section"><div class="section-title">Core Strengths</div><div class="skills">${escR(d.strengths)}</div></section>`:''}
+${d.languages?`<section class="section"><div class="section-title">Languages</div><div class="skills">${escR(d.languages)}</div></section>`:''}
+</div></body></html>`;
+    const chromeCandidates=[process.env.PUPPETEER_EXECUTABLE_PATH,process.env.CHROME_PATH,process.env.LOCALAPPDATA?path.join(process.env.LOCALAPPDATA,'Google','Chrome','Application','chrome.exe'):null,process.env.ProgramFiles?path.join(process.env.ProgramFiles,'Google','Chrome','Application','chrome.exe'):null,process.env['ProgramFiles(x86)']?path.join(process.env['ProgramFiles(x86)'],'Google','Chrome','Application','chrome.exe'):null,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome'].filter(Boolean);const executablePath=chromeCandidates.find(x=>fsSync.existsSync(x));browser=await puppeteer.launch({headless:true,executablePath,args:['--no-sandbox','--disable-setuid-sandbox']});const page=await browser.newPage();await page.setContent(html,{waitUntil:'load'});const pdf=await page.pdf({format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,right:0,bottom:0,left:0}});
+    const result=await mutate(db=>{const u=db.users.find(x=>x.id===req.user.id);const before=Number(u.walletBalance||0);if(before<10)return{insufficient:true,balance:before};const after=Number((before-10).toFixed(2));u.walletBalance=after;const reference=`RESUME-${Date.now()}-${String(u.id).slice(-6)}`;db.transactions.push({id:id('txn'),userId:u.id,type:'service',direction:'debit',amount:10,serviceKey:'resume',description:'Koutilya Resume Writer PDF generation fee',reference,createdAt:now(),status:'SUCCESS'});db.applications.push({id:id('app'),userId:u.id,userIdDisplay:u.userId,serviceKey:'resume',serviceName:'Koutilya Resume Writer',createdAt:now(),data:{...d,photo:d.photo?'[embedded image]':''}});return{balance:after,reference};});
+    if(result.insufficient)return res.status(402).json({success:false,message:'Wallet balance changed. Please try again.',walletBalance:result.balance});const filename=`Resume_${String(d.fullName).replace(/[^a-z0-9]+/gi,'_').replace(/^_|_$/g,'')||'Applicant'}.pdf`;return res.json({success:true,amount:10,walletBalance:result.balance,filename,pdfBase64:Buffer.from(pdf).toString('base64')});
+  }catch(error){console.error('RESUME PDF ERROR:',error);return res.status(500).json({success:false,message:error.message||'Resume PDF generation failed.'});}finally{if(browser)await browser.close().catch(()=>{});}
+});
 
 
 /* =====================================================
@@ -2244,6 +2407,10 @@ app.post('/api/admin/logout',async(req,res)=>{const token=authToken(req,ADMIN_CO
 app.get('/admin/dashboard',requireAdmin,(req,res)=>res.sendFile(path.join(ROOT,'frontend','admin-dashboard.html')));
 
 async function adminUser(req,res,next){const token=authToken(req,ADMIN_COOKIE);if(!token)return res.status(401).json({success:false,message:'Admin login required.'});const db=await getDb();const s=db.sessions.find(x=>x.token===token&&x.role==='admin'&&x.expiresAt>Date.now());if(!s)return res.status(401).json({success:false,message:'Admin login required.'});req.admin=true;next();}
+
+app.get('/api/admin/alerts',adminUser,async(req,res)=>{try{const [alertStats,notifications]=await Promise.all([jobAlerts.getStats(),jobAlerts.list(200)]);res.json({success:true,stats:alertStats,notifications,sources:jobAlerts.sourceCatalog});}catch(e){res.status(500).json({success:false,message:e.message});}});
+app.post('/api/admin/alerts/run',adminUser,async(req,res)=>{try{const test=String(req.body?.test||'false')==='true';const dryRun=req.body?.dryRun===undefined?String(process.env.JOB_ALERT_DRY_RUN||'true').toLowerCase()!=='false':!!req.body.dryRun;const result=await jobAlerts.run({test,dryRun});res.json({success:true,...result});}catch(e){console.error('ADMIN ALERT RUN ERROR',e);res.status(500).json({success:false,message:e.message});}});
+
 
 app.get('/api/admin/complaints',adminUser,async(req,res)=>{const db=await getDb();const status=String(req.query.status||'ALL').toUpperCase();const rows=db.complaints.filter(x=>status==='ALL'||x.status===status).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));res.json({success:true,complaints:rows});});
 app.post('/api/admin/complaints/:id/resolve',adminUser,async(req,res)=>{const resolution=String(req.body.resolution||'').trim();if(!resolution)return res.status(400).json({success:false,message:'Enter resolution details.'});const result=await mutate(db=>{const c=db.complaints.find(x=>x.id===req.params.id);if(!c)throw new Error('Complaint not found.');if(c.status==='RESOLVED')return {already:true,c};db.counters.complaint+=1;c.sr=`KSPL-SR-${db.counters.complaint}`;c.status='RESOLVED';c.resolution=resolution;c.resolvedAt=now();return {already:false,c};});if(result.already)return res.json({success:true,message:'Complaint is already resolved.',complaint:result.c});const c=result.c;const text=`Koutilya Solutions Citizen Portal\n\nYour complaint has been resolved.\nSR Number: ${c.sr}\nSubject: ${c.subject}\nResolution: ${c.resolution}\n\nThank you.`;const sent=await sendEmail({to:c.email,subject:`Complaint Resolved — ${c.sr}`,text});res.json({success:true,message:sent?'Complaint resolved and SR number emailed to the citizen.':'Complaint resolved. Email delivery is not configured.',emailSent:sent,complaint:c});});

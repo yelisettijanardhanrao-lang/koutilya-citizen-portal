@@ -1,0 +1,556 @@
+[
+  {
+    "id": "upsc",
+    "name": "UPSC",
+    "scope": "CENTRAL",
+    "type": "GOVERNMENT_JOB_AND_EXAM",
+    "officialUrl": "https://www.upsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "ssc",
+    "name": "Staff Selection Commission (SSC)",
+    "scope": "CENTRAL",
+    "type": "GOVERNMENT_JOB_AND_EXAM",
+    "officialUrl": "https://ssc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "rrb-secunderabad",
+    "name": "Railway Recruitment Board Secunderabad",
+    "scope": "CENTRAL",
+    "type": "RAILWAY",
+    "officialUrl": "https://rrbsecunderabad.gov.in/",
+    "active": true
+  },
+  {
+    "id": "nta",
+    "name": "National Testing Agency (NTA)",
+    "scope": "CENTRAL",
+    "type": "ENTRANCE_EXAM",
+    "officialUrl": "https://www.nta.ac.in/",
+    "active": true
+  },
+  {
+    "id": "employment-news",
+    "name": "Employment News / Rozgar Samachar",
+    "scope": "CENTRAL",
+    "type": "GOVERNMENT_RECRUITMENT",
+    "officialUrl": "https://employmentnews.gov.in/",
+    "active": true
+  },
+  {
+    "id": "ibps",
+    "name": "Institute of Banking Personnel Selection (IBPS)",
+    "scope": "CENTRAL",
+    "type": "BANKING_EXAM",
+    "officialUrl": "https://www.ibps.in/",
+    "active": true
+  },
+  {
+    "id": "rbi",
+    "name": "Reserve Bank of India",
+    "scope": "CENTRAL",
+    "type": "BANKING_RECRUITMENT",
+    "officialUrl": "https://www.rbi.org.in/",
+    "active": true
+  },
+  {
+    "id": "lic",
+    "name": "LIC Careers",
+    "scope": "CENTRAL",
+    "type": "BANKING_INSURANCE",
+    "officialUrl": "https://licindia.in/careers",
+    "active": true
+  },
+  {
+    "id": "isro",
+    "name": "ISRO Careers",
+    "scope": "CENTRAL",
+    "type": "TECHNICAL_RECRUITMENT",
+    "officialUrl": "https://www.isro.gov.in/Careers.html",
+    "active": true
+  },
+  {
+    "id": "drdo",
+    "name": "DRDO Careers",
+    "scope": "CENTRAL",
+    "type": "DEFENCE_RECRUITMENT",
+    "officialUrl": "https://www.drdo.gov.in/careers",
+    "active": true
+  },
+  {
+    "id": "upsc-online",
+    "name": "UPSC Online Application",
+    "scope": "CENTRAL",
+    "type": "EXAM_APPLICATION",
+    "officialUrl": "https://upsconline.nic.in/",
+    "active": true
+  },
+  {
+    "id": "clat",
+    "name": "Consortium of NLUs – CLAT",
+    "scope": "NATIONAL",
+    "type": "LAW_ENTRANCE",
+    "officialUrl": "https://consortiumofnlus.ac.in/",
+    "active": true
+  },
+  {
+    "id": "cat",
+    "name": "IIM CAT",
+    "scope": "NATIONAL",
+    "type": "MANAGEMENT_ENTRANCE",
+    "officialUrl": "https://iimcat.ac.in/",
+    "active": true
+  },
+  {
+    "id": "gate",
+    "name": "GATE",
+    "scope": "NATIONAL",
+    "type": "TECHNICAL_ENTRANCE",
+    "officialUrl": "https://gate2026.iitg.ac.in/",
+    "active": true
+  },
+  {
+    "id": "sat",
+    "name": "SAT – College Board",
+    "scope": "INTERNATIONAL",
+    "type": "EDUCATION_EXAM",
+    "officialUrl": "https://satsuite.collegeboard.org/sat",
+    "active": true
+  },
+  {
+    "id": "gre",
+    "name": "GRE – ETS",
+    "scope": "INTERNATIONAL",
+    "type": "EDUCATION_EXAM",
+    "officialUrl": "https://www.ets.org/gre.html",
+    "active": true
+  },
+  {
+    "id": "gmat",
+    "name": "GMAT",
+    "scope": "INTERNATIONAL",
+    "type": "MANAGEMENT_ENTRANCE",
+    "officialUrl": "https://www.mba.com/exams/gmat-exam",
+    "active": true
+  },
+  {
+    "id": "ielts",
+    "name": "IELTS",
+    "scope": "INTERNATIONAL",
+    "type": "ENGLISH_EXAM",
+    "officialUrl": "https://ielts.org/",
+    "active": true
+  },
+  {
+    "id": "toefl",
+    "name": "TOEFL",
+    "scope": "INTERNATIONAL",
+    "type": "ENGLISH_EXAM",
+    "officialUrl": "https://www.ets.org/toefl.html",
+    "active": true
+  },
+  {
+    "id": "ap-psc",
+    "name": "Andhra Pradesh Public Service Commission (APPSC)",
+    "scope": "ANDHRA_PRADESH",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://psc.ap.gov.in/",
+    "active": true
+  },
+  {
+    "id": "ap-eapcet",
+    "name": "AP EAPCET",
+    "scope": "ANDHRA_PRADESH",
+    "type": "ENTRANCE_EXAM",
+    "officialUrl": "https://cets.apsche.ap.gov.in/EAPCET/Eapcet/EAPCET_HomePage.aspx",
+    "active": true,
+    "applicationUrl": "https://cets.apsche.ap.gov.in/EAPCET/Eapcet/EAPCET_HomePage.aspx",
+    "datesUrl": "https://cets.apsche.ap.gov.in/eapcet/EapcetHomepages/ImportantDates"
+  },
+  {
+    "id": "ap-lawcet",
+    "name": "AP LAWCET",
+    "scope": "ANDHRA_PRADESH",
+    "type": "LAW_ENTRANCE",
+    "officialUrl": "https://cets.apsche.ap.gov.in/LAWCET/LAWCET/LAWCET_HomePage.aspx",
+    "active": true
+  },
+  {
+    "id": "ap-icet",
+    "name": "AP ICET",
+    "scope": "ANDHRA_PRADESH",
+    "type": "MANAGEMENT_ENTRANCE",
+    "officialUrl": "https://cets.apsche.ap.gov.in/ICET/ICET/ICET_HomePage.aspx",
+    "active": true
+  },
+  {
+    "id": "ap-pgset",
+    "name": "AP PGCET",
+    "scope": "ANDHRA_PRADESH",
+    "type": "POSTGRADUATE_ENTRANCE",
+    "officialUrl": "https://cets.apsche.ap.gov.in/PGCET/PGCET/PGCET_HomePage",
+    "active": true
+  },
+  {
+    "id": "ap-edcet",
+    "name": "AP EdCET",
+    "scope": "ANDHRA_PRADESH",
+    "type": "EDUCATION_ENTRANCE",
+    "officialUrl": "https://cets.apsche.ap.gov.in/EDCET/Edcet/EDCET_HomePage.aspx",
+    "active": true
+  },
+  {
+    "id": "ap-pcet",
+    "name": "AP PECET",
+    "scope": "ANDHRA_PRADESH",
+    "type": "EDUCATION_ENTRANCE",
+    "officialUrl": "https://cets.apsche.ap.gov.in/PECET/PECET/PECET_HomePage",
+    "active": true
+  },
+  {
+    "id": "ap-police",
+    "name": "Andhra Pradesh Police Recruitment / SLPRB",
+    "scope": "ANDHRA_PRADESH",
+    "type": "POLICE_RECRUITMENT",
+    "officialUrl": "https://slprb.ap.gov.in/",
+    "active": true
+  },
+  {
+    "id": "tspsc",
+    "name": "Telangana Public Service Commission (TGPSC/TSPSC)",
+    "scope": "TELANGANA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://www.tspsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "ts-eapcet",
+    "name": "TS EAPCET",
+    "scope": "TELANGANA",
+    "type": "ENTRANCE_EXAM",
+    "officialUrl": "https://eapcet.tsche.ac.in/",
+    "active": true
+  },
+  {
+    "id": "ts-lawcet",
+    "name": "TS LAWCET",
+    "scope": "TELANGANA",
+    "type": "LAW_ENTRANCE",
+    "officialUrl": "https://lawcet.tsche.ac.in/",
+    "active": true
+  },
+  {
+    "id": "ts-icet",
+    "name": "TS ICET",
+    "scope": "TELANGANA",
+    "type": "MANAGEMENT_ENTRANCE",
+    "officialUrl": "https://icet.tsche.ac.in/",
+    "active": true
+  },
+  {
+    "id": "ts-edcet",
+    "name": "TS EdCET",
+    "scope": "TELANGANA",
+    "type": "EDUCATION_ENTRANCE",
+    "officialUrl": "https://edcet.tsche.ac.in/",
+    "active": true
+  },
+  {
+    "id": "ts-police",
+    "name": "Telangana Police Recruitment",
+    "scope": "TELANGANA",
+    "type": "POLICE_RECRUITMENT",
+    "officialUrl": "https://www.tslprb.in/",
+    "active": true
+  },
+  {
+    "id": "kpsc",
+    "name": "Karnataka Public Service Commission (KPSC)",
+    "scope": "KARNATAKA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://kpsc.kar.nic.in/",
+    "active": true
+  },
+  {
+    "id": "tnpsc",
+    "name": "Tamil Nadu Public Service Commission (TNPSC)",
+    "scope": "TAMIL_NADU",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://www.tnpsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "kerala-psc",
+    "name": "Kerala Public Service Commission",
+    "scope": "KERALA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://www.keralapsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "opsc",
+    "name": "Odisha Public Service Commission (OPSC)",
+    "scope": "ODISHA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://www.opsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "bpsc",
+    "name": "Bihar Public Service Commission (BPSC)",
+    "scope": "BIHAR",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://bpsc.bihar.gov.in/",
+    "active": true
+  },
+  {
+    "id": "uppsc",
+    "name": "Uttar Pradesh Public Service Commission (UPPSC)",
+    "scope": "UTTAR_PRADESH",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://uppsc.up.nic.in/",
+    "active": true
+  },
+  {
+    "id": "rpsc",
+    "name": "Rajasthan Public Service Commission (RPSC)",
+    "scope": "RAJASTHAN",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://rpsc.rajasthan.gov.in/",
+    "active": true
+  },
+  {
+    "id": "mppsc",
+    "name": "Madhya Pradesh Public Service Commission (MPPSC)",
+    "scope": "MADHYA_PRADESH",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://mppsc.mp.gov.in/",
+    "active": true
+  },
+  {
+    "id": "gpsc",
+    "name": "Gujarat Public Service Commission (GPSC)",
+    "scope": "GUJARAT",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://gpsc.gujarat.gov.in/",
+    "active": true
+  },
+  {
+    "id": "wbpsc",
+    "name": "West Bengal Public Service Commission (WBPSC)",
+    "scope": "WEST_BENGAL",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://psc.wb.gov.in/",
+    "active": true
+  },
+  {
+    "id": "jpsc",
+    "name": "Jharkhand Public Service Commission (JPSC)",
+    "scope": "JHARKHAND",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://www.jpsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "psc-chhattisgarh",
+    "name": "Chhattisgarh Public Service Commission (CGPSC)",
+    "scope": "CHHATTISGARH",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://psc.cg.gov.in/",
+    "active": true
+  },
+  {
+    "id": "hpsc",
+    "name": "Haryana Public Service Commission (HPSC)",
+    "scope": "HARYANA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://hpsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "ppsc",
+    "name": "Punjab Public Service Commission (PPSC)",
+    "scope": "PUNJAB",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://ppsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "hp-psc",
+    "name": "Himachal Pradesh Public Service Commission (HPPSC)",
+    "scope": "HIMACHAL_PRADESH",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://hppsc.hp.gov.in/",
+    "active": true
+  },
+  {
+    "id": "ukpsc",
+    "name": "Uttarakhand Public Service Commission (UKPSC)",
+    "scope": "UTTARAKHAND",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://psc.uk.gov.in/",
+    "active": true
+  },
+  {
+    "id": "goa-psc",
+    "name": "Goa Public Service Commission",
+    "scope": "GOA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://gpsc.goa.gov.in/",
+    "active": true
+  },
+  {
+    "id": "sikkim-psc",
+    "name": "Sikkim Public Service Commission",
+    "scope": "SIKKIM",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://spsc.sikkim.gov.in/",
+    "active": true
+  },
+  {
+    "id": "assam-psc",
+    "name": "Assam Public Service Commission (APSC)",
+    "scope": "ASSAM",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://apsc.nic.in/",
+    "active": true
+  },
+  {
+    "id": "meghalaya-psc",
+    "name": "Meghalaya Public Service Commission",
+    "scope": "MEGHALAYA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://mpsc.nic.in/",
+    "active": true
+  },
+  {
+    "id": "tripura-psc",
+    "name": "Tripura Public Service Commission",
+    "scope": "TRIPURA",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://tpsc.tripura.gov.in/",
+    "active": true
+  },
+  {
+    "id": "manipur-psc",
+    "name": "Manipur Public Service Commission",
+    "scope": "MANIPUR",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://mpscmanipur.gov.in/",
+    "active": true
+  },
+  {
+    "id": "mizoram-psc",
+    "name": "Mizoram Public Service Commission",
+    "scope": "MIZORAM",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://mpsc.mizoram.gov.in/",
+    "active": true
+  },
+  {
+    "id": "nagaland-psc",
+    "name": "Nagaland Public Service Commission",
+    "scope": "NAGALAND",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://npsc.nagaland.gov.in/",
+    "active": true
+  },
+  {
+    "id": "arunachal-psc",
+    "name": "Arunachal Pradesh Public Service Commission",
+    "scope": "ARUNACHAL_PRADESH",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://appsc.gov.in/",
+    "active": true
+  },
+  {
+    "id": "bssc",
+    "name": "Bihar Staff Selection Commission",
+    "scope": "BIHAR",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://bssc.bihar.gov.in/",
+    "active": true
+  },
+  {
+    "id": "mahacet",
+    "name": "Maharashtra State CET Cell",
+    "scope": "MAHARASHTRA",
+    "type": "ENTRANCE_EXAM",
+    "officialUrl": "https://cetcell.mahacet.org/",
+    "active": true
+  },
+  {
+    "id": "jk-govt",
+    "name": "Jammu & Kashmir Government Recruitment / JKSSB",
+    "scope": "JAMMU_KASHMIR",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://jkssb.nic.in/",
+    "active": true
+  },
+  {
+    "id": "ladakh-govt",
+    "name": "Ladakh Administration Recruitment",
+    "scope": "LADAKH",
+    "type": "UT_RECRUITMENT",
+    "officialUrl": "https://ladakh.gov.in/",
+    "active": true
+  },
+  {
+    "id": "delhi-subordinate",
+    "name": "Delhi Subordinate Services Selection Board (DSSSB)",
+    "scope": "DELHI",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://dsssb.delhi.gov.in/",
+    "active": true
+  },
+  {
+    "id": "delhi-psc",
+    "name": "Delhi Public Service Commission",
+    "scope": "DELHI",
+    "type": "STATE_RECRUITMENT",
+    "officialUrl": "https://dpsc.delhigovt.nic.in/",
+    "active": true
+  },
+  {
+    "id": "chandigarh-govt",
+    "name": "Chandigarh Administration Recruitment",
+    "scope": "CHANDIGARH",
+    "type": "UT_RECRUITMENT",
+    "officialUrl": "https://chandigarh.gov.in/",
+    "active": true
+  },
+  {
+    "id": "puducherry-psc",
+    "name": "Puducherry Public Service Commission / Recruitment",
+    "scope": "PUDUCHERRY",
+    "type": "UT_RECRUITMENT",
+    "officialUrl": "https://dpar.py.gov.in/",
+    "active": true
+  },
+  {
+    "id": "andaman-govt",
+    "name": "Andaman & Nicobar Administration Recruitment",
+    "scope": "ANDAMAN_NICOBAR",
+    "type": "UT_RECRUITMENT",
+    "officialUrl": "https://andaman.gov.in/",
+    "active": true
+  },
+  {
+    "id": "lakshadweep-govt",
+    "name": "Lakshadweep Administration Recruitment",
+    "scope": "LAKSHADWEEP",
+    "type": "UT_RECRUITMENT",
+    "officialUrl": "https://lakshadweep.gov.in/",
+    "active": true
+  },
+  {
+    "id": "dnh-dd-govt",
+    "name": "Dadra & Nagar Haveli and Daman & Diu Administration Recruitment",
+    "scope": "DNH_DD",
+    "type": "UT_RECRUITMENT",
+    "officialUrl": "https://ddd.gov.in/",
+    "active": true
+  }
+]

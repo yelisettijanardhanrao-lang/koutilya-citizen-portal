@@ -176,8 +176,10 @@ async function write(db) {
 
 export async function mutate(fn) {
   /*
-   * Serialize operations while ensuring a rejected mutation does not
-   * poison the queue for all future operations.
+/*
+ * Serialize operations while ensuring a rejected mutation does not
+ * poison the queue for all future operations.
+ */
    */
   let result;
   let error;
@@ -227,3 +229,5 @@ export function randomPassword() {
 export function now() {
   return new Date().toISOString();
 }
+
+
