@@ -1,66 +1,9 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import express from 'express';
 import puppeteer from 'puppeteer';
-import nodemailer from 'nodemailer';
-
-// Production email safety: when SMTP is configured, intercept the portal's
-// Resend API call and deliver the same message through SMTP instead. This
-// prevents an exhausted Resend quota from blocking citizen registration.
-// If SMTP is not configured, the existing Resend request is left untouched.
-const originalFetch = globalThis.fetch;
-globalThis.fetch = async function(url, options = {}) {
-  const target = String(url || '');
-  const smtpReady = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS;
-
-  if (target === 'https://api.resend.com/emails' && smtpReady) {
-    try {
-      const payload = typeof options.body === 'string' ? JSON.parse(options.body) : (options.body || {});
-      const port = Number(process.env.SMTP_PORT || 587);
-      const secure = String(process.env.SMTP_SECURE || 'false').toLowerCase() === 'true';
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port,
-        secure,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS
-        },
-        tls: { rejectUnauthorized: true }
-      });
-
-      const info = await transporter.sendMail({
-        from: payload.from || process.env.MAIL_FROM || process.env.SMTP_USER,
-        to: Array.isArray(payload.to) ? payload.to : [payload.to],
-        subject: payload.subject || '',
-        text: payload.text || '',
-        html: payload.html || payload.text || ''
-      });
-
-      console.log('SMTP EMAIL SENT', {
-        to: payload.to,
-        subject: payload.subject,
-        messageId: info.messageId || null
-      });
-
-      return new Response(JSON.stringify({ id: info.messageId || `smtp-${Date.now()}` }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    } catch (error) {
-      console.error('SMTP EMAIL ERROR', error?.message || error);
-      return new Response(JSON.stringify({ error: { message: error?.message || 'SMTP delivery failed' } }), {
-        status: 502,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-  }
-
-  return originalFetch(url, options);
-};
+import { mutate, hashPassword, randomPassword, id, now } from './portal-db.js';
 
 // server.js currently references resumeTitleCase from the resume skill formatter.
-// Keep the locked resume changes isolated: expose the existing smart-title helper
-// under that legacy name before server.js is evaluated.
 globalThis.resumeTitleCase = (value) => {
   const s = String(value ?? '').trim().replace(/\s+/g, ' ');
   if (!s) return '';
@@ -69,7 +12,117 @@ globalThis.resumeTitleCase = (value) => {
 
 const resumeContext = new AsyncLocalStorage();
 const originalPost = express.application.post;
+
+// Production-safe registration override. Render Free blocks outbound SMTP ports
+// 25, 465 and 587, so registration must never delete an account just because
+// an external email provider is unavailable.
+// Resend is still attempted over HTTPS when configured. If delivery fails,
+// the account remains active and the one-time temporary credentials are returned
+// over the existing HTTPS registration response so the citizen can log in and
+// immediately change the password.
+function registerCitizenHandler(req, res) {
+  return (async () => {
+    try {
+      const name = String(req.body?.name || '').trim();
+      const mobile = String(req.body?.mobile || '').replace(/\D/g, '');
+      const email = String(req.body?.email || '').trim().toLowerCase();
+      const city = String(req.body?.city || '').trim();
+
+      if (!name || !/^[6-9]\d{9}$/.test(mobile) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !city) {
+        return res.status(400).json({ success: false, message: 'Enter valid name, 10-digit mobile, email and city.' });
+      }
+
+      const result = await mutate(db => {
+        if (db.users.some(u => u.mobile === mobile)) throw new Error('This mobile number is already registered.');
+        if (db.users.some(u => u.email === email)) throw new Error('This email address is already registered.');
+
+        let userId;
+        do {
+          db.counters.user += 1;
+          userId = `KSPL${db.counters.user}`;
+        } while (db.users.some(u => u.userId === userId));
+
+        const password = randomPassword();
+        const user = {
+          id: id('usr'),
+          userId,
+          name,
+          mobile,
+          email,
+          city,
+          passwordHash: hashPassword(password),
+          mustChangePassword: true,
+          walletBalance: 0,
+          pdfEntitlements: [],
+          active: true,
+          createdAt: now()
+        };
+
+        db.users.push(user);
+        return { user, password };
+      });
+
+      const msg = `Koutilya Solutions Citizen Portal\nUser ID: ${result.user.userId}\nTemporary Password: ${result.password}\nPlease login and change your password immediately.`;
+      let emailSent = false;
+      const resendKey = String(process.env.RESEND_API_KEY || '').trim();
+
+      if (resendKey) {
+        try {
+          const from = process.env.MAIL_FROM || 'info@koutilyasolutions.in';
+          const r = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${resendKey}`
+            },
+            body: JSON.stringify({
+              from,
+              to: [email],
+              subject: 'Koutilya Citizen Portal Login Credentials',
+              text: msg,
+              html: msg.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
+            })
+          });
+          emailSent = r.ok;
+          if (!r.ok) console.error('REGISTRATION RESEND ERROR', r.status, await r.text().catch(() => ''));
+        } catch (e) {
+          console.error('REGISTRATION EMAIL ERROR', e?.message || e);
+        }
+      }
+
+      if (emailSent) {
+        return res.json({
+          success: true,
+          emailSent: true,
+          userId: result.user.userId,
+          message: 'Registration successful. Your User ID and temporary password have been sent to your registered email address.'
+        });
+      }
+
+      console.warn('REGISTRATION EMAIL UNAVAILABLE; ACCOUNT RETAINED', {
+        userId: result.user.userId,
+        email
+      });
+
+      return res.json({
+        success: true,
+        emailSent: false,
+        userId: result.user.userId,
+        temporaryPassword: result.password,
+        message: 'Registration successful, but the credential email could not be sent right now. Use the User ID and temporary password shown below to log in, then change your password immediately.'
+      });
+    } catch (e) {
+      console.error('REGISTER OVERRIDE ERROR', e);
+      return res.status(409).json({ success: false, message: e.message || 'Registration failed.' });
+    }
+  })();
+}
+
 express.application.post = function(path, ...handlers) {
+  if (path === '/api/auth/register') {
+    return originalPost.call(this, path, registerCitizenHandler);
+  }
+
   if (path === '/api/resume/generate') {
     const wrapped = handlers.map((handler, index) => {
       if (index !== handlers.length - 1 || typeof handler !== 'function') return handler;
@@ -81,6 +134,7 @@ express.application.post = function(path, ...handlers) {
     });
     return originalPost.call(this, path, ...wrapped);
   }
+
   return originalPost.call(this, path, ...handlers);
 };
 
