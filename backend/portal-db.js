@@ -135,14 +135,23 @@ async function read() {
 let writeQueue = Promise.resolve();
 
 async function writeJson(db) {
-  writeQueue = writeQueue.then(() =>
+  /*
+   * Never leave the shared queue rejected. A failed write must not
+   * prevent subsequent independent operations (such as login) from
+   * executing.
+   */
+  const operation = writeQueue.then(() =>
     fs.writeFile(
       DB_FILE,
       JSON.stringify(db, null, 2)
     )
   );
 
-  return writeQueue;
+  writeQueue = operation.catch((err) => {
+    console.error('JSON WRITE ERROR:', err);
+  });
+
+  return operation;
 }
 
 async function writePostgres(db) {
@@ -167,17 +176,30 @@ async function write(db) {
 
 export async function mutate(fn) {
   /*
-   * Keep writes serialized inside this Node process,
-   * just like the original JSON implementation.
+   * Serialize operations while ensuring a rejected mutation does not
+   * poison the queue for all future operations.
    */
-  writeQueue = writeQueue.then(async () => {
+  let result;
+  let error;
+
+  const operation = writeQueue.then(async () => {
     const db = await read();
-    const result = await fn(db);
+    result = await fn(db);
     await write(db);
-    return result;
   });
 
-  return writeQueue;
+  writeQueue = operation.catch((err) => {
+    error = err;
+    console.error('DATABASE MUTATION ERROR:', err);
+  });
+
+  await operation;
+
+  if (error) {
+    throw error;
+  }
+
+  return result;
 }
 
 export async function getDb() {
