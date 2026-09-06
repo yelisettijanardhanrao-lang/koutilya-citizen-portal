@@ -6,15 +6,16 @@
 
     const label = form.querySelector('label[for="uid"]');
     if (label) label.textContent = 'User ID';
+
     input.type = 'email';
     input.inputMode = 'email';
     input.removeAttribute('maxlength');
     input.autocomplete = 'username';
-    input.placeholder = 'Enter User ID';
+    input.placeholder = 'Enter registered Email ID';
     input.removeAttribute('pattern');
 
     const lead = form.closest('.auth-card')?.querySelector('.auth-lead');
-    if (lead) lead.textContent = 'Sign in with your Koutilya User ID (registered email address) and password to continue.';
+    if (lead) lead.textContent = 'Sign in with your registered email address and password to continue.';
   }
 
   const observer = new MutationObserver(applyFinalLoginUI);
