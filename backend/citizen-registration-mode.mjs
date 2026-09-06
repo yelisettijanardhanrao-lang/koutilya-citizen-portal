@@ -48,7 +48,7 @@ function citizenLogin(req,res){
     const credential=String(req.body?.userId||'').trim();
     const password=String(req.body?.password||'');
     const db=await getDb(); const user=findCitizen(db,credential);
-    if(!user||user.passwordHash!==hashPassword(password)) return res.status(401).json({success:false,message:'Invalid mobile number or password.'});
+    if(!user||user.passwordHash!==hashPassword(password)) return res.status(401).json({success:false,message:'Invalid User ID/email or password.'});
     const token=crypto.randomBytes(32).toString('hex');
     await mutate(db=>{db.sessions=db.sessions.filter(s=>s.expiresAt>Date.now());db.sessions.push({token,userId:user.id,createdAt:now(),expiresAt:Date.now()+7*86400000});});
     res.setHeader('Set-Cookie',`kspl_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7*86400}`);
@@ -56,7 +56,6 @@ function citizenLogin(req,res){
   })();
 }
 
-// Express application's native route method bypasses the earlier registration wrapper.
 express.application.post=function(path,...handlers){
   if(path==='/api/auth/register') return this.route(path).post(registration);
   if(path==='/api/auth/unified-login') {
@@ -70,7 +69,6 @@ express.application.post=function(path,...handlers){
   return resumePost.call(this,path,...handlers);
 };
 
-// Rewrite only the registration screen in the existing static portal JS.
 const originalStatic=express.static;
 express.static=function(...args){
   const middleware=originalStatic(...args);
