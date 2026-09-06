@@ -5,16 +5,16 @@
     if (!form || !input) return;
 
     const label = form.querySelector('label[for="uid"]');
-    if (label) label.textContent = 'Mobile Number';
-    input.type = 'tel';
-    input.inputMode = 'numeric';
-    input.maxLength = 10;
-    input.autocomplete = 'tel';
-    input.placeholder = 'Enter Mobile Number';
-    input.pattern = '[6-9][0-9]{9}';
+    if (label) label.textContent = 'User ID';
+    input.type = 'email';
+    input.inputMode = 'email';
+    input.removeAttribute('maxlength');
+    input.autocomplete = 'username';
+    input.placeholder = 'Enter User ID';
+    input.removeAttribute('pattern');
 
     const lead = form.closest('.auth-card')?.querySelector('.auth-lead');
-    if (lead) lead.textContent = 'Sign in with your mobile number and password to continue.';
+    if (lead) lead.textContent = 'Sign in with your Koutilya User ID (registered email address) and password to continue.';
   }
 
   const observer = new MutationObserver(applyFinalLoginUI);
