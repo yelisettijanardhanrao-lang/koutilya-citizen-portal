@@ -1,0 +1,46 @@
+/* Koutilya Citizen Portal — reference dashboard UI layer
+   Additive visual layer. Does not replace existing routes, IDs, handlers or data flows. */
+:root{--ref-blue:#0878ed;--ref-navy:#063b83;--ref-line:#d8e7f7;--ref-bg:#f5faff;--ref-text:#173d69;--ref-muted:#6b829b}
+.portal{background:linear-gradient(180deg,#fafdff 0,#f2f7fc 100%)}
+.topbar{height:70px!important;padding:0 22px!important;border-bottom:1px solid var(--ref-line)!important}
+.top-brand{min-width:190px}
+.ref-search{width:min(430px,42vw);height:36px;border:1px solid #cbdced;border-radius:7px;background:#fff;display:flex;align-items:center;padding:0 10px;gap:8px;color:#8aa0b6;margin-left:20px}
+.ref-search input{border:0;outline:0;width:100%;font-size:10px;color:var(--ref-text);background:transparent}
+.ref-search span{font-size:13px;color:var(--ref-blue)}
+.ref-wallet{display:flex;align-items:center;gap:7px;margin:0 18px;color:var(--ref-blue);font-weight:900;font-size:11px;white-space:nowrap}
+.ref-wallet .wallet-icon{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#eaf4ff;font-size:13px}
+.ref-wallet small{display:block;color:var(--ref-muted);font-size:7px;font-weight:600;margin-top:1px}
+.ref-user{display:flex;align-items:center;gap:8px;min-width:120px}
+.ref-user .ref-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#0878ed;color:#fff;font-weight:900;font-size:13px}
+.ref-user strong{display:block;font-size:10px;color:var(--ref-text)}
+.ref-user small{display:block;font-size:7px;color:var(--ref-muted);margin-top:2px}
+.sidebar{top:70px!important;width:238px!important;background:#fff!important;border-right:1px solid var(--ref-line)!important;padding:14px 10px!important;box-shadow:3px 0 16px rgba(24,76,125,.035)}
+.side-title{color:#7b91a8!important;font-size:8px!important;padding:7px 10px 10px!important}
+.navbtn{color:#46627d!important;font-size:9px!important;font-weight:700!important;padding:9px 9px!important;border-radius:7px!important;gap:8px!important;margin:1px 0!important}
+.navbtn:hover{background:#eef6ff!important;color:var(--ref-blue)!important}
+.navbtn.active{background:#eaf4ff!important;color:var(--ref-blue)!important;box-shadow:inset 3px 0 0 var(--ref-blue)!important}
+.navicon{font-size:12px!important;width:19px!important}
+.layout{padding-top:70px!important}
+.content{margin-left:238px!important;width:calc(100% - 238px)!important;padding:18px 18px 60px!important;background:transparent!important}
+.ref-page-title{height:38px;background:linear-gradient(90deg,#0665c8,#1387ee);color:#fff;border-radius:7px 7px 0 0;padding:0 15px;display:flex;align-items:center;font-size:16px;font-weight:900;letter-spacing:-.2px;margin-bottom:0;box-shadow:0 4px 12px rgba(10,87,157,.08)}
+.ref-page-subtitle{font-size:9px;font-weight:500;opacity:.9;margin-left:8px}
+.ref-content-card{background:#fff;border:1px solid var(--ref-line);border-top:0;border-radius:0 0 8px 8px;padding:13px;box-shadow:0 8px 22px rgba(20,70,120,.055)}
+.hero{border-radius:8px!important;padding:17px 19px!important;box-shadow:0 8px 22px rgba(20,70,120,.10)!important}
+.hero h1{font-size:21px!important}
+.cards{gap:10px!important;margin:12px 0!important}
+.stat{border-radius:8px!important;padding:12px!important;box-shadow:0 5px 15px rgba(30,65,100,.045)!important}
+.stat strong{font-size:19px!important}
+.panel{border-radius:8px!important;padding:13px!important;box-shadow:0 5px 15px rgba(30,65,100,.045)!important;margin-bottom:11px!important}
+.panel h2{font-size:15px!important}
+.service-grid{gap:9px!important}
+.service{border-radius:7px!important;padding:10px!important;min-height:108px!important;background:#fff!important}
+.service .ico{width:34px!important;height:34px!important;border-radius:7px!important;font-size:14px!important;margin-bottom:7px!important}
+.service strong{font-size:10px!important;margin-bottom:3px!important}
+.service span{font-size:8px!important;line-height:1.35!important}
+.service em{font-size:8px!important;margin-top:6px!important}
+.toolbar input,.toolbar select{height:34px!important;padding:8px!important;border-radius:6px!important;font-size:9px!important}
+.small-btn{border-radius:6px!important;font-size:9px!important;padding:8px 10px!important}
+.bottom{height:36px!important;font-size:8px!important}
+@media(max-width:900px){.ref-search{width:32vw}.ref-wallet{margin:0 8px}.sidebar{width:205px!important}.content{margin-left:205px!important;width:calc(100% - 205px)!important}}
+@media(max-width:700px){.ref-search{display:none}.ref-wallet{margin-left:auto}.sidebar{width:62px!important}.content{margin-left:62px!important;width:calc(100% - 62px)!important;padding:12px 8px 52px!important}.side-title,.navbtn span:not(.navicon){display:none!important}.navbtn{justify-content:center!important}.top-brand{min-width:auto}.top-brand>div:not(.brand-mark){display:none}.ref-user{min-width:auto}.ref-user>div:not(.ref-avatar){display:none}.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:460px){.ref-wallet>div:last-child{display:none}.ref-wallet{margin-left:auto;margin-right:7px}.service-grid{grid-template-columns:1fr!important}}
