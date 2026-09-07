@@ -4,11 +4,12 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
-    "dev": "nodemon --exec node --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
+    "start": "node --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs --import ./production-preload-fix.mjs server.js",
+    "dev": "nodemon --exec node --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs --import ./production-preload-fix.mjs server.js",
     "postinstall": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
+    "@fontsource/noto-serif-telugu": "^5.3.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
