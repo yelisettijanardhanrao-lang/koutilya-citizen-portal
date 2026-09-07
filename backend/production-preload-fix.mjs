@@ -16,7 +16,8 @@ const ROOT = path.resolve(__dirname, '..');
  *    Copy the existing master to that expected runtime path when missing.
  *
  * 2) Chromium on Render may not have a Telugu font installed. Self-host Noto Serif
- *    Telugu from the npm package and inject it into existing HTML PDF templates.
+ *    Telugu from Fontsource and inject its real self-contained @font-face CSS into
+ *    the existing HTML PDF templates. This avoids any external Google-font request.
  */
 
 async function ensureLocationMaster() {
@@ -33,54 +34,66 @@ async function ensureLocationMaster() {
   console.log('[PRODUCTION FIX] AP location master prepared:', target);
 }
 
-async function findTeluguFont() {
-  const fontDir = path.join(
+async function buildTeluguFontCss() {
+  const packageDir = path.join(
     __dirname,
     'node_modules',
     '@fontsource',
-    'noto-serif-telugu',
-    'files'
+    'noto-serif-telugu'
   );
+  const cssPath = path.join(packageDir, '400.css');
 
-  if (!fsSync.existsSync(fontDir)) {
-    console.warn('[PRODUCTION FIX] Noto Serif Telugu package is not installed yet.');
+  if (!fsSync.existsSync(cssPath)) {
+    console.warn('[PRODUCTION FIX] Noto Serif Telugu 400.css not found.');
     return null;
   }
 
-  const names = await fs.readdir(fontDir);
-  const preferred = names.find(
-    name => /telugu/i.test(name) && /400-normal\.woff2$/i.test(name)
-  );
-  const fallback = names.find(name => /\.woff2$/i.test(name));
-  return preferred ? path.join(fontDir, preferred) : (fallback ? path.join(fontDir, fallback) : null);
+  let css = await fs.readFile(cssPath, 'utf8');
+  const matches = [...css.matchAll(/url\(([^)]+)\)/g)];
+
+  for (const match of matches) {
+    const raw = String(match[1] || '').trim().replace(/^['"]|['"]$/g, '');
+    if (!raw || /^data:/i.test(raw)) continue;
+
+    const fontPath = path.resolve(path.dirname(cssPath), raw);
+    if (!fsSync.existsSync(fontPath)) continue;
+
+    const ext = path.extname(fontPath).toLowerCase();
+    const mime = ext === '.woff2' ? 'font/woff2' : ext === '.woff' ? 'font/woff' : 'application/octet-stream';
+    const data = (await fs.readFile(fontPath)).toString('base64');
+    css = css.replace(match[0], `url(data:${mime};base64,${data})`);
+  }
+
+  return css;
 }
 
 async function injectTeluguFontIntoTemplates() {
-  const fontPath = await findTeluguFont();
-  if (!fontPath) return;
+  const fontCss = await buildTeluguFontCss();
+  if (!fontCss) return;
 
-  const fontBase64 = (await fs.readFile(fontPath)).toString('base64');
-  const fontCss = `<style id="koutilya-telugu-font">@font-face{font-family:"Noto Serif Telugu";src:url(data:font/woff2;base64,${fontBase64}) format("woff2");font-style:normal;font-weight:100 900;font-display:block;}</style>`;
   const templatesDir = path.join(ROOT, 'backend', 'templates');
-
   if (!fsSync.existsSync(templatesDir)) return;
 
   const names = (await fs.readdir(templatesDir)).filter(name => name.toLowerCase().endsWith('.html'));
+  let patched = 0;
+
   for (const name of names) {
     const filePath = path.join(templatesDir, name);
     let html = await fs.readFile(filePath, 'utf8');
     if (html.includes('id="koutilya-telugu-font"')) continue;
 
+    const fontStyle = `<style id="koutilya-telugu-font">${fontCss}</style>`;
     if (/<\/head>/i.test(html)) {
-      html = html.replace(/<\/head>/i, `${fontCss}</head>`);
+      html = html.replace(/<\/head>/i, `${fontStyle}</head>`);
     } else {
-      html = `${fontCss}${html}`;
+      html = `${fontStyle}${html}`;
     }
 
     await fs.writeFile(filePath, html, 'utf8');
+    patched += 1;
   }
 
-  console.log('[PRODUCTION FIX] Telugu font embedded into existing HTML PDF templates.');
+  console.log(`[PRODUCTION FIX] Telugu font embedded into ${patched} existing HTML PDF template(s).`);
 }
 
 try {
