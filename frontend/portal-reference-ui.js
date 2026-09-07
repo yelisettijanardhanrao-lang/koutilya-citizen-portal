@@ -1,0 +1,61 @@
+/* Koutilya Citizen Portal — reference UI enhancer
+   Additive only: waits for the existing portal shell, then decorates it. */
+(function(){
+  const titles={home:['Dashboard','Your Koutilya citizen services'],services:['MeeSeva Applications','Apply for certificates, licences and various government services.'],affidavits:['Affidavits & Declarations','Create legally formatted citizen-use affidavits and declarations.'],resume:['Koutilya Resume Writer','Create professional resumes with easy templates.'],alerts:['Jobs, Exams & Education Alerts','Government jobs, competitive exams and education updates.'],wallet:['Wallet / Transactions','Manage your wallet and view transaction history.'],transactions:['Wallet / Transactions','Manage your wallet and view transaction history.'],profile:['Profile & Settings','Manage your profile information and account settings.'],password:['Change Password','Update your account password securely.'],complaint:['Raise a Complaint','Submit and track a citizen support complaint.'],pvc:['Print PVC','Prepare your PVC print service.']};
+  function money(v){const n=Number(v);return Number.isFinite(n)?'₹ '+n.toFixed(2):'₹ 0.00'}
+  function enhance(){
+    const portal=document.querySelector('.portal'); if(!portal)return false;
+    const top=document.querySelector('.topbar');
+    if(top&&!top.querySelector('.ref-search')){
+      const search=document.createElement('div');search.className='ref-search';search.innerHTML='<span>⌕</span><input aria-label="Search services" placeholder="Search service, applications...">';
+      const spacer=top.querySelector('.top-spacer'); if(spacer)top.insertBefore(search,spacer); else top.appendChild(search);
+      const wallet=document.createElement('div');wallet.className='ref-wallet';wallet.innerHTML='<div class="wallet-icon">₹</div><div><span class="ref-wallet-value">₹ 0.00</span><small>Wallet Balance</small></div>';
+      if(spacer)top.insertBefore(wallet,spacer); else top.appendChild(wallet);
+      const oldUser=top.querySelector('.top-user');
+      if(oldUser){
+        oldUser.classList.add('ref-user');
+        const av=oldUser.querySelector('.avatar');
+        if(av){av.classList.add('ref-avatar');}
+      }
+      const input=search.querySelector('input');
+      input.addEventListener('input',()=>{
+        const q=input.value.trim().toLowerCase();
+        document.querySelectorAll('.service').forEach(card=>{card.style.display=!q||card.textContent.toLowerCase().includes(q)?'':'none';});
+      });
+    }
+    updateWallet();
+    decoratePage();
+    return true;
+  }
+  async function updateWallet(){
+    const el=document.querySelector('.ref-wallet-value'); if(!el)return;
+    try{const r=await fetch('/api/portal/dashboard');const j=await r.json();if(j&&j.stats)el.textContent=money(j.stats.balance)}catch(e){}
+  }
+  function decoratePage(){
+    const content=document.getElementById('content'); if(!content||content.dataset.refUi==='1')return;
+    const observer=new MutationObserver(()=>{addTitle();updateWallet();});
+    observer.observe(content,{childList:true,subtree:true});
+    addTitle();
+    content.dataset.refUi='1';
+  }
+  function addTitle(){
+    const content=document.getElementById('content'); if(!content)return;
+    let v=window.__ksPortalView;
+    const active=document.querySelector('.navbtn.active');
+    if(active)v=active.dataset.view||v;
+    if(!v)return;
+    const data=titles[v]||['Koutilya Citizen Portal','Citizen services in one secure workspace.'];
+    let bar=content.querySelector(':scope > .ref-page-title');
+    if(!bar){bar=document.createElement('div');bar.className='ref-page-title';content.insertBefore(bar,content.firstElementChild)}
+    bar.innerHTML='<span>'+data[0]+'</span><span class="ref-page-subtitle">'+data[1]+'</span>';
+    const first=content.children[1];
+    if(first&&first.classList.contains('hero')&&v==='home'){
+      bar.style.display='none';
+    }else{
+      bar.style.display='flex';
+    }
+  }
+  const boot=()=>{let tries=0;const t=setInterval(()=>{if(enhance()||++tries>40)clearInterval(t)},250)};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+  window.addEventListener('popstate',()=>setTimeout(enhance,100));
+})();
