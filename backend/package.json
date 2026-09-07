@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0",
     "nodemailer": "^9.0.6",
+    "pg": "^8.23.0",
     "pdf-lib": "^1.17.1",
     "puppeteer": "^25.9.0"
   },
