@@ -1,67 +1,62 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const authMiddleware = require('../middleware/authMiddleware');
-const User = require('../models/User');
-const Transaction = require('../models/Transaction');
+import express from 'express';
+import { mutate, id, now } from '../portal-db.js';
 
 const router = express.Router();
-router.use(authMiddleware);
 
-// Atomic wallet debit for Business Services.
-// Uses MongoDB findOneAndUpdate so two simultaneous requests cannot spend
-// the same balance. No existing wallet top-up/payment code is modified.
-router.post('/charge', async (req, res) => {
-  const session = await mongoose.startSession();
-  try {
-    const amount = Number(req.body?.amount);
-    const serviceName = String(req.body?.serviceName || '').trim();
-    const serviceId = String(req.body?.serviceId || '').trim();
+// Uses the same portal wallet database/ledger as the existing citizen portal.
+// This avoids introducing a second, incompatible Mongoose wallet system.
+export function registerBusinessServicesRoutes(app, requireUser, requireChangedPassword) {
+  router.post('/charge', requireUser, requireChangedPassword, async (req, res) => {
+    try {
+      const amount = Number(req.body?.amount);
+      const serviceId = String(req.body?.serviceId || '').trim();
+      const serviceName = String(req.body?.serviceName || '').trim();
 
-    if (!serviceId || !serviceName || !Number.isFinite(amount) || amount <= 0 || amount > 10000) {
-      return res.status(400).json({ success:false, message:'Invalid Business Services payment.' });
-    }
-
-    let result;
-    await session.withTransaction(async () => {
-      const user = await User.findOneAndUpdate(
-        { _id:req.user.id, walletBalance:{ $gte:amount } },
-        { $inc:{ walletBalance:-amount } },
-        { new:true, session }
-      ).lean();
-
-      if (!user) {
-        const existing = await User.findById(req.user.id).select('walletBalance').lean();
-        if (!existing) throw Object.assign(new Error('User account not found.'), { statusCode:404 });
-        throw Object.assign(new Error('Insufficient wallet balance.'), { statusCode:400 });
+      if (!serviceId || !serviceName || !Number.isFinite(amount) || amount <= 0 || amount > 10000) {
+        return res.status(400).json({ success:false, message:'Invalid Business Services payment.' });
       }
 
-      const balanceAfter = Number(user.walletBalance || 0);
-      const balanceBefore = balanceAfter + amount;
-      const reference = `BS-${Date.now()}-${Math.random().toString(36).slice(2,8).toUpperCase()}`;
+      const result = await mutate(db => {
+        const user = db.users.find(u => u.id === req.user.id && u.active);
+        if (!user) throw Object.assign(new Error('User account not found.'), { statusCode:404 });
 
-      await Transaction.create([{
-        userId:user._id,
-        type:'debit',
-        amount,
-        balanceBefore,
-        balanceAfter,
-        serviceName,
-        reference,
-        providerReference:reference,
-        status:'Success',
-        description:`Business Services - ${serviceName}`
-      }], { session });
+        const balanceBefore = Number(user.walletBalance || 0);
+        if (balanceBefore < amount) {
+          throw Object.assign(new Error('Insufficient wallet balance.'), { statusCode:400, code:'INSUFFICIENT_BALANCE' });
+        }
 
-      result = { walletBalance:balanceAfter, reference };
-    });
+        const balanceAfter = Number((balanceBefore - amount).toFixed(2));
+        user.walletBalance = balanceAfter;
 
-    return res.json({ success:true, ...result, message:'Payment successful.' });
-  } catch (error) {
-    console.error('BUSINESS SERVICES CHARGE ERROR:', error);
-    return res.status(error.statusCode || 500).json({ success:false, message:error.message || 'Unable to process payment.' });
-  } finally {
-    await session.endSession();
-  }
-});
+        const reference = `BS-${Date.now()}-${Math.random().toString(36).slice(2,8).toUpperCase()}`;
+        db.transactions.push({
+          id:id('txn'),
+          userId:user.id,
+          type:'debit',
+          amount,
+          balanceBefore,
+          balanceAfter,
+          service:serviceId,
+          serviceName,
+          reference,
+          status:'Success',
+          description:`Business Services - ${serviceName}`,
+          createdAt:now()
+        });
 
-module.exports = router;
+        return { walletBalance:balanceAfter, reference };
+      });
+
+      return res.json({ success:true, ...result, message:'Payment successful.' });
+    } catch (error) {
+      console.error('BUSINESS SERVICES CHARGE ERROR:', error);
+      return res.status(error.statusCode || 500).json({
+        success:false,
+        ...(error.code ? {code:error.code} : {}),
+        message:error.message || 'Unable to process payment.'
+      });
+    }
+  });
+
+  app.use('/api/business-services', router);
+}
