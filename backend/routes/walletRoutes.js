@@ -9,7 +9,7 @@ const User = require("../models/User");
 const Transaction = require("../models/Transaction");
 const WalletTopup = require("../models/WalletTopup");
 
-const MIN_TOPUP = 10;
+const MIN_TOPUP = 50;
 const CASHFREE_API_VERSION = "2025-01-01";
 
 const CASHFREE_BASE_URL =
