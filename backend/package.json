@@ -4,8 +4,8 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
-    "dev": "nodemon --exec node --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
+    "start": "node --import ./business-services-autoload.mjs --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
+    "dev": "nodemon --exec node --import ./business-services-autoload.mjs --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
     "postinstall": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
