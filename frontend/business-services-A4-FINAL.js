@@ -1,0 +1,179 @@
+(function(){
+  'use strict';
+
+  const services = [
+    {id:'invoice',icon:'IN',title:'Invoice',desc:'Create a professional sales invoice.',fee:5,fields:['Business Name','Business Address','Customer Name','Customer Address','Invoice No.','Invoice Date','Due Date','Item / Service','Quantity','Rate','Tax %','Payment Terms']},
+    {id:'quotation',icon:'QT',title:'Quotation',desc:'Prepare a professional quotation for customers.',fee:5,fields:['Business Name','Business Address','Customer Name','Customer Address','Quotation No.','Quotation Date','Valid Until','Item / Service','Quantity','Rate','Tax %','Terms & Conditions']},
+    {id:'proforma',icon:'PI',title:'Proforma Invoice',desc:'Create a professional proforma invoice before the sale.',fee:5,fields:['Business Name','Business Address','Customer Name','Customer Address','Proforma No.','Date','Valid Until','Item / Service','Quantity','Rate','Tax %','Terms & Conditions']},
+    {id:'receipt',icon:'RC',title:'Payment Receipt',desc:'Issue a professional receipt for payments received.',fee:5,fields:['Business Name','Business Address','Received From','Receipt No.','Receipt Date','Amount','Payment For','Payment Mode','Reference No.','Remarks']},
+    {id:'purchase-order',icon:'PO',title:'Purchase Order',desc:'Prepare a professional purchase order for suppliers.',fee:5,fields:['Business Name','Business Address','Supplier Name','Supplier Address','PO No.','PO Date','Required By','Item / Service','Quantity','Rate','Tax %','Delivery Instructions']},
+    {id:'delivery-challan',icon:'DC',title:'Delivery Challan',desc:'Create a professional delivery challan.',fee:5,fields:['Business Name','Business Address','Customer Name','Delivery Address','Challan No.','Challan Date','Item / Service','Quantity','Vehicle / Reference','Purpose / Remarks']},
+    {id:'salary-slip',icon:'SL',title:'Salary Slip',desc:'Generate a structured monthly employee salary slip.',fee:5,fields:['Business Name','Business Address','Employee Name','Employee ID','Month','Designation','Basic Salary','Allowances','Deductions','Net Salary','Payment Date']},
+    {id:'experience',icon:'EC',title:'Experience Certificate',desc:'Prepare a formal employee experience certificate.',fee:5,fields:['Business Name','Business Address','Employee Name','Designation','Employee ID','Joining Date','Last Working Date','Authorized Signatory','Issue Date']},
+    {id:'authorization',icon:'AL',title:'Authorization Letter',desc:'Create a formal business authorization letter.',fee:5,fields:['Business Name','Business Address','Date','Authorized Person','Purpose','Authorized By','Designation','Validity / Reference']},
+    {id:'noc',icon:'NO',title:'NOC / Undertaking',desc:'Prepare a formal business NOC or undertaking.',fee:5,fields:['Business Name','Business Address','Date','Person / Organization','Subject','Declaration','Authorized Signatory','Designation','Reference No.']},
+    {id:'letterhead',icon:'LH',title:'Business Letterhead',desc:'Create a clean A4-ready business letterhead.',fee:5,fields:['Business Name','Business Address','Mobile','Email','Website','GSTIN / Registration No.','Footer Text']},
+    {id:'visiting-card',icon:'VC',title:'Visiting Card',desc:'Prepare a clean professional business visiting card.',fee:5,fields:['Business Name','Person Name','Designation','Mobile','Email','Address','Website']}
+  ];
+
+  let active=null;
+  let selectedLogo='';
+
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function proper(v){
+    return String(v||'').trim().toLowerCase().replace(/(^|[\s./-])([a-z])/g,(m,a,b)=>a+b.toUpperCase());
+  }
+  function shouldProper(k){
+    return /Business Name|Business Address|Customer Name|Customer Address|Supplier Name|Supplier Address|Delivery Address|Received From|Payment For|Payment Mode|Item \/ Service|Designation|Employee Name|Authorized Signatory|Authorized Person|Authorized By|Person \/ Organization|Subject|Purpose|Vehicle \/ Reference|Remarks|Address/i.test(k)
+      && !/Terms|Declaration|Website|Email|GSTIN|Registration|Reference No|Employee ID|No\.|Date|Amount|Quantity|Rate|Tax|Mobile/i.test(k);
+  }
+  function display(v,k,fallback=''){
+    const raw=v[k]||fallback;
+    return esc(shouldProper(k)?proper(raw):raw);
+  }
+  function docNo(v,keys){for(const k of keys){if(v[k])return display(v,k);}return '—';}
+  function money(v){const n=Number(String(v||'').replace(/,/g,''));return Number.isFinite(n)&&n>=0?n.toFixed(2):'0.00';}
+  function today(){return new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+  function valueMap(s,data){const v={};s.fields.forEach((f,i)=>v[f]=String(data.get('f'+i)||'').trim());return v;}
+
+  function css(){return `<style>
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{background:#eef2f6;color:#172b3d;font-family:Arial,Helvetica,sans-serif}
+    .toolbar{position:fixed;top:18px;right:24px;z-index:5}
+    .print{border:0;border-radius:7px;padding:11px 18px;background:#1268d9;color:#fff;font-weight:700;cursor:pointer}
+    .page{width:210mm;height:297mm;min-height:297mm;max-height:297mm;margin:70px auto 30px;background:#fff;padding:13mm 15mm 12mm;box-shadow:0 3px 18px rgba(20,50,80,.12);overflow:hidden;position:relative}
+    .page:after{content:"";position:absolute;left:15mm;right:15mm;bottom:7mm;border-top:1px solid #dce5ee}
+    .brand{display:flex;justify-content:space-between;gap:18px;border-bottom:3px solid #1268d9;padding-bottom:10px;min-height:29mm;position:relative}
+    .brand:after{content:"";position:absolute;left:0;bottom:-3px;width:62px;height:3px;background:#073d7a}
+    .brand-left{display:flex;align-items:flex-start;gap:11px;min-width:0;max-width:130mm}
+    .logo{width:22mm;height:22mm;object-fit:contain;border:1px solid #dce5ee;border-radius:5px;padding:2px;background:#fff}
+    .brand h2{margin:0 0 4px;font-size:20px;color:#073d7a;letter-spacing:.2px}
+    .brand p{margin:2px 0;font-size:9.5px;color:#566575;line-height:1.35}
+    .doc-meta{text-align:right;min-width:49mm;padding-top:1px}
+    .doc-meta h1{margin:0 0 7px;font-size:18px;letter-spacing:.7px;color:#0b4f9c}
+    .doc-meta div{font-size:9.5px;margin:3px 0;color:#425467}
+    .intro{text-align:center;margin:17px 0 14px}
+    .intro h1{font-size:21px;margin:0 0 6px;color:#123e68;letter-spacing:1px}
+    .intro .rule{height:2px;background:#1268d9;width:64px;margin:0 auto}
+    .party{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:13px 0}
+    .box{border:1px solid #d7e0e8;border-radius:5px;padding:9px;background:#fbfdff}
+    .box h3{font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:#1268d9;margin:0 0 5px}
+    .box p{font-size:10.5px;line-height:1.45;margin:0;white-space:pre-wrap}
+    .doc-table{width:100%;border-collapse:collapse;margin:13px 0;font-size:9.8px}
+    .doc-table th{background:#eaf2fa;color:#173d63;text-transform:uppercase;font-size:8.5px;letter-spacing:.3px}
+    .doc-table th,.doc-table td{border:1px solid #cfd9e3;padding:6px;text-align:left;vertical-align:top}
+    .doc-table .num{text-align:right}
+    .doc-table tfoot th{background:#f7fafc}
+    .totals{margin-left:auto;width:72mm;border-collapse:collapse;font-size:9.8px}
+    .totals td{padding:3px 6px}
+    .totals .grand td{border-top:2px solid #173d63;font-size:11.5px;font-weight:700;padding-top:6px}
+    .terms{margin-top:15px;border-top:1px solid #d8e0e7;padding-top:8px}
+    .terms h3{font-size:9px;text-transform:uppercase;color:#1268d9;margin:0 0 5px}
+    .terms p{font-size:9.2px;line-height:1.45;white-space:pre-wrap;margin:0}
+    .signatures{display:flex;justify-content:space-between;gap:30px;margin-top:34px}
+    .sig{width:42%;text-align:center;font-size:9.5px;color:#4d5c6b;padding-top:24px;border-top:1px solid #687785}
+    .certificate{text-align:center;font-size:12px;line-height:1.8;margin:17px 18px}
+    .certificate strong{font-size:14px;color:#0d477f}
+    .formal{text-align:justify;font-size:11px;line-height:1.65;margin:15px 7px}
+    .subject{font-weight:700;margin:12px 7px;font-size:11px}
+    .receipt-total{text-align:center;border:2px solid #1268d9;border-radius:6px;padding:12px;margin:16px 0}
+    .receipt-total small{display:block;font-size:9px;color:#667788}
+    .receipt-total strong{display:block;font-size:22px;color:#0b4f9c;margin-top:4px}
+    .salary-head{display:grid;grid-template-columns:1fr 1fr;border:1px solid #cfd9e3;margin-top:13px}
+    .salary-head div{padding:6px;border-right:1px solid #cfd9e3;border-bottom:1px solid #cfd9e3;font-size:9.8px}
+    .salary-head div:nth-child(even){border-right:0}
+    .letter-area{height:216mm;border:1px solid #e0e6ec;border-top:0;padding:18px;font-size:10.8px}
+    .vcard-page{display:flex;align-items:center;justify-content:center}
+    .vcard{width:90mm;height:52mm;border:1px solid #b9c9d8;border-radius:6px;padding:7mm;text-align:center;box-shadow:0 3px 12px rgba(20,50,80,.08)}
+    .vcard .logo{width:13mm;height:13mm;margin:0 auto 3mm}
+    .vcard h2{margin:0 0 5px;font-size:17px;color:#0b4f9c}
+    .vcard h3{margin:0 0 9px;font-size:10.5px;color:#334b62}
+    .vcard p{margin:3px 0;font-size:9px;color:#55697a}
+    .challan-note{padding:8px;background:#f5f8fb;border:1px solid #d9e1e8;font-size:9px;margin-top:11px}
+    .logo-field{grid-column:1/-1;border:1px dashed #cbd8e5;border-radius:8px;padding:10px;background:#fafcff}
+    .logo-field input{border:0;height:auto;padding:0}
+    .logo-preview{display:none;margin-top:7px;height:35px;max-width:130px;object-fit:contain}
+    .bs-value-note{background:#f4f8fc;border:1px solid #dce7f1;border-radius:7px;padding:8px 10px;margin:-2px 0 15px;color:#60758a;font-size:9px}
+    @media print{
+      @page{size:A4 portrait;margin:0}
+      body{background:#fff}
+      .toolbar{display:none}
+      .page{margin:0;box-shadow:none;width:210mm;height:297mm;min-height:297mm;max-height:297mm;overflow:hidden;padding:13mm 15mm 12mm}
+      .page:after{display:none}
+      .vcard-page{padding:0}
+      .page+.page{page-break-before:always}
+    }
+  </style>`;}
+
+  function shell(s,v,body){return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(s.title)}</title>${css()}</head><body><div class="toolbar"><button class="print" onclick="window.print()">Print / Save PDF</button></div><main class="page">${body}</main></body></html>`;}
+
+  function brand(v,title,meta=''){
+    const logo=selectedLogo?`<img class="logo" src="${selectedLogo}" alt="Logo">`:'';
+    return `<div class="brand"><div class="brand-left">${logo}<div><h2>${display(v,'Business Name','Business Name')}</h2><p>${display(v,'Business Address','')}</p>${v.Mobile?`<p>Mobile: ${display(v,'Mobile')}</p>`:''}${v.Email?`<p>Email: ${display(v,'Email')}</p>`:''}${v.Website?`<p>${display(v,'Website')}</p>`:''}${v['GSTIN / Registration No.']?`<p>GSTIN / Registration No.: ${display(v,'GSTIN / Registration No.')}</p>`:''}</div></div><div class="doc-meta"><h1>${esc(title)}</h1>${meta}</div></div>`;
+  }
+
+  function standardCommercial(s,v,kind){
+    const title=kind==='quotation'?'QUOTATION':kind==='proforma'?'PROFORMA INVOICE':kind==='po'?'PURCHASE ORDER':'INVOICE';
+    const noKey=kind==='quotation'?'Quotation No.':kind==='proforma'?'Proforma No.':kind==='po'?'PO No.':'Invoice No.';
+    const dateKey=kind==='quotation'?'Quotation Date':kind==='po'?'PO Date':kind==='proforma'?'Date':'Invoice Date';
+    const customer=kind==='po'?'Supplier Name':'Customer Name';const address=kind==='po'?'Supplier Address':'Customer Address';
+    const meta=`<div><b>No.:</b> ${docNo(v,[noKey])}</div><div><b>Date:</b> ${display(v,dateKey,today())}</div>${v['Due Date']?`<div><b>Due:</b> ${display(v,'Due Date')}</div>`:''}${v['Valid Until']?`<div><b>Valid Until:</b> ${display(v,'Valid Until')}</div>`:''}${v['Required By']?`<div><b>Required By:</b> ${display(v,'Required By')}</div>`:''}`;
+    const qty=Number(v.Quantity)||1,rate=Number(String(v.Rate||'').replace(/,/g,''))||0,tax=Number(v['Tax %'])||0,sub=qty*rate,taxAmt=sub*tax/100,total=sub+taxAmt;
+    return shell(s,v,`${brand(v,title,meta)}<div class="party"><div class="box"><h3>${kind==='po'?'Supplier':'Bill To'}</h3><p><b>${display(v,customer)}</b>${v[address]?`\n${display(v,address)}`:''}</p></div><div class="box"><h3>${kind==='po'?'Order Information':'Document Information'}</h3><p>${kind==='quotation'||kind==='proforma'?`Valid Until: ${display(v,'Valid Until','—')}`:kind==='po'?`Required By: ${display(v,'Required By','—')}`:`Payment Terms: ${display(v,'Payment Terms','As agreed')}`}</p></div></div><table class="doc-table"><thead><tr><th>#</th><th>Description</th><th>Qty</th><th>Rate</th><th>Tax</th><th>Amount</th></tr></thead><tbody><tr><td>1</td><td>${display(v,'Item / Service')}</td><td class="num">${display(v,'Quantity')}</td><td class="num">₹${money(rate)}</td><td class="num">${tax?tax.toFixed(2)+'%':'—'}</td><td class="num">₹${money(total)}</td></tr></tbody></table><table class="totals"><tr><td>Subtotal</td><td class="num">₹${money(sub)}</td></tr><tr><td>Tax</td><td class="num">₹${money(taxAmt)}</td></tr><tr class="grand"><td>Total</td><td class="num">₹${money(total)}</td></tr></table><div class="terms"><h3>${kind==='po'?'Terms / Delivery':'Terms & Conditions'}</h3><p>${display(v,kind==='po'?'Delivery Instructions':'Terms & Conditions',v['Payment Terms']||'As mutually agreed.')}</p></div><div class="signatures"><div class="sig">Customer / Supplier</div><div class="sig">Authorized Signatory</div></div>`);
+  }
+
+  function receipt(s,v){return shell(s,v,`${brand(v,'PAYMENT RECEIPT',`<div><b>Receipt No.:</b> ${docNo(v,['Receipt No.'])}</div><div><b>Date:</b> ${display(v,'Receipt Date',today())}</div>`)}<div class="receipt-total"><small>AMOUNT RECEIVED</small><strong>₹${money(v.Amount)}</strong></div><div class="box"><h3>Receipt Details</h3><p><b>Received From:</b> ${display(v,'Received From')}<br><b>Payment For:</b> ${display(v,'Payment For')}<br><b>Payment Mode:</b> ${display(v,'Payment Mode')}<br><b>Reference No.:</b> ${display(v,'Reference No.','—')}<br><b>Remarks:</b> ${display(v,'Remarks','—')}</p></div><div class="formal">This receipt acknowledges the payment amount stated above as received by the issuing business.</div><div class="signatures"><div class="sig">Received By</div><div class="sig">Authorized Signatory</div></div>`);}
+
+  function salary(s,v){const basic=Number(String(v['Basic Salary']||'').replace(/,/g,''))||0,allow=Number(String(v.Allowances||'').replace(/,/g,''))||0,ded=Number(String(v.Deductions||'').replace(/,/g,''))||0,net=Number(String(v['Net Salary']||'').replace(/,/g,''))||basic+allow-ded;return shell(s,v,`${brand(v,'SALARY SLIP',`<div><b>Month:</b> ${display(v,'Month')}</div><div><b>Payment Date:</b> ${display(v,'Payment Date',today())}</div>`)}<div class="salary-head"><div><b>Employee</b><br>${display(v,'Employee Name')}</div><div><b>Employee ID</b><br>${display(v,'Employee ID')}</div><div><b>Designation</b><br>${display(v,'Designation')}</div><div><b>Pay Period</b><br>${display(v,'Month')}</div></div><table class="doc-table"><thead><tr><th>Earnings</th><th class="num">Amount</th><th>Deductions</th><th class="num">Amount</th></tr></thead><tbody><tr><td>Basic Salary</td><td class="num">₹${money(basic)}</td><td>Deductions</td><td class="num">₹${money(ded)}</td></tr><tr><td>Allowances</td><td class="num">₹${money(allow)}</td><td>Net Salary</td><td class="num"><b>₹${money(net)}</b></td></tr></tbody></table><div class="receipt-total"><small>NET SALARY PAYABLE</small><strong>₹${money(net)}</strong></div><div class="signatures"><div class="sig">Employee</div><div class="sig">Authorized Signatory</div></div>`);}
+
+  function experience(s,v){return shell(s,v,`${brand(v,'EXPERIENCE CERTIFICATE',`<div><b>Issue Date:</b> ${display(v,'Issue Date',today())}</div><div><b>Employee ID:</b> ${display(v,'Employee ID','—')}</div>`)}<div class="intro"><h1>EXPERIENCE CERTIFICATE</h1><div class="rule"></div></div><div class="certificate">To Whom It May Concern,<br><br>This is to certify that <strong>${display(v,'Employee Name')}</strong> worked with <strong>${display(v,'Business Name')}</strong> as <strong>${display(v,'Designation')}</strong>${v['Employee ID']?` (Employee ID: <strong>${display(v,'Employee ID')}</strong>)`:''}.<br><br>He/She joined the organization on <strong>${display(v,'Joining Date')}</strong> and worked with us until <strong>${display(v,'Last Working Date')}</strong>.<br><br>During the period of employment, the employee carried out the assigned responsibilities to the satisfaction of the organization. We wish the employee success in future endeavors.</div><div class="signatures"><div class="sig">Date: ${display(v,'Issue Date',today())}</div><div class="sig"><b>${display(v,'Authorized Signatory')}</b><br>Authorized Signatory</div></div>`);}
+
+  function authorization(s,v){return shell(s,v,`${brand(v,'AUTHORIZATION LETTER',`<div><b>Date:</b> ${display(v,'Date',today())}</div><div><b>Validity / Reference:</b> ${display(v,'Validity / Reference','—')}</div>`)}<div class="intro"><h1>AUTHORIZATION LETTER</h1><div class="rule"></div></div><div class="formal">To Whom It May Concern,</div><div class="formal">This letter confirms that <strong>${display(v,'Authorized Person')}</strong> is authorized by <strong>${display(v,'Business Name')}</strong> to act on behalf of the business for the following purpose:</div><div class="box"><h3>Purpose</h3><p>${display(v,'Purpose')}</p></div><div class="formal">This authorization is subject to the validity / reference stated above and is issued by the authorized representative of the business.</div><div class="signatures"><div class="sig">Date: ${display(v,'Date',today())}</div><div class="sig"><b>${display(v,'Authorized By')}</b><br>${display(v,'Designation')}</div></div>`);}
+
+  function noc(s,v){return shell(s,v,`${brand(v,'NOC / UNDERTAKING',`<div><b>Date:</b> ${display(v,'Date',today())}</div><div><b>Reference:</b> ${display(v,'Reference No.','—')}</div>`)}<div class="intro"><h1>NOC / UNDERTAKING</h1><div class="rule"></div></div><div class="subject">Subject: ${display(v,'Subject')}</div><div class="formal">This is to state that <strong>${display(v,'Business Name')}</strong>, having its address at ${display(v,'Business Address')}, issues this NOC / undertaking in favour of <strong>${display(v,'Person / Organization')}</strong>.</div><div class="box"><h3>Declaration</h3><p>${display(v,'Declaration')}</p></div><div class="formal">The above statement is provided based on the information and declaration supplied by the issuing party. The issuing party remains responsible for the accuracy and lawful use of this document.</div><div class="signatures"><div class="sig">Date: ${display(v,'Date',today())}</div><div class="sig">${display(v,'Authorized Signatory')}<br>${display(v,'Designation')}</div></div>`);}
+
+  function challan(s,v){return shell(s,v,`${brand(v,'DELIVERY CHALLAN',`<div><b>Challan No.:</b> ${docNo(v,['Challan No.'])}</div><div><b>Date:</b> ${display(v,'Challan Date',today())}</div>`)}<div class="party"><div class="box"><h3>Consignor</h3><p><b>${display(v,'Business Name')}</b>\n${display(v,'Business Address')}</p></div><div class="box"><h3>Consignee / Customer</h3><p><b>${display(v,'Customer Name')}</b>\n${display(v,'Delivery Address')}</p></div></div><table class="doc-table"><thead><tr><th>#</th><th>Item / Service</th><th>Quantity</th><th>Vehicle / Reference</th></tr></thead><tbody><tr><td>1</td><td>${display(v,'Item / Service')}</td><td>${display(v,'Quantity')}</td><td>${display(v,'Vehicle / Reference')}</td></tr></tbody></table><div class="challan-note"><b>Purpose / Remarks:</b> ${display(v,'Purpose / Remarks','Delivery of goods/services as stated above.')}</div><div class="formal">This delivery challan records the movement or delivery details supplied by the issuing party. It is not, by itself, a tax invoice.</div><div class="signatures"><div class="sig">Delivered By</div><div class="sig">Received By</div></div>`);}
+
+  function letterhead(s,v){return shell(s,v,`${brand(v,'BUSINESS LETTERHEAD',`<div>${v.Mobile?'Mobile: '+display(v,'Mobile'):''}</div>`)}<div class="letter-area"><div style="text-align:right;font-size:10.5px;color:#667788">Date: __________________</div><p style="margin-top:30px">To,<br><br>Subject: ________________________________________________</p><div style="margin-top:22px;line-height:1.9">Dear Sir/Madam,<br><br><br><br><br><br><br><br><br><br>Yours faithfully,</div><div style="margin-top:20px"><b>Authorized Signatory</b><br>${display(v,'Business Name')}</div></div><div class="terms"><p style="text-align:center">${display(v,'Footer Text','')}</p></div>`);}
+
+  function visiting(s,v){const logo=selectedLogo?`<img class="logo" src="${selectedLogo}" alt="Logo">`:'';return `<!doctype html><html><head><meta charset="utf-8"><title>Visiting Card</title>${css()}</head><body><div class="toolbar"><button class="print" onclick="window.print()">Print / Save PDF</button></div><main class="page vcard-page"><div class="vcard">${logo}<h2>${display(v,'Business Name')}</h2><h3>${display(v,'Person Name')} · ${display(v,'Designation')}</h3>${v.Mobile?`<p>Mobile: ${display(v,'Mobile')}</p>`:''}${v.Email?`<p>${display(v,'Email')}</p>`:''}${v.Website?`<p>${display(v,'Website')}</p>`:''}<p>${display(v,'Address')}</p></div></main></body></html>`;}
+
+  function generate(s,data){const v=valueMap(s,data);switch(s.id){case'invoice':return standardCommercial(s,v,'invoice');case'quotation':return standardCommercial(s,v,'quotation');case'proforma':return standardCommercial(s,v,'proforma');case'purchase-order':return standardCommercial(s,v,'po');case'receipt':return receipt(s,v);case'delivery-challan':return challan(s,v);case'salary-slip':return salary(s,v);case'experience':return experience(s,v);case'authorization':return authorization(s,v);case'noc':return noc(s,v);case'letterhead':return letterhead(s,v);case'visiting-card':return visiting(s,v);default:return shell(s,v,'');}}
+
+  function inject(){
+    if(!document.getElementById('business-services-css')){const l=document.createElement('link');l.id='business-services-css';l.rel='stylesheet';l.href='/business-services.css?v=20260910';document.head.appendChild(l);}
+    const side=document.querySelector('.sidebar');if(!side||side.querySelector('[data-business-services]'))return;
+    const btn=document.createElement('button');btn.className='navbtn';btn.dataset.businessServices='1';btn.innerHTML='<span class="navicon">BS</span><span>Business Services</span>';
+    const anchor=[...side.querySelectorAll('.navbtn')].find(x=>x.dataset.view==='alerts');if(anchor)anchor.after(btn);else side.appendChild(btn);btn.addEventListener('click',openHome);
+  }
+  function setActive(){document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',!!x.dataset.businessServices));}
+  function openHome(){setActive();active=null;const c=document.getElementById('content');if(!c)return;c.innerHTML=`<section class="bs-hero"><div><span class="eyebrow">BUSINESS SERVICES</span><h1>Professional business documents</h1><p>Create ready-to-print business documents quickly from one place.</p></div><div class="bs-badge"><strong>${services.length}</strong><span>services</span></div></section><section class="bs-panel"><div class="bs-head"><div><h2>Business Services</h2><p>Select a service to create your document.</p></div><div class="bs-search"><input id="bsSearch" placeholder="Search services…"></div></div><div class="bs-grid" id="bsGrid"></div></section>`;renderGrid();document.getElementById('bsSearch').addEventListener('input',renderGrid);}
+  function renderGrid(){const q=(document.getElementById('bsSearch')?.value||'').toLowerCase();const grid=document.getElementById('bsGrid');if(!grid)return;grid.innerHTML=services.filter(s=>(s.title+' '+s.desc).toLowerCase().includes(q)).map(s=>`<button class="bs-card" data-bs-id="${s.id}"><span class="bs-icon">${s.icon}</span><strong>${esc(s.title)}</strong><span>${esc(s.desc)}</span><em>₹${s.fee} service fee</em><b>Create →</b></button>`).join('')||'<div class="bs-empty">No matching services.</div>';grid.querySelectorAll('[data-bs-id]').forEach(b=>b.addEventListener('click',()=>openForm(services.find(s=>s.id===b.dataset.bsId))));}
+
+  function openForm(s){
+    active=s;selectedLogo='';const c=document.getElementById('content');setActive();
+    const fields=s.fields.map((f,i)=>`<label><span>${esc(f)}</span><input name="f${i}" ${f==='Month'?'type="month"':/date|joining|working|until/i.test(f)?'type="date"':''} required></label>`).join('');
+    c.innerHTML=`<section class="bs-form-page"><button class="bs-back" id="bsBack">← Back to Business Services</button><div class="bs-form-card"><div class="bs-form-title"><span class="bs-icon">${s.icon}</span><div><h1>${esc(s.title)}</h1><p>${esc(s.desc)}</p></div><em>₹${s.fee}</em></div><div class="bs-value-note">A4-ready professional document · Optional business logo · Review all details before payment</div><form id="bsForm"><div class="bs-fields"><div class="logo-field"><label><span>Business Logo (Optional)</span><input id="bsLogo" type="file" accept="image/*"><img id="bsLogoPreview" class="logo-preview" alt="Logo preview"></label></div>${fields}</div><label class="bs-check"><input type="checkbox" id="bsAgree" required> I confirm that the information entered is correct.</label><div class="bs-actions"><button type="button" class="bs-secondary" id="bsCancel">Cancel</button><button class="bs-primary" type="submit">Pay ₹${s.fee} & Generate</button></div><p class="bs-note">₹${s.fee} will be deducted from your wallet after successful payment. Your document will open in A4 print-ready format.</p></form></div></section>`;
+    document.getElementById('bsBack').onclick=openHome;document.getElementById('bsCancel').onclick=openHome;
+    document.getElementById('bsLogo').addEventListener('change',e=>{const file=e.target.files?.[0];if(!file){selectedLogo='';return;}if(!file.type.startsWith('image/')){alert('Please select an image file.');e.target.value='';return;}const reader=new FileReader();reader.onload=()=>{selectedLogo=String(reader.result||'');const p=document.getElementById('bsLogoPreview');if(p){p.src=selectedLogo;p.style.display='block';}};reader.readAsDataURL(file);});
+    document.getElementById('bsForm').onsubmit=e=>{e.preventDefault();payThenGenerate(s,new FormData(e.currentTarget));};
+  }
+
+  async function payThenGenerate(s,data){
+    const agree=document.getElementById('bsAgree');if(agree&&!agree.checked)return;
+    const w=window.open('','_blank','width=1000,height=800');
+    if(!w){alert('Please allow pop-ups for localhost before paying. No amount has been charged.');return;}
+    w.document.write('<p style="font-family:Arial;padding:40px">Processing payment…</p>');
+    const button=document.querySelector('#bsForm .bs-primary');if(button){button.disabled=true;button.textContent='Processing payment…';}
+    try{
+      const r=await fetch('/api/portal/pay-service',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({serviceKey:`affidavit:business-${s.id}`})});
+      const j=await r.json().catch(()=>({}));
+      if(!r.ok)throw new Error(j.message||'Unable to process wallet payment.');
+      w.document.open();w.document.write(generate(s,data));w.document.close();
+    }catch(e){try{w.close();}catch(_e){}alert(e.message||'Unable to process payment.');}
+    finally{if(button){button.disabled=false;button.textContent=`Pay ₹${s.fee} & Generate`;}}
+  }
+
+  const mo=new MutationObserver(inject);mo.observe(document.getElementById('app')||document.body,{childList:true,subtree:true});setTimeout(inject,300);setTimeout(inject,1200);window.__businessServicesOpen=openHome;
+})();
