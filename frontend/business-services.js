@@ -1,0 +1,41 @@
+(function(){
+  'use strict';
+  const services = [
+    {id:'invoice',icon:'IN',title:'Invoice',desc:'Create a clean professional sales invoice.',fee:10,fields:['Business Name','Business Address','Customer Name','Customer Address','Invoice No.','Invoice Date','Item / Service','Quantity','Rate','Tax %']},
+    {id:'quotation',icon:'QT',title:'Quotation',desc:'Prepare a professional quotation for customers.',fee:10,fields:['Business Name','Business Address','Customer Name','Customer Address','Quotation No.','Quotation Date','Valid Until','Item / Service','Quantity','Rate']},
+    {id:'proforma',icon:'PI',title:'Proforma Invoice',desc:'Create a proforma invoice before the sale.',fee:10,fields:['Business Name','Business Address','Customer Name','Customer Address','Proforma No.','Date','Item / Service','Quantity','Rate','Tax %']},
+    {id:'receipt',icon:'RC',title:'Payment Receipt',desc:'Issue a simple receipt for payments received.',fee:5,fields:['Business Name','Business Address','Received From','Receipt No.','Receipt Date','Amount','Payment For','Payment Mode','Reference No.']},
+    {id:'purchase-order',icon:'PO',title:'Purchase Order',desc:'Prepare a purchase order for suppliers.',fee:10,fields:['Business Name','Business Address','Supplier Name','Supplier Address','PO No.','PO Date','Delivery Date','Item / Service','Quantity','Rate']},
+    {id:'delivery-challan',icon:'DC',title:'Delivery Challan',desc:'Create a professional delivery challan.',fee:10,fields:['Business Name','Business Address','Customer Name','Delivery Address','Challan No.','Challan Date','Item / Service','Quantity','Vehicle / Reference']},
+    {id:'salary-slip',icon:'SL',title:'Salary Slip',desc:'Generate a monthly employee salary slip.',fee:10,fields:['Business Name','Business Address','Employee Name','Employee ID','Month','Designation','Basic Salary','Allowances','Deductions','Net Salary']},
+    {id:'experience',icon:'EC',title:'Experience Certificate',desc:'Prepare an employee experience certificate.',fee:10,fields:['Business Name','Business Address','Employee Name','Designation','Employee ID','Joining Date','Last Working Date','Authorized Signatory']},
+    {id:'authorization',icon:'AL',title:'Authorization Letter',desc:'Create a business authorization letter.',fee:10,fields:['Business Name','Business Address','Date','Authorized Person','Purpose','Authorized By','Designation']},
+    {id:'noc',icon:'NO',title:'NOC / Undertaking',desc:'Prepare a professional business NOC or undertaking.',fee:10,fields:['Business Name','Business Address','Date','Person / Organization','Subject','Declaration','Authorized Signatory','Designation']},
+    {id:'letterhead',icon:'LH',title:'Business Letterhead',desc:'Create a printable business letterhead.',fee:10,fields:['Business Name','Business Address','Mobile','Email','Website','GSTIN / Registration No.','Footer Text']},
+    {id:'visiting-card',icon:'VC',title:'Visiting Card',desc:'Prepare a simple printable business card.',fee:10,fields:['Business Name','Person Name','Designation','Mobile','Email','Address','Website']}
+  ];
+  let active=null;
+
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function inject(){
+    if(!document.getElementById('business-services-css')){
+      const l=document.createElement('link');l.id='business-services-css';l.rel='stylesheet';l.href='/business-services.css?v=20260910';document.head.appendChild(l);
+    }
+    const side=document.querySelector('.sidebar');
+    if(!side || side.querySelector('[data-business-services]')) return;
+    const btn=document.createElement('button');
+    btn.className='navbtn';btn.dataset.businessServices='1';
+    btn.innerHTML='<span class="navicon">BS</span><span>Business Services</span>';
+    const anchor=[...side.querySelectorAll('.navbtn')].find(x=>x.dataset.view==='alerts');
+    if(anchor) anchor.after(btn); else side.appendChild(btn);
+    btn.addEventListener('click',openHome);
+  }
+  function setActive(){document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',!!x.dataset.businessServices));}
+  function openHome(){setActive();active=null;const c=document.getElementById('content');if(!c)return;c.innerHTML=`<section class="bs-hero"><div><span class="eyebrow">BUSINESS SERVICES</span><h1>Professional business documents</h1><p>Create ready-to-print business documents quickly from one place.</p></div><div class="bs-badge"><strong>${services.length}</strong><span>services</span></div></section><section class="bs-panel"><div class="bs-head"><div><h2>Business Services</h2><p>Select a service to create your document.</p></div><div class="bs-search"><input id="bsSearch" placeholder="Search services…"></div></div><div class="bs-grid" id="bsGrid"></div></section>`;renderGrid();document.getElementById('bsSearch').addEventListener('input',renderGrid);}
+  function renderGrid(){const q=(document.getElementById('bsSearch')?.value||'').toLowerCase();const grid=document.getElementById('bsGrid');if(!grid)return;grid.innerHTML=services.filter(s=>(s.title+' '+s.desc).toLowerCase().includes(q)).map(s=>`<button class="bs-card" data-bs-id="${s.id}"><span class="bs-icon">${s.icon}</span><strong>${esc(s.title)}</strong><span>${esc(s.desc)}</span><em>₹${s.fee} service fee</em><b>Create →</b></button>`).join('')||'<div class="bs-empty">No matching services.</div>';grid.querySelectorAll('[data-bs-id]').forEach(b=>b.addEventListener('click',()=>openForm(services.find(s=>s.id===b.dataset.bsId))));}
+  function openForm(s){active=s;const c=document.getElementById('content');setActive();c.innerHTML=`<section class="bs-form-page"><button class="bs-back" id="bsBack">← Back to Business Services</button><div class="bs-form-card"><div class="bs-form-title"><span class="bs-icon">${s.icon}</span><div><h1>${esc(s.title)}</h1><p>${esc(s.desc)}</p></div><em>₹${s.fee}</em></div><form id="bsForm"><div class="bs-fields">${s.fields.map((f,i)=>`<label><span>${esc(f)}</span><input name="f${i}" ${/date|joining|working|until|month/i.test(f)?'type="date"':''} required></label>`).join('')}</div><label class="bs-check"><input type="checkbox" id="bsAgree" required> I confirm that the information entered is correct.</label><div class="bs-actions"><button type="button" class="bs-secondary" id="bsCancel">Cancel</button><button class="bs-primary" type="submit">Generate Document</button></div><p class="bs-note">The document is prepared from the information you provide. Verify all details before printing or submission.</p></form></div></section>`;document.getElementById('bsBack').onclick=openHome;document.getElementById('bsCancel').onclick=openHome;document.getElementById('bsForm').onsubmit=e=>{e.preventDefault();generate(s,new FormData(e.currentTarget));};}
+  function generate(s,data){const values={};s.fields.forEach((f,i)=>values[f]=data.get('f'+i)||'');const rows=s.fields.map(f=>`<tr><th>${esc(f)}</th><td>${esc(values[f])}</td></tr>`).join('');const w=window.open('','_blank','width=900,height=700');if(!w){alert('Please allow pop-ups to generate the document.');return;}w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(s.title)}</title><style>body{font-family:Arial,sans-serif;margin:40px;color:#18283a}header{text-align:center;border-bottom:2px solid #1268d9;padding-bottom:18px;margin-bottom:24px}h1{margin:0 0 6px;font-size:24px}p{color:#5d6b7b}table{width:100%;border-collapse:collapse}th,td{border:1px solid #d8e1ec;padding:10px;text-align:left}th{width:32%;background:#f3f7fb}.sign{margin-top:70px;display:flex;justify-content:space-between}.print{position:fixed;right:20px;top:20px;padding:10px 18px;background:#1268d9;color:#fff;border:0;border-radius:7px}@media print{.print{display:none}}</style></head><body><button class="print" onclick="print()">Print / Save PDF</button><header><h1>${esc(s.title)}</h1><p>Business Document</p></header><table>${rows}</table><div class="sign"><span>Date: __________________</span><span>Authorized Signatory: __________________</span></div></body></html>`);w.document.close();}
+  const mo=new MutationObserver(inject);mo.observe(document.getElementById('app')||document.body,{childList:true,subtree:true});
+  setTimeout(inject,300);setTimeout(inject,1200);
+  window.__businessServicesOpen=openHome;
+})();
