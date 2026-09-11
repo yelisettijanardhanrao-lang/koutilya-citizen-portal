@@ -23,7 +23,7 @@ const app = express();
 // Production CORS: allow the Cloudflare CSP frontend to use the Render API with session cookies.
 app.use((req,res,next)=>{
   const origin=req.headers.origin;
-  if(origin==='https://csp.koutilyasolutions.in'){
+  if(origin==='https://csp.koutilyasolutions.in' || origin==='https://test.koutilyasolutions.in'){
     res.setHeader('Access-Control-Allow-Origin',origin);
     res.setHeader('Vary','Origin');
     res.setHeader('Access-Control-Allow-Credentials','true');
