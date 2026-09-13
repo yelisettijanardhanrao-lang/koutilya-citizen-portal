@@ -1130,25 +1130,34 @@ app.get(
 
       const possibleFiles = [
 
-        path.join(
-          ROOT,
-          'andhra_pradesh_villages.csv'
-        ),
+  // CANONICAL MASTER LOCATION DATA
+  // 17,957 LGD AP village records
+  path.join(
+    ROOT,
+    'frontend',
+    'locations.csv'
+  ),
 
-        path.join(
-          ROOT,
-          'frontend',
-          'andhra_pradesh_villages.csv'
-        ),
+  // Fallbacks for older deployments
+  path.join(
+    ROOT,
+    'frontend',
+    'andhra_pradesh_villages.csv'
+  ),
 
-        path.join(
-          ROOT,
-          'backend',
-          'templates',
-          'andhra_pradesh_villages.csv'
-        )
+  path.join(
+    ROOT,
+    'andhra_pradesh_villages.csv'
+  ),
 
-      ];
+  path.join(
+    ROOT,
+    'backend',
+    'templates',
+    'andhra_pradesh_villages.csv'
+  )
+
+];
 
 
       let csvPath = null;
