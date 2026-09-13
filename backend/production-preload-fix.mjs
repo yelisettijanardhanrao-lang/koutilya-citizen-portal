@@ -69,8 +69,6 @@ async function injectAssetsIntoTemplates() {
       fontPatched += 1;
     }
 
-    // Existing templates contain old Windows E:/late_birth_html paths.
-    // Embed the existing MeeSeva logo as a data URI so Puppeteer cannot lose it.
     if (logoDataUri && /meeseva-logo\.png/i.test(html)) {
       const before = html;
       html = html.replace(/(?:file:\/\/\/)?(?:[A-Za-z]:)?[^"'<>\s]*meeseva-logo\.png/gi, logoDataUri);
@@ -80,7 +78,6 @@ async function injectAssetsIntoTemplates() {
       }
     }
 
-    // Make Telugu glyphs use the embedded font while retaining the existing layout.
     if (fontCss && !html.includes('koutilya-telugu-force')) {
       const forceStyle = '<style id="koutilya-telugu-force">html,body{font-family:"Noto Serif Telugu","Times New Roman",serif!important;} </style>';
       html = /<\/head>/i.test(html) ? html.replace(/<\/head>/i, `${forceStyle}</head>`) : `${forceStyle}${html}`;
@@ -99,4 +96,29 @@ try {
   await injectAssetsIntoTemplates();
 } catch (error) {
   console.error('[PRODUCTION FIX] Startup preparation failed:', error?.message || error);
+}
+
+// Cashfree requires customer_id to be alphanumeric (plus underscore/hyphen), not an email address.
+// Keep the portal User ID/email unchanged; rewrite only the outbound Cashfree customer_id.
+const originalFetch = globalThis.fetch;
+if (typeof originalFetch === 'function') {
+  globalThis.fetch = async (input, init = {}) => {
+    try {
+      const url = typeof input === 'string' ? input : input?.url || '';
+      if (/api\.cashfree\.com/i.test(String(url)) && init?.body) {
+        const raw = Buffer.isBuffer(init.body) ? init.body.toString('utf8') : String(init.body);
+        const payload = JSON.parse(raw);
+        if (payload?.customer_details?.customer_id && /@/.test(String(payload.customer_details.customer_id))) {
+          const email = String(payload.customer_details.customer_id).trim().toLowerCase();
+          const safe = email.replace(/[^a-z0-9]/gi, '').slice(0, 30) || 'customer';
+          payload.customer_details.customer_id = `KSPL_${safe}`;
+          init = { ...init, body: JSON.stringify(payload) };
+          console.log('CASHFREE CUSTOMER_ID FIX APPLIED', payload.customer_details.customer_id);
+        }
+      }
+    } catch (e) {
+      console.error('CASHFREE CUSTOMER_ID SHIM ERROR', e.message);
+    }
+    return originalFetch(input, init);
+  };
 }
