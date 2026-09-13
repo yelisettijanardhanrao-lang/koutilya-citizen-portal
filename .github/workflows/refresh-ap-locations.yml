@@ -1,0 +1,54 @@
+name: Refresh AP Location Data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - frontend/locations.csv
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download latest AP LGD-derived village data
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="https://raw.githubusercontent.com/mchittineni/india-village-finder/main/andhra_pradesh/data/andhra_pradesh_villages.csv"
+          curl -fsSL "$url" -o /tmp/andhra_pradesh_villages.csv
+          python - <<'PY'
+          from pathlib import Path
+          import csv
+          p = Path('/tmp/andhra_pradesh_villages.csv')
+          with p.open('r', encoding='utf-8-sig', newline='') as f:
+              rows = list(csv.DictReader(f))
+          if len(rows) < 10000:
+              raise SystemExit(f'Location dataset unexpectedly small: {len(rows)} rows')
+          required = {'District', 'Mandal', 'Village'}
+          if not required.issubset(rows[0].keys()):
+              raise SystemExit(f'Missing required columns: {required - set(rows[0].keys())}')
+          if not any(r.get('Village','').strip().lower() == 'nidigatla' and r.get('Mandal','').strip().lower() == 'korukonda' for r in rows):
+              raise SystemExit('Validation failed: Nidigatla/Korukonda not present')
+          print(f'Validated {len(rows)} AP village rows')
+          PY
+          cp /tmp/andhra_pradesh_villages.csv frontend/locations.csv
+      - name: Commit refreshed locations
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/locations.csv
+          if git diff --cached --quiet; then
+            echo "Location data is already current."
+            exit 0
+          fi
+          git commit -m "Refresh Andhra Pradesh location data [skip ci]"
+          git push
