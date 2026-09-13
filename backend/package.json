@@ -4,8 +4,8 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node --import ./business-services-autoload.mjs --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
-    "dev": "nodemon --exec node --import ./business-services-autoload.mjs --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs server.js",
+    "start": "node --import ./business-services-autoload.mjs --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs --import ./cashfree-customer-id-fix.mjs server.js",
+    "dev": "nodemon --exec node --import ./business-services-autoload.mjs --import ./production-preload-fix.mjs --import ./resume-design-preload.mjs --import ./citizen-registration-mode.mjs --import ./cashfree-customer-id-fix.mjs server.js",
     "postinstall": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
@@ -18,7 +18,6 @@
     "mongoose": "^8.18.0",
     "nodemailer": "^9.0.6",
     "pg": "^8.23.0",
-    "pdf-lib": "^1.17.1",
     "puppeteer": "^25.9.0"
   },
   "devDependencies": {
