@@ -1,0 +1,1 @@
+Four-state MeeSeva build integration target: AP, Telangana, Tamil Nadu, Karnataka. Same-tab state cards and application cards; one-page input form; Aadhaar autofill limited to agreed applicant fields; Submit deducts ₹2 server-side; Generate PDF appears only after successful payment.
