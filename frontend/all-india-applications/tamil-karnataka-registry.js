@@ -1,0 +1,3 @@
+(function(){'use strict';const R=window.CSP_APPLICATION_REGISTRY;if(!R||!R.add)return;const add=(state,department,s)=>R.add({id:s.id,state,department,name:s.name,code:s.code||'',template:'state-application.html',sourceFile:'official-service-list-or-service-requirements',version:'2026-development',status:'input-ui-built',autofill:['full_name','father_name','date_of_birth','gender','aadhaar_number','address','mobile'],fields:s.fields});
+const tn=window.CSP_STATE_APPLICATIONS.tamil_nadu;tn.services.forEach(s=>add('Tamil Nadu','Revenue Administration',s));
+const ka=window.CSP_STATE_APPLICATIONS.karnataka;ka.services.forEach(s=>add('Karnataka','Revenue / Nadakacheri',s));})();
