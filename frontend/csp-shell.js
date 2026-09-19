@@ -23,34 +23,37 @@
     <header class="csp-topbar">
       <div class="csp-brand-mobile">CSP PORTAL</div>
       <button class="icon-btn mobile-menu" id="menu">☰</button>
-      <div></div>
+      <div class="test-badge">FOUNDATION TEST</div>
       <div class="top-actions"><button class="icon-btn">🔔</button><div class="profile"><span class="avatar">JA</span><strong>Account</strong><span>⌄</span></div></div>
     </header>
     <main class="csp-main"><section class="csp-content" id="content"></section></main>
   </div>`;
   const content=document.getElementById('content');
-  const titles={dashboard:['Dashboard','Portal foundation'],meeseva:['Meeseva Forms','State-based service catalogue'],real:['Real Services','API and assisted services'],wallet:['Wallets','Separate wallet areas are reserved'],transactions:['Transactions','Transaction engine placeholder'],reports:['Reports','Reporting workspace reserved'],complaints:['Complaints','Support workspace reserved'],settings:['Settings','Portal configuration']};
+  const titles={dashboard:['Dashboard','Citizen service portal'],meeseva:['Meeseva Forms','One dashboard for all configured states'],real:['Real Services','Services will be added from the catalogue'],wallet:['Wallets','Two clearly separated wallet balances'],transactions:['Transactions','All wallet and service movements'],reports:['Reports','Reports will use the same dashboard shell'],complaints:['Complaints','Support and resolution workspace'],settings:['Settings','Account and portal preferences']};
   function render(view='dashboard'){
     document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
     const [title,sub]=titles[view];
-    content.innerHTML=`
-      <div class="page-head"><div><div class="eyebrow">CSP Portal</div><h1 class="page-title">${title}</h1><p class="page-subtitle">${sub}</p></div></div>
-      ${view==='dashboard'?dashboard():placeholder(title)}
-      <div class="dimensions">Production shell target: desktop 1440×900 reference • sidebar 260px • topbar 72px • responsive mobile shell</div>`;
+    content.innerHTML=`<div class="page-head"><div><div class="eyebrow">CSP Portal</div><h1 class="page-title">${title}</h1><p class="page-subtitle">${sub}</p></div></div>${view==='dashboard'?dashboard():placeholder(title)}`;
   }
   function dashboard(){return `
     <div class="cards">
-      <div class="card stat"><div class="stat-top"><span class="stat-label">Digital Forms Wallet</span><span class="stat-icon">₹</span></div><div class="stat-value">₹0.00</div><div class="stat-note">Wallet engine reserved</div></div>
-      <div class="card stat"><div class="stat-top"><span class="stat-label">Real Services Wallet</span><span class="stat-icon">⚡</span></div><div class="stat-value">₹0.00</div><div class="stat-note">Wallet engine reserved</div></div>
-      <div class="card stat"><div class="stat-top"><span class="stat-label">Active Services</span><span class="stat-icon">▦</span></div><div class="stat-value">0</div><div class="stat-note">No services loaded yet</div></div>
+      <div class="card stat digital-wallet"><div class="stat-top"><span class="stat-label">Digital Forms Wallet</span><span class="stat-icon">₹</span></div><div class="stat-value">₹0.00</div><div class="stat-note">Used only for Digital Forms</div></div>
+      <div class="card stat real-wallet"><div class="stat-top"><span class="stat-label">Real Services Wallet</span><span class="stat-icon">⚡</span></div><div class="stat-value">₹0.00</div><div class="stat-note">Used only for Real Services</div></div>
+      <div class="card stat"><div class="stat-top"><span class="stat-label">Active Services</span><span class="stat-icon">▦</span></div><div class="stat-value">0</div><div class="stat-note">No services published yet</div></div>
     </div>
     <div class="section-grid">
-      <div class="card section-card"><div class="section-title">Service Catalogue</div><div class="empty"><div><strong>No services added yet</strong>Meeseva and Real Services will appear here automatically after Master Admin publishes them.</div></div></div>
-      <div class="card section-card"><div class="section-title">Future State Catalogue</div><div class="service-placeholder"><div class="service-box"><span class="badge">Reserved</span><div class="service-title">Telangana</div><small>Meeseva services will be loaded dynamically.</small></div><div class="service-box"><span class="badge">Reserved</span><div class="service-title">Andhra Pradesh</div><small>Same dashboard area; no separate page.</small></div><div class="service-box"><span class="badge">Reserved</span><div class="service-title">Karnataka</div><small>State configuration only.</small></div><div class="service-box"><span class="badge">Reserved</span><div class="service-title">State 4</div><small>Can be configured later.</small></div></div></div>
-    </div>`;}
-  function placeholder(title){return `<div class="card section-card"><div class="empty"><div><strong>${title} workspace</strong>This is intentionally empty in the foundation build. Services and workflows will be loaded through the central configuration engine.</div></div></div>`;}
-  document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{render(b.dataset.view);document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open')}));
-  document.getElementById('menu').addEventListener('click',()=>{document.getElementById('sidebar').classList.add('open')});
-  document.getElementById('overlay').addEventListener('click',()=>{document.getElementById('sidebar').classList.remove('open')});
+      <div class="card section-card"><div class="section-title">Services</div><div class="empty"><div><strong>No services yet</strong>This foundation intentionally starts without services. Published services will appear here automatically.</div></div></div>
+      <div class="card section-card"><div class="section-title">Meeseva States</div><div class="service-placeholder">
+        <div class="service-box"><span class="badge">Ready</span><div class="service-title">Telangana</div><small>Services will appear here without opening another page.</small></div>
+        <div class="service-box"><span class="badge">Ready</span><div class="service-title">Andhra Pradesh</div><small>Same dashboard.</small></div>
+        <div class="service-box"><span class="badge">Ready</span><div class="service-title">Karnataka</div><small>Same dashboard.</small></div>
+        <div class="service-box"><span class="badge">Ready</span><div class="service-title">State 4</div><small>Configurable later.</small></div>
+      </div></div>
+    </div>
+    <div class="dimensions">Reference: 1440×900 • sidebar 260px • topbar 72px • responsive mobile • single dashboard shell</div>`;}
+  function placeholder(title){return `<div class="card section-card"><div class="empty"><div><strong>${title}</strong><span> This workspace stays inside the same dashboard. No separate browser page is opened.</span></div></div></div>`;}
+  document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>render(b.dataset.view)));
+  document.getElementById('menu').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+  document.getElementById('overlay').addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open'));
   render();
 })();
